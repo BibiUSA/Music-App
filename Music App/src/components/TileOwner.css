@@ -1,0 +1,27 @@
+.tileOwner{
+    background-color: white;
+    color: black;
+}
+.tileOwnerInfo{
+    display: flex;
+}
+.ownerName{
+    font-weight: bolder;
+ 
+    margin: 0;
+}
+.duration{
+    color: gray;
+
+    margin-top: 0;
+}
+.ownerText{
+    margin-left: 15px;
+}
+
+.ownerImg{
+    height: 50px;
+    width: 50px;
+    object-fit:cover;
+    border-radius: 50%;
+}

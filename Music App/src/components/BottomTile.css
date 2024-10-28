@@ -1,0 +1,27 @@
+.icon{
+    color: black;
+    height: 30px;
+    width: 30px;
+}
+
+.icons{
+    display: flex;
+    justify-content: space-around;
+}
+.messageOwner{
+    background-color: rgba(226, 220, 220, 0.204);
+    width:896px;
+    height:30px;
+    border: none;
+    border-radius: 5px;
+    color:black;
+}
+.messageOwner :active{
+    border: none;
+}
+
+.heart{
+    color: red;
+    height: 30px;
+    width: 30px;
+}
