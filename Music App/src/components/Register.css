@@ -1,0 +1,18 @@
+label{
+    visibility: hidden;
+    height:1px;
+}
+
+.errorMsg{
+    color:red;
+    font-size: 0.85rem;
+    display: none;
+}
+
+input:invalid[focused="true"] ~ span{
+    display: block;
+}
+
+input:invalid[focused="true"]{
+    border: 1px solid red;
+}

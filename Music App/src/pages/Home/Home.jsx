@@ -1,3 +1,4 @@
+//the feed page. contains multiple tiles/videos
 import { useState, useEffect } from "react";
 import Tile from "../../components/Tile";
 import "./Home.css";

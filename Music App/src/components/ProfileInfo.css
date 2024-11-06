@@ -1,0 +1,8 @@
+.profilePic{
+    width: 200px;
+    max-height: 200px;
+}
+
+.ProfileInfo{
+    border: 2px solid red;
+}

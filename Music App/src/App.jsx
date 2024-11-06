@@ -6,6 +6,9 @@ import Home from "./pages/Home/Home";
 import Navbar from "./components/Navbar";
 import Account from "./pages/Account/Account";
 import axios from "axios";
+import Profile from "./pages/Profile/Profile";
+import "bootstrap/dist/css/bootstrap.min.css";
+import LogIn from "./pages/LogIn/LogIn";
 
 function App() {
   const fullData = Data.data;
@@ -25,7 +28,9 @@ function App() {
         <Navbar />
         <Routes>
           <Route index path="/" element={<Home />} />
-          <Route index path="/account" element={<Account />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<LogIn />} />
         </Routes>
       </BrowserRouter>
     </div>

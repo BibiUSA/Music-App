@@ -1,3 +1,4 @@
+//Navigation bar
 import { IconHome, IconMessages, IconUserCircle } from "@tabler/icons-react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
@@ -13,7 +14,7 @@ export default function Navbar() {
       <div className="icons">
         <IconMessages stroke={2} />
       </div>
-      <Link to="/account">
+      <Link to="/profile">
         <div className="icons">
           <IconUserCircle stroke={2} />
         </div>

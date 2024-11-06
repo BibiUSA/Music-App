@@ -1,3 +1,4 @@
+//Creates a post.This converts the clip link from youtube into a storable link if valid and posts the data in the database.
 import "./LinkOutPutBox.css";
 import { useState } from "react";
 import axios from "axios";

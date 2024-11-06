@@ -1,0 +1,13 @@
+.errMsg{
+    color: red;
+    font-size: 0.85rem;
+    display: none;
+}
+
+input:invalid[check="true"] ~ span{
+    display: block;
+}
+
+input:invalid[check="true"]{
+    border: 1px solid red;
+}

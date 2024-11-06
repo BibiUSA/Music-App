@@ -1,3 +1,4 @@
+//Has the posters name which is in TileOwner, and the youtube clip video. Keeps track off playing and pausing video
 import TileOwner from "./TileOwner";
 import BottomTile from "./BottomTile";
 import "./Tile.css";

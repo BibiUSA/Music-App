@@ -1,3 +1,4 @@
+//Has name of the tileposter /tile owner and the time since it was posted
 import { useState, useEffect } from "react";
 import "./TileOWner.css";
 

@@ -1,3 +1,4 @@
+//Bottom part of the tile/post component. Contains buttons for liking, messaging
 import "./BottomTile.css";
 import {
   IconHeart,
