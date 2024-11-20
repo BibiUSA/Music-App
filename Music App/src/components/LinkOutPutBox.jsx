@@ -1,13 +1,17 @@
 //Creates a post.This converts the clip link from youtube into a storable link if valid and posts the data in the database.
 import "./LinkOutPutBox.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import context from "../contexts/auth/context";
 
 export default function LinkOutPutBox() {
   const [linkInput, setLinkInput] = useState(""); //holds the text inserted in the inputbox
   const [outputLink, setOutputLink] = useState("Outputs Link Here."); //result of the function
   const [desc, setDesc] = useState("");
   const [postLink, setPostLink] = useState("");
+  const { user } = useContext(context);
+
+  console.log(user);
 
   //holds entry into textarea
   function handleChange(event) {
@@ -76,7 +80,7 @@ export default function LinkOutPutBox() {
       const result = await axios.post(`http://localhost:8080/create/newpost`, {
         link: linked,
         description: desc,
-        owner: "BibiMathew",
+        owner: user.displayName,
         date: date,
       });
       console.log(result);
@@ -106,6 +110,7 @@ export default function LinkOutPutBox() {
           handleChange(event.target.value);
         }}
       ></textarea>
+
       <input
         type="button"
         value="Convert"

@@ -1,21 +1,21 @@
-//the feed page. contains multiple tiles/videos
-import { useState, useEffect, useContext } from "react";
-import Tile from "../../components/Tile";
-import "./Home.css";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import context from "../../contexts/auth/context";
+import Tile from "./Tile";
+import { useContext } from "react";
+import context from "../contexts/auth/context";
 
-export default function Home() {
-  const [fullData, setFullData] = useState([]);
-  //trying pagination
-  const [offset, setOffset] = useState(0);
+export default function YourPosts() {
   const { user } = useContext(context);
 
   console.log(user);
+  const [fullData, setFullData] = useState([]);
+  //trying pagination
+
+  const [offset, setOffset] = useState(0);
 
   const fetchFeed = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/get/`, {
+      const response = await axios.get(`http://localhost:8080/get/yourposts`, {
         params: { offset: offset, user: user.displayName },
       });
       if (fullData.length > 1) {
@@ -29,7 +29,7 @@ export default function Home() {
         setFullData((prev) => [...prev, ...response.data.rows]);
       }
 
-      console.log(response.data.rows);
+      // console.log(response.data.rows);
     } catch (error) {
       console.log("fetchFeed err", error);
     }
@@ -62,19 +62,5 @@ export default function Home() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  console.log("Home Page");
-
-  return (
-    <div className="home">
-      {spreadTile}
-      {/* <div className="listOfTiles">
-        {fullData.length > 1 &&
-          fullData.map((tileData) => <Tile data={tileData} />)}
-      </div> */}
-      {/* <Tile data={fullD[0]} />
-      <Tile data={fullD[1]} />
-      <Tile data={fullD[2]} /> */}
-    </div>
-  );
+  return <div>{spreadTile}</div>;
 }

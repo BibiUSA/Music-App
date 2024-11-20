@@ -3,30 +3,61 @@ import { useState } from "react";
 import { firebaseApp, firebaseAuth } from "../Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import "./SignIn.css";
-
+import axios from "axios";
+import { signOut } from "firebase/auth";
+import { useEffect } from "react";
+import { signInGoogle, signInFacebook } from "../utils/SignInAuthentication";
+import { useContext } from "react";
+import context from "../contexts/auth/context";
+import { useNavigate } from "react-router-dom";
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailCheck, setEmailCheck] = useState("false");
   const [passwordCheck, setPasswordCheck] = useState("false");
 
+  const auth = useContext(context);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (auth.user) {
+      navigate("/");
+    }
+  }, [auth.user]);
+
+  console.log(auth);
+  //Signing In Using email and password
   const firebaseSignIn = (e) => {
     e.preventDefault();
-    if (email.length < 5 || password.length < 6) {
-      console.log("Enter email and password");
-      return;
-    }
+
     signInWithEmailAndPassword(firebaseAuth, email, password)
       .then((userCredential) => {
         // Signed in
-
-        console.log(userCredential);
+        lastLogInDate(userCredential.user.uid, new Date());
+        console.log(userCredential.user);
         // ...
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const lastLogInDate = async (uid, date) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:8080/user/logindate`,
+        {
+          uid: uid,
+          date_login: date,
+        }
+      );
+      localStorage.setItem("uid", uid);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="tab-pane fade show active"
@@ -34,46 +65,28 @@ export default function SignIn() {
       role="tabpanel"
       aria-labelledby="tab-login"
     >
+      <div className="text-center mb-3">
+        <p>Sign in with:</p>
+        <button
+          type="button"
+          data-mdb-button-init
+          data-mdb-ripple-init
+          className="btn btn-link btn-floating mx-1"
+        >
+          <i className="fab fa-facebook-f"></i>
+        </button>
+      </div>
+
+      {/* Google and facebook login */}
+      <iframe
+        onClick={signInGoogle}
+        className="googleSignIn"
+        src="https://developers.google.com/frame/identity/sign-in/web/demos/signin_contextual_custom.jshtml"
+      ></iframe>
+
+      <button onClick={signInFacebook}>Facebook</button>
+
       <form onSubmit={firebaseSignIn}>
-        <div className="text-center mb-3">
-          <p>Sign in with:</p>
-          <button
-            type="button"
-            data-mdb-button-init
-            data-mdb-ripple-init
-            className="btn btn-link btn-floating mx-1"
-          >
-            <i className="fab fa-facebook-f"></i>
-          </button>
-
-          <button
-            type="button"
-            data-mdb-button-init
-            data-mdb-ripple-init
-            className="btn btn-link btn-floating mx-1"
-          >
-            <i className="fab fa-google"></i>
-          </button>
-
-          <button
-            type="button"
-            data-mdb-button-init
-            data-mdb-ripple-init
-            className="btn btn-link btn-floating mx-1"
-          >
-            <i className="fab fa-twitter"></i>
-          </button>
-
-          <button
-            type="button"
-            data-mdb-button-init
-            data-mdb-ripple-init
-            className="btn btn-link btn-floating mx-1"
-          >
-            <i className="fab fa-github"></i>
-          </button>
-        </div>
-
         <p className="text-center">or:</p>
 
         {/* <!-- Email input --> */}
@@ -106,6 +119,7 @@ export default function SignIn() {
             id="loginPassword"
             className="form-control"
             value={password}
+            pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -137,6 +151,14 @@ export default function SignIn() {
           className="btn btn-primary btn-block mb-4"
         >
           Sign in
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            signOut(firebaseAuth);
+          }}
+        >
+          SignOut
         </button>
       </form>
     </div>

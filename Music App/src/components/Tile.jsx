@@ -74,7 +74,7 @@ export default function Tile(data) {
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       ></iframe>
-      <BottomTile />
+      <BottomTile data={tileData} />
       {/* <button onClick={pauseVideo}>Pause</button> */}
     </div>
   );

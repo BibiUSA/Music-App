@@ -11,3 +11,8 @@ input:invalid[check="true"] ~ span{
 input:invalid[check="true"]{
     border: 1px solid red;
 }
+
+.googleSignIn{
+    width: 500px;
+height: 66px;
+}
