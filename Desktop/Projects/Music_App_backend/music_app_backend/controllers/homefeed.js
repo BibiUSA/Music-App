@@ -8,7 +8,7 @@ export const getFeed = async (req, res) => {
     FROM tile_info t
     LEFT JOIN (SELECT *
     FROM likes
-    WHERE username = '${req.query.user}'`) as likes
+    WHERE username = '${req.query.user}') as likes
     ON t.tile_id = likes.tile_id
     ORDER BY created_date DESC
     LIMIT 2
