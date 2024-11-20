@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import tileRouter from "./routers/tile_router.js";
 import homeFeedRouter from "./routers/homefeed_router.js";
+import userInfoRouter from "./routers/userinfo_router.js";
 import bodyParser from "body-parser";
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors(corsOptions));
 
 app.use("/create", tileRouter);
 app.use("/get", homeFeedRouter);
+app.use("/user", userInfoRouter);
 app.get("/api", (req, res) => {
   res.json({ fruits: ["apple", "orange", "banana"] });
 });

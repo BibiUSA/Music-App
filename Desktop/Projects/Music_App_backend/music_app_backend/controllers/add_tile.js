@@ -17,3 +17,16 @@ export const createPost = async (req, res) => {
     console.log("createPost err", error);
   }
 };
+
+export const likePost = async (req, res) => {
+  console.log(req.body);
+  try {
+    const addData = `INSERT INTO likes (username, tile_id)
+    VALUES ($1, $2)`;
+    const values = [req.body.username, req.body.tile_id];
+    const response = await client.query(addData, values);
+    res.send({ data: response });
+  } catch (error) {
+    console.log(error);
+  }
+};
