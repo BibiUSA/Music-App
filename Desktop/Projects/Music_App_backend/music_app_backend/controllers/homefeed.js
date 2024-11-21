@@ -4,7 +4,8 @@ import { likePost } from "./add_tile.js";
 export const getFeed = async (req, res) => {
   console.log(req.query);
   try {
-    const getData = `SELECT * 
+    if (req.query.user) {
+      const getData = `SELECT *
     FROM tile_info t
     LEFT JOIN (SELECT *
     FROM likes
@@ -13,9 +14,17 @@ export const getFeed = async (req, res) => {
     ORDER BY created_date DESC
     LIMIT 2
     OFFSET ${req.query.offset}`;
-
-    const response = await client.query(getData);
-    res.send(response);
+      const response = await client.query(getData);
+      res.send(response);
+    } else {
+      const getData = `SELECT *
+    FROM tile_info
+    ORDER BY created_date DESC
+    LIMIT 2
+    OFFSET ${req.query.offset}`;
+      const response = await client.query(getData);
+      res.send(response);
+    }
   } catch (error) {
     console.log("getFeed err", error);
   }

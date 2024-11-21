@@ -30,3 +30,17 @@ export const likePost = async (req, res) => {
     console.log(error);
   }
 };
+
+export const unLikePost = async (req, res) => {
+  console.log(req.params);
+  try {
+    const addData = `DELETE 
+    FROM likes 
+    WHERE username = '${req.params.username}' 
+    AND tile_id = ${req.params.tile_id}`;
+    const response = await client.query(addData);
+    res.send({ data: response });
+  } catch (error) {
+    console.log(error);
+  }
+};
