@@ -13,11 +13,21 @@ export default function Home() {
 
   console.log(user);
 
+  //pulls the data for the feed, offset amount at a time.
+  // Also gets data for the tiles user liked if the useris logged in
   const fetchFeed = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/get/`, {
-        params: { offset: offset, user: user.displayName },
-      });
+      let response;
+      if (user) {
+        response = await axios.get(`http://localhost:8080/get/`, {
+          params: { offset: offset, user: user.displayName },
+        });
+      } else {
+        response = await axios.get(`http://localhost:8080/get/`, {
+          params: { offset: offset },
+        });
+      }
+      console.log(response.data.rows);
       if (fullData.length > 1) {
         let newArr = fullData.slice(-2);
         if (newArr[0].tile_id == response.data.rows[0].tile_id) {
@@ -28,8 +38,6 @@ export default function Home() {
       } else {
         setFullData((prev) => [...prev, ...response.data.rows]);
       }
-
-      console.log(response.data.rows);
     } catch (error) {
       console.log("fetchFeed err", error);
     }

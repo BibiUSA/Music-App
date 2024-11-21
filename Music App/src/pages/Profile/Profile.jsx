@@ -14,6 +14,7 @@ export default function Profile() {
         type="button"
         onClick={() => {
           signOut(firebaseAuth);
+          window.location = "/profile";
         }}
       >
         SignOut

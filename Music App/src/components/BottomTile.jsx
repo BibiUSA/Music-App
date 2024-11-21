@@ -43,10 +43,13 @@ export default function BottomTile(data) {
 
   const likePost = async (tile_id, username) => {
     try {
-      const result = await axios.post(`http://localhost:8080/create/likepost`, {
-        tile_id: tile_id,
-        username: username,
-      });
+      const result = await axios.post(
+        `http://localhost:8080/create/likepost/:tile_id/:username`,
+        {
+          tile_id: tile_id,
+          username: username,
+        }
+      );
       setLiked("liked");
       setHeart(<IconHeartFilled className="heart" />);
       console.log(result);
@@ -56,13 +59,10 @@ export default function BottomTile(data) {
   };
 
   const unLikePost = async (tile_id, username) => {
+    console.log(tile_id, username);
     try {
       const result = await axios.delete(
-        `http://localhost:8080/create/unlikepost`,
-        {
-          tile_id: tile_id,
-          username: username,
-        }
+        `http://localhost:8080/create/unlikepost/${tile_id}&${username}`
       );
       setLiked("notLiked");
       setHeart(<IconHeart stroke={2} className="icon" />);
