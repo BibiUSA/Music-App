@@ -1,0 +1,16 @@
+.upload-pic{
+    background-color: grey;
+    /* display: flex;
+    justify-content: space-around; */
+
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+label{
+    color:black;
+    background-color: red;
+}

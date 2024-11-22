@@ -17,7 +17,7 @@ export default function BottomTile(data) {
   const { user } = useContext(context);
   const tileData = data.data;
 
-  console.log(user);
+  console.log("USER", user);
   console.log(tileData);
 
   useEffect(() => {
@@ -28,6 +28,13 @@ export default function BottomTile(data) {
   }, []);
 
   const changeHeart = () => {
+    if (!user) {
+      console.log("LOG IN PLEASE");
+      setTimeout(function () {
+        alert("Log in to like posts.");
+      }, 1);
+      return;
+    }
     if (liked === "notLiked") {
       likePost(tileData.tile_id, user.displayName);
       // setLiked("liked");
@@ -44,11 +51,7 @@ export default function BottomTile(data) {
   const likePost = async (tile_id, username) => {
     try {
       const result = await axios.post(
-        `http://localhost:8080/create/likepost/:tile_id/:username`,
-        {
-          tile_id: tile_id,
-          username: username,
-        }
+        `http://localhost:8080/create/likepost/${tile_id}&${username}`
       );
       setLiked("liked");
       setHeart(<IconHeartFilled className="heart" />);
@@ -79,6 +82,18 @@ export default function BottomTile(data) {
         <IconMessageUser stroke={2} className="icon" />
         <IconDots stroke={2} className="icon" />
       </div>
+      {/* shows how many likes a post have if the tile_owner is the signed in user */}
+      {user ? (
+        <div>
+          {user.displayName == tileData.tile_owner ? (
+            <p>LIKES: {tileData.tile_likes}</p>
+          ) : (
+            <></>
+          )}
+        </div>
+      ) : (
+        <></>
+      )}
       <input
         className="messageOwner"
         type="textarea"
@@ -88,6 +103,7 @@ export default function BottomTile(data) {
           handleChange(event.target.value);
         }}
       ></input>
+      {changeHeart}
     </div>
   );
 }

@@ -21,9 +21,15 @@ export const createPost = async (req, res) => {
 export const likePost = async (req, res) => {
   console.log(req.body);
   try {
-    const addData = `INSERT INTO likes (username, tile_id)
-    VALUES ($1, $2)`;
-    const values = [req.body.username, req.body.tile_id];
+    const addData = `WITH inserted AS(
+    INSERT INTO likes (username, tile_id)
+    VALUES ($1, $2)
+    )
+    UPDATE tile_info
+    SET tile_likes = tile_likes +1
+    WHERE tile_id = $2;
+    `;
+    const values = [req.params.username, req.params.tile_id];
     const response = await client.query(addData, values);
     res.send({ data: response });
   } catch (error) {
@@ -34,11 +40,16 @@ export const likePost = async (req, res) => {
 export const unLikePost = async (req, res) => {
   console.log(req.params);
   try {
-    const addData = `DELETE 
+    const addData = `WITH delete AS (DELETE 
     FROM likes 
-    WHERE username = '${req.params.username}' 
-    AND tile_id = ${req.params.tile_id}`;
-    const response = await client.query(addData);
+    WHERE username = $1 
+    AND tile_id = $2)
+    UPDATE tile_info
+    SET tile_likes = tile_likes -1
+    WHERE tile_id = $2;
+    `;
+    const values = [req.params.username, req.params.tile_id];
+    const response = await client.query(addData, values);
     res.send({ data: response });
   } catch (error) {
     console.log(error);

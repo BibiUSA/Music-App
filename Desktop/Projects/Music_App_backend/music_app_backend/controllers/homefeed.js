@@ -5,7 +5,7 @@ export const getFeed = async (req, res) => {
   console.log(req.query);
   try {
     if (req.query.user) {
-      const getData = `SELECT *
+      const getData = `SELECT t.*, likes.username
     FROM tile_info t
     LEFT JOIN (SELECT *
     FROM likes
@@ -33,7 +33,12 @@ export const getFeed = async (req, res) => {
 export const getYourPosts = async (req, res) => {
   console.log(req.query.offset);
   try {
-    const getData = `SELECT * FROM tile_info
+    const getData = `SELECT t.*, likes.username
+    FROM tile_info t
+    LEFT JOIN (SELECT *
+    FROM likes
+    WHERE username = '${req.query.user}') as likes
+    ON t.tile_id = likes.tile_id
     WHERE tile_owner = '${req.query.user}'
     ORDER BY created_date DESC
     LIMIT 2

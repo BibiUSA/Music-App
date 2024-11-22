@@ -5,11 +5,14 @@ import YourPosts from "../../components/YourPosts";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { signOut } from "firebase/auth";
 import { firebaseAuth } from "../../Firebase";
+import context from "../../contexts/auth/context";
+import { useContext } from "react";
 
 export default function Profile() {
+  const { user } = useContext(context);
   return (
     <div className="profile">
-      <ProfileInfo />
+      <ProfileInfo data={user} />
       <button
         type="button"
         onClick={() => {
