@@ -2,6 +2,8 @@ import Context from "./context";
 import { useState, useEffect } from "react";
 import { firebaseAuth } from "../../Firebase";
 import { onAuthStateChanged } from "firebase/auth";
+// import { axios } from "axios";
+// import useGet from "../../hooks/useGet";
 
 const Provider = (props) => {
   const [user, setUser] = useState("loading");
@@ -12,6 +14,8 @@ const Provider = (props) => {
       console.log(userInfo);
     });
   }, []);
+
+  //need this examined
 
   if (user === "loading") {
     return "loading...";

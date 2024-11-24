@@ -14,6 +14,7 @@ export default function Home() {
     params: user ? { offset: 0, user: user.displayName } : { offset: 0 },
     // deps: [offset],
     cb: (res) => {
+      //part of this might have been built to deal with StrictMode
       if (fullData.length > 1) {
         console.log("fulldata", fullData);
         let newArr = fullData.slice(-2);

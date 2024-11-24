@@ -1,7 +1,14 @@
 import ChangeProfile from "../../components/ChangeProfile";
+import useGet from "../../hooks/useGet";
+import context from "../../contexts/auth/context";
+import { useContext, useEffect, useState } from "react";
 
 import "./Settings.css";
 export default function Settings() {
+  const { user } = useContext(context);
+  const [fullData, setFullData] = useState([]);
+  console.log("USER", user);
+  console.log("FULL", fullData);
   const inputs = [
     {
       id: "registerFirstName",
@@ -22,6 +29,16 @@ export default function Settings() {
       pattern: "^[A-Za-z][A-Za-z ,.'\\-]{0,24}[A-Za-z]$",
     },
   ];
+
+  useGet({
+    api: "user/info",
+    params: { user: user.uid },
+    dep: user,
+    cb: (res) => {
+      console.log("CHECk", res.data.rows);
+      setFullData(res.data.rows);
+    },
+  });
 
   return (
     <div>
