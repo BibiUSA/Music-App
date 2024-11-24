@@ -50,3 +50,16 @@ export const isSignedIn = async (req, res) => {
     console.log(error);
   }
 };
+
+export const userInfo = async (req, res) => {
+  console.log(req.params);
+  try {
+    const addData = `SELECT *
+    FROM user_info
+    WHERE firebase_uid = '${req.params.uid}'`;
+    const response = await client.query(addData);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
