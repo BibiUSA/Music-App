@@ -52,14 +52,55 @@ export const isSignedIn = async (req, res) => {
 };
 
 export const userInfo = async (req, res) => {
-  console.log(req.params);
+  console.log("test", req.query);
   try {
     const addData = `SELECT *
     FROM user_info
-    WHERE firebase_uid = '${req.params.uid}'`;
+    WHERE firebase_uid = '${req.query.uid}';`;
     const response = await client.query(addData);
     res.send(response);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const usernameExists = async (req, res) => {
+  console.log("test", req.query);
+  try {
+    const addData = `SELECT COUNT(1)
+    FROM user_info
+    WHERE UPPER(username) = UPPER('${req.query.username}');`;
+    const response = await client.query(addData);
+    res.send(response);
+  } catch (error) {
+    res.send(error);
+  }
+};
+
+export const updateUsername = async (req, res) => {
+  console.log("final", req.body);
+  try {
+    const addData = `UPDATE user_info
+    SET username_change_d = '${req.body.date}',
+    username = '${req.body.username}'
+    WHERE firebase_uid = '${req.body.uid}';`;
+    const response = await client.query(addData);
+    await client.query("COMMIT");
+    res.send(response);
+  } catch (error) {
+    await client.query("ROLLBACK");
+    res.status(500).send(error);
+  }
+};
+
+export const updateImg = async (req, res) => {
+  try {
+    const addData = `UPDATE user_info
+    SET img_url = '${req.body.img}'
+    WHERE username = '${req.body.username}';`;
+    const response = await client.query(addData);
+    res.send(response);
+  } catch (error) {
+    res.status(500).send(error);
   }
 };

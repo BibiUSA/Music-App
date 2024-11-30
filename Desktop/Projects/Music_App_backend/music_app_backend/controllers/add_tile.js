@@ -55,3 +55,18 @@ export const unLikePost = async (req, res) => {
     console.log(error);
   }
 };
+
+export const reportPost = async (req, res) => {
+  console.log(req.body);
+  try {
+    const addData = `INSERT INTO reports
+    (tile_id, reported_by)
+    VALUES ($1, $2)
+    ON CONFLICT DO NOTHING;`;
+    const values = [req.body.tile_id, req.body.username];
+    const response = await client.query(addData, values);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
