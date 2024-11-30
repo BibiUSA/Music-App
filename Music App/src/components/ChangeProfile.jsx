@@ -16,7 +16,7 @@ export default function ChangeProfile() {
           className="rounded-circle profile-pic"
         />
         <div>
-          <p>username</p>
+          <p>{user?.displayName?.length <= 25 ? user.displayName : ""}</p>
           {/* <p>{`${user.f}`}</p> */}
         </div>
         <button type="button" className="btn btn-primary button-x">

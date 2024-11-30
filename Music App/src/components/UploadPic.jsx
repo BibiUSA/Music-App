@@ -3,6 +3,7 @@ import "./UploadPic.css";
 import { firebaseAuth } from "../Firebase";
 import { updateProfile } from "firebase/auth";
 import context from "../contexts/auth/context";
+import axios from "axios";
 
 export default function UploadPic() {
   const { user } = useContext(context);
@@ -28,11 +29,23 @@ export default function UploadPic() {
       photoURL: imgSrc,
     })
       .then(() => {
-        console.log("picture uploaded");
+        updateImg(user.displayName, imgSrc);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const updateImg = async (username, img) => {
+    try {
+      const result = await axios.patch(`http://localhost:8080/user/img`, {
+        username: username,
+        img: img,
+      });
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

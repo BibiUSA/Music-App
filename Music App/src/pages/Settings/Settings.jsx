@@ -2,6 +2,8 @@ import ChangeProfile from "../../components/ChangeProfile";
 import useGet from "../../hooks/useGet";
 import context from "../../contexts/auth/context";
 import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import ChangeUsername from "../../components/ChangeUsername";
 
 import "./Settings.css";
 export default function Settings() {
@@ -9,6 +11,12 @@ export default function Settings() {
   const [fullData, setFullData] = useState([]);
   console.log("USER", user);
   console.log("FULL", fullData);
+
+  useEffect(() => {
+    console.log(user);
+    getUserInfo();
+  }, []);
+
   const inputs = [
     {
       id: "registerFirstName",
@@ -16,7 +24,7 @@ export default function Settings() {
       type: "text",
       errorMessage:
         "Requires a letter and minimum of 2 characters. Allowed signs are period, coma, hyphen, apostrophe",
-      placeholder: "First Name",
+      placeholder: `${fullData.fname}`,
       pattern: "^[A-Za-z][A-Za-z ,.'\\-]{0,24}[A-Za-z]$",
     },
     {
@@ -25,20 +33,31 @@ export default function Settings() {
       type: "text",
       errorMessage:
         "Requires a letter and minimum of 2 characters. Allowed signs are period, coma, hyphen, apostrophe",
-      placeholder: "Last Name",
+      placeholder: `${fullData.lname}`,
       pattern: "^[A-Za-z][A-Za-z ,.'\\-]{0,24}[A-Za-z]$",
     },
   ];
 
-  useGet({
-    api: "user/info",
-    params: { user: user.uid },
-    dep: user,
-    cb: (res) => {
-      console.log("CHECk", res.data.rows);
-      setFullData(res.data.rows);
-    },
-  });
+  // useGet({
+  //   api: "user/info",
+  //   params: { user: user.uid },
+  //   dep: user,
+  //   cb: (res) => {
+  //     console.log("CHECk", res.data.rows);
+  //     setFullData(res.data.rows);
+  //   },
+  // });
+
+  const getUserInfo = async () => {
+    try {
+      const result = await axios.get(`http://localhost:8080/user/info`, {
+        params: { uid: user.uid },
+      });
+      setFullData(result.data.rows[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -63,10 +82,12 @@ export default function Settings() {
             ></input>
             <span className="errorMsg">{input.errorMessage}</span>
             <label className="form-label" htmlFor={input.id}>
-              {input.placeholder}
+              {input.name}
             </label>
           </div>
         ))}
+
+        <ChangeUsername data={fullData} />
       </div>
     </div>
   );

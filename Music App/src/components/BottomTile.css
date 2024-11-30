@@ -2,6 +2,11 @@
     color: black;
     height: 30px;
     width: 30px;
+    cursor: pointer;
+}
+
+.bottomTile{
+    position: relative;
 }
 
 .icons{
@@ -24,4 +29,63 @@
     color: red;
     height: 30px;
     width: 30px;
+}
+
+/*Dialog box*/
+.dialog_box {
+    position: relative;
+    bottom: 30%;
+    margin-left: 70%;
+    padding: 8px;
+    background: #f4f4f4;
+    border: 1px solid #000000;
+    max-width: 200px;
+}
+.dialog_box:after, .dialog_box:before {
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+}
+.dialog_box:after {
+    border-width: 4px;
+}
+.dialog_box:before {
+    border-width: 8px;
+}
+ 
+/*Arrow pointing BOTTOM*/
+.dialog_box.bottom:after, .dialog_box.bottom:before {
+    left: 50%;
+    top: 100%;
+}
+.dialog_box.bottom:after {
+    border-color:  #f4f4f4 transparent transparent transparent ;
+    margin-left: -4px;
+}
+.dialog_box.bottom:before {
+    border-color:  #000000 transparent transparent transparent ;
+    margin-left: -8px;
+}
+
+.user-buttons{
+    background-color: white;
+    color:black;
+    padding: none;
+}
+
+.edit-post-box{
+    background-color: white;
+    border: 1px solid black;
+    position: absolute;
+    max-width: 600px;
+    max-height: 300px;
+    position: absolute;
+    width:100%;
+    z-index: 10;
+}
+
+.btn{
+    margin: 0px 5px;
 }

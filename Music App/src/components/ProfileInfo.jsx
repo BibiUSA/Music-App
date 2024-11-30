@@ -25,7 +25,7 @@ export default function ProfileInfo() {
       ></img>
       <div className="card">
         <h5 className="card-title">
-          {user ? user.displayName : "Your Username"}
+          {user?.displayName?.length <= 25 ? user.displayName : ""}
         </h5>
         {user ? (
           <Link to="/settings">

@@ -18,6 +18,7 @@ export default function YourPosts() {
       const response = await axios.get(`http://localhost:8080/get/yourposts`, {
         params: { offset: offset, user: user.displayName },
       });
+      console.log(response);
       if (fullData.length > 1) {
         let newArr = fullData.slice(-2);
         if (newArr[0].tile_id == response.data.rows[0].tile_id) {
@@ -37,6 +38,8 @@ export default function YourPosts() {
 
   //created to avoid duplicates from strictmode
   const uniqueId = [];
+
+  console.log(fullData);
 
   const spreadTile = fullData.map((tileData) => {
     if (!uniqueId.includes(tileData.tile_id)) {
