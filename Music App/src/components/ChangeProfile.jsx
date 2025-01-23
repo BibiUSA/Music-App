@@ -5,10 +5,19 @@ import context from "../contexts/auth/context.jsx";
 
 export default function ChangeProfile() {
   const { user } = useContext(context);
+  const [pic, setPic] = useState(false);
   console.log(user);
 
+  const editPic = () => {
+    if (pic == false) {
+      setPic(true);
+    } else {
+      setPic(false);
+    }
+  };
+
   return (
-    <div>
+    <div className="changeProfileDiv">
       <section className="changeProfile">
         <img
           src={user.photoURL}
@@ -19,11 +28,15 @@ export default function ChangeProfile() {
           <p>{user?.displayName?.length <= 25 ? user.displayName : ""}</p>
           {/* <p>{`${user.f}`}</p> */}
         </div>
-        <button type="button" className="btn btn-primary button-x">
+        <button
+          type="button"
+          className="btn btn-primary button-x"
+          onClick={editPic}
+        >
           Change Profile Photo
         </button>
       </section>
-      <UploadPic />
+      {pic && <UploadPic />}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { firebaseApp, firebaseAuth } from "../Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import "./SignIn.css";
 import axios from "axios";
-import { signOut } from "firebase/auth";
+
 import { useEffect } from "react";
 import { signInGoogle, signInFacebook } from "../utils/SignInAuthentication";
 import { useContext } from "react";
@@ -151,14 +151,6 @@ export default function SignIn() {
           className="btn btn-primary btn-block mb-4"
         >
           Sign in
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            signOut(firebaseAuth);
-          }}
-        >
-          SignOut
         </button>
       </form>
     </div>

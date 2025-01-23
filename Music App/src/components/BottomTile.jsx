@@ -16,8 +16,11 @@ export default function BottomTile(data) {
   const [heart, setHeart] = useState(<IconHeart stroke={2} className="icon" />); //fills up the heart
   const [liked, setLiked] = useState("notLiked"); //just to see if its liked because comparing html value above is harder
   const [message, setMessage] = useState("");
-  const [show, setShow] = useState(false);
-
+  const [show, setShow] = useState(false); //to show reporting option
+  const [showDel, setShowDel] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [report, setReport] = useState(false);
+  const [reportText, setReportText] = useState("");
   const { user } = useContext(context);
   const tileData = data.data;
 
@@ -50,6 +53,7 @@ export default function BottomTile(data) {
 
   function handleChange(event) {
     setMessage(`${event}`);
+    setReport(true);
   }
 
   const likePost = async (tile_id, username) => {
@@ -79,27 +83,36 @@ export default function BottomTile(data) {
     }
   };
 
+  //creates the box to write reason for report
+  const writeReport = () => {
+    setShow((prev) => !prev);
+    setReport(true);
+  };
+
   const reportPost = async () => {
     try {
       const result = await axios.post(`http://localhost:8080/create/report`, {
         tile_id: tileData.tile_id,
         username: user.displayName,
+        reason: reportText,
       });
       console.log(result);
-      setShow((prev) => !prev);
+      setReport(false);
+      setReportText("");
     } catch (error) {
       console.log(error);
     }
   };
 
   const deletePost = async () => {
-    console.log("delete this");
     setShow(false);
+    setShowDel(true);
   };
 
   const edit = async () => {
     console.log("edit this");
     setShow(false);
+    setShowEdit((prev) => !prev);
   };
 
   //options to report or edit/delete posts
@@ -117,7 +130,7 @@ export default function BottomTile(data) {
       );
     } else {
       return (
-        <button className="user-buttons" onClick={reportPost}>
+        <button className="user-buttons" onClick={writeReport}>
           Report Post
         </button>
       );
@@ -127,6 +140,8 @@ export default function BottomTile(data) {
   const handleOptions = () => {
     if (user) {
       setShow((prev) => !prev);
+      setShowDel(false);
+      setShowEdit(false);
     } else {
       window.alert("log in for these features.");
     }
@@ -134,7 +149,7 @@ export default function BottomTile(data) {
 
   return (
     <div className="bottomTile">
-      <DeletePost />
+      {showDel && <DeletePost data={tileData} setShowDel={setShowDel} />}
       {show && <div className="dialog_box bottom">{options()}</div>}
       <div className="icons">
         <div onClick={changeHeart}>{heart}</div>
@@ -164,15 +179,22 @@ export default function BottomTile(data) {
           handleChange(event.target.value);
         }}
       ></input>
-      {user.displayName === "hi" && (
-        <div className="edit-post-box">
-          <EditPost data={tileData} />
-          <div className="buttons">
-            <button type="button" className="btn btn-secondary">
+      {showEdit && <EditPost data={tileData} setShowEdit={setShowEdit} />}
+      {report && (
+        <div className="reportBox">
+          <textarea
+            className="reportText"
+            value={reportText}
+            onChange={(event) => {
+              setReportText(event.target.value);
+            }}
+          ></textarea>
+          <div className="reportButtons">
+            <button onClick={() => setReport(false)} className="cancelReport">
               Cancel
             </button>
-            <button type="button" className="btn btn-primary">
-              Update
+            <button className="sendReport" onClick={reportPost}>
+              Report
             </button>
           </div>
         </div>

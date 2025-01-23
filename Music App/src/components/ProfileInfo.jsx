@@ -20,7 +20,11 @@ export default function ProfileInfo() {
   return (
     <div className="ProfileInfo">
       <img
-        src={user ? user.photoURL : "public/assets/compressed.jpeg"}
+        src={
+          user
+            ? user.photoURL
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+        }
         className="rounded-circle img-fluid profilePic"
       ></img>
       <div className="card">
@@ -57,11 +61,13 @@ export default function ProfileInfo() {
           </Link>
         )}
         <br></br>
-        <Link to="/login">
-          <button type="button" className="btn btn-primary">
-            Log In and Register
-          </button>
-        </Link>
+        {!user && (
+          <Link to="/login">
+            <button type="button" className="btn btn-primary">
+              Log In and Register
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );

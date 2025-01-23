@@ -1,12 +1,14 @@
-
+.changeProfileDiv{
+    width:100%;
+}
 
 .changeProfile{
-    border:3px soldi black;
+    border:3px solid black;
     background-color: grey;
-    max-width: 80%;
-    align-items: center;
+    /* max-width: 100%; */
+   align-items: center;
     align-self: center;
-    margin-left: 10%;
+    
    display: flex;
    justify-content: space-around;
 }
@@ -20,3 +22,4 @@
 .button-x:hover{
     cursor:pointer;
 }
+

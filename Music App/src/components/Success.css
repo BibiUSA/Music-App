@@ -1,0 +1,21 @@
+
+.successbox{
+    border: 1px solid black;
+    position: fixed;
+    width:60vw;
+    height:50vh;
+    left:20vw;
+    top:20vh;
+    background-color: rgb(235, 237, 243);
+    border-radius: 5px;
+    padding: 5% 5%;
+}
+
+
+.title{
+    margin-bottom: 5%;
+}
+
+.button{
+    margin: 5%;
+}

@@ -15,10 +15,12 @@ function App() {
   const fullData = Data.data;
 
   return (
-    <div>
+    <div className="app">
       <BrowserRouter>
         <Provider>
-          <Navbar />
+          <div className="nav">
+            <Navbar />
+          </div>
           <Routes>
             <Route index path="/" element={<Home />} />
             <Route path="/account" element={<Account />} />

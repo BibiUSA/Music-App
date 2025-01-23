@@ -1,0 +1,20 @@
+.searchUser{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 5%;
+    align-items: center;
+    color:white;
+}
+
+.searchUser:hover{
+    background-color: rgb(45, 42, 42);
+    cursor: pointer;
+}
+
+.searchImg{
+    width:5vw;
+    max-width: 40px;
+    height:5vw;
+    max-height: 40px;
+    border-radius: 10px;
+}

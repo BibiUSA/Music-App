@@ -3,12 +3,13 @@ import TileOwner from "./TileOwner";
 import BottomTile from "./BottomTile";
 import "./Tile.css";
 import { useEffect, useRef, useState } from "react";
+import classes from "./tile.module.css";
 
 export default function Tile(data) {
   const iframeRef = useRef(null);
   const pauseButtonRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(); //may not need this
-  const tileData = data.data;
+  const [isVisible, setIsVisible] = useState();
+  const [tileData, setTile] = useState(data.data);
   console.log(tileData);
 
   //if state is visible, play the video, or else pause
@@ -57,24 +58,28 @@ export default function Tile(data) {
   }
 
   return (
-    <div className="tile">
+    <div className={classes.root}>
       <TileOwner data={tileData} />
       {/* <button onClick={playVideo}>Play</button> */}
       {/* used to measure if video is on screen */}
       <div className="bar" ref={pauseButtonRef}></div>
-      <iframe
-        ref={iframeRef}
-        className="youtubeVideo"
-        width="896"
-        height="504"
-        src={videoEmbed}
-        title="YouTube video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      ></iframe>
-      <BottomTile data={tileData} />
+      <div className={classes.videoWrapper}>
+        <div>
+          <iframe
+            ref={iframeRef}
+            className={classes.video}
+            width="896"
+            height="504"
+            src={videoEmbed}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
+      <BottomTile data={tileData} setTile={setTile} />
       {/* <button onClick={pauseVideo}>Pause</button> */}
     </div>
   );

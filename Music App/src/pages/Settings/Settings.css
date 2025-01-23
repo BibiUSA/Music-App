@@ -1,3 +1,20 @@
 input{
     background-color: grey;
 }
+
+.settings{
+    
+    /* display: flex; */
+    /* justify-content: space-around; */
+    
+    border: 1px solid black;
+}
+
+.settingBox{
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    
+}

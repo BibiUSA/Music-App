@@ -40,18 +40,21 @@ export function signInGoogle() {
     });
 }
 
-export function signInFacebook() {
+export async function signInFacebook() {
   signInWithPopup(firebaseAuth, fbProvider)
     .then((result) => {
       // The signed-in user info.
       const user = result.user;
-
+      newUser(user).then(() => {
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        console.log(user);
+      });
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-      const credential = FacebookAuthProvider.credentialFromResult(result);
-      const accessToken = credential.accessToken;
-      console.log(user);
-      console.log(credential);
-      console.log(accessToken);
+
+      // newUser(user);
+
+      //username, email,
 
       // IdP data available using getAdditionalUserInfo(result)
       // ...
@@ -68,3 +71,15 @@ export function signInFacebook() {
       // ...
     });
 }
+
+const newUser = async (user) => {
+  try {
+    const result = await axios.post(`http://localhost:8080/user/newuser`, {
+      email: user.email,
+      uid: user.uid,
+    });
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+};

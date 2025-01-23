@@ -42,6 +42,7 @@ export default function UploadPic() {
         username: username,
         img: img,
       });
+      window.location.reload();
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -60,13 +61,21 @@ export default function UploadPic() {
         }}
         id="profile-pic"
       /> */}
-      <input
-        type="textarea"
-        value={text}
-        onChange={(event) => {
-          setText(event.target.value);
-        }}
-      />
+
+      <div>
+        <label className="imageLinkLabel" htmlFor="imageLink">
+          Enter Image Link
+        </label>
+        <input
+          type="textarea"
+          id="imageLink"
+          value={text}
+          onChange={(event) => {
+            setText(event.target.value);
+          }}
+        />
+      </div>
+
       <button
         type="button"
         className="btn btn-secondary"

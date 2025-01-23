@@ -9,7 +9,7 @@ export default function TileOwner(data) {
   const { user } = useContext(context);
 
   const description = tileOwnerData.tile_desc;
-  console.log(tileOwnerData);
+  console.log("tileOwnerDate", tileOwnerData);
   console.log("USER", user);
 
   const postTimeTwo = () => {
@@ -57,16 +57,29 @@ export default function TileOwner(data) {
     postTimeTwo();
   }, []);
 
+  // const rightImg = () => {
+  //   if (!user) {
+  //     <img className="ownerImg" src={tileOwnerData.img_url}></img>;
+  //   }else if (user.photoURL{
+
+  //   }
+  // };
+
   return (
     <div className="tileOwner">
       <div className="tileOwnerInfo">
-        <img className="ownerImg" src={tileOwnerData.img_url}></img>
+        <img
+          className="ownerImg"
+          src={tileOwnerData.img_url || user.photoURL}
+        ></img>
         <div className="ownerText">
           <p className="ownerName">{ownerName}</p>
           <p className="duration">{postTimeTwo()}</p>
         </div>
       </div>
-      <p>{description}</p>
+      <div className="description">
+        <p>{description}</p>
+      </div>
     </div>
   );
 }

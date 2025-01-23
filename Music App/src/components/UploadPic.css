@@ -3,7 +3,7 @@
     /* display: flex;
     justify-content: space-around; */
 
-
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -13,4 +13,12 @@
 label{
     color:black;
     background-color: red;
+}
+
+
+.imageLinkLabel{
+   
+    color:red;
+  
+
 }

@@ -3,12 +3,13 @@ import "./LinkOutPutBox.css";
 import { useState, useContext } from "react";
 import axios from "axios";
 import context from "../contexts/auth/context";
+import Success from "./Success";
 
 export default function LinkOutPutBox() {
   const [linkInput, setLinkInput] = useState(""); //holds the text inserted in the inputbox
   const [outputLink, setOutputLink] = useState("Outputs Link Here."); //result of the function
   const [desc, setDesc] = useState("");
-  const [postLink, setPostLink] = useState("");
+  const [success, setSuccess] = useState(false);
   const { user } = useContext(context);
 
   console.log(user);
@@ -83,6 +84,7 @@ export default function LinkOutPutBox() {
         owner: user.displayName,
         date: date,
       });
+      setSuccess(true);
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -118,6 +120,7 @@ export default function LinkOutPutBox() {
         className="convert"
       ></input>
       <div className="output">{outputLink}</div>
+      {success && <Success />}
       {/* <label>Private</label> */}
       {/* <input type="checkbox" value="private" name="private"></input> */}
       <br></br>

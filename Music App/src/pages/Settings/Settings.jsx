@@ -9,6 +9,8 @@ import "./Settings.css";
 export default function Settings() {
   const { user } = useContext(context);
   const [fullData, setFullData] = useState([]);
+  const [names, setNames] = useState({}); //used to change first & last names
+
   console.log("USER", user);
   console.log("FULL", fullData);
 
@@ -48,44 +50,98 @@ export default function Settings() {
   //   },
   // });
 
+  //updates state for fname & lnames
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setNames((values) => ({ ...values, [name]: value }));
+  };
+
   const getUserInfo = async () => {
     try {
       const result = await axios.get(`http://localhost:8080/user/info`, {
         params: { uid: user.uid },
       });
       setFullData(result.data.rows[0]);
+      setNames({
+        ["firstName"]: result.data.rows[0].fname,
+        ["lastName"]: result.data.rows[0].lname,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const editName = async () => {
+    if (
+      names.firstName !== fullData.fname ||
+      names.lastName !== fullData.lname
+    ) {
+      console.log(names);
+      try {
+        const result = await axios.patch(
+          `http://localhost:8080/user/updatename`,
+          {
+            uid: fullData.firebase_uid,
+            fname: names.firstName,
+            lname: names.lastName,
+          }
+        );
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    // console.log(names);
+  };
+
   return (
-    <div>
-      Settings
-      <div>
+    <div className="settings">
+      <h2>Settings</h2>
+      <div className="settingBox">
         <ChangeProfile />
 
-        {inputs.map((input) => (
-          <div key={input.id} data-mdb-input-init className="form-outline mb-4">
-            <input
-              type={input.type}
-              id={input.id}
-              className="form-control"
-              name={input.name}
-              placeholder={input.placeholder}
-              // value={values[input.name] || ""}
-              // onChange={onChange}
-              pattern={input.pattern}
-              // onBlur={handleFocus}
-              required
-              // focused={focused[input.name]}
-            ></input>
-            <span className="errorMsg">{input.errorMessage}</span>
-            <label className="form-label" htmlFor={input.id}>
-              {input.name}
-            </label>
-          </div>
-        ))}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            editName();
+          }}
+        >
+          {inputs.map((input) => (
+            <div
+              key={input.id}
+              data-mdb-input-init
+              className="form-outline mb-4"
+            >
+              <input
+                type={input.type}
+                id={input.id}
+                className="form-control"
+                name={input.name}
+                // placeholder={input.placeholder}
+                // defaultValue={input.placeholder}
+                value={names[input.name] || ""}
+                onChange={handleChange}
+                pattern={input.pattern}
+                // onBlur={handleFocus}
+                required
+                // focused={focused[input.name]}
+              ></input>
+              <span className="errorMsg">{input.errorMessage}</span>
+              {/* not sure why this isn't showing */}
+              <label className="form-label" htmlFor={input.id}>
+                {input.name}
+              </label>
+            </div>
+          ))}
+          <button
+            type="submit"
+            className="btn btn-primary button-x"
+            // onClick={editName}
+          >
+            Update Name
+          </button>
+        </form>
 
         <ChangeUsername data={fullData} />
       </div>

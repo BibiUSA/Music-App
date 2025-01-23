@@ -1,0 +1,27 @@
+.root {
+    border: 1px solid;
+    padding: 1rem 0;
+    height: 85dvh;
+    border-radius: 2%;
+    margin-top: 1rem;
+    background-color: white;
+}
+.videoWrapper {
+    max-width: 800px;
+    width: 100%;
+    /* height: 250px; */
+    /* border: 1px solid; */
+    margin: auto;
+    position: relative;
+}
+
+.videoWrapper >div {
+    padding-top: 57%;
+}
+.videoWrapper iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}

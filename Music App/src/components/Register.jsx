@@ -166,7 +166,7 @@ export default function Register() {
               required
               focused={focused[input.name]}
             ></input>
-            <span className="errorMsg">{input.errorMessage}</span>
+
             <label className="form-label" htmlFor={input.id}>
               {input.placeholder}
             </label>

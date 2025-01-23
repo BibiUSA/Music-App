@@ -1,6 +1,9 @@
 .tileOwner{
     background-color: white;
     color: black;
+    padding: 0 1rem;
+    min-height: 15dvh;
+    
 }
 .tileOwnerInfo{
     display: flex;

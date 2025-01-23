@@ -56,6 +56,7 @@ export default function Home() {
   //created to avoid duplicates from strictmode
   const uniqueId = [];
 
+  //used to get data for the tile and map it
   const spreadTile = fullData.map((tileData) => {
     console.log(tileData);
     console.log("ID", uniqueId);
