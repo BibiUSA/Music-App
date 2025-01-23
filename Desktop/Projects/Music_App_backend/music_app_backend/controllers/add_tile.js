@@ -60,10 +60,37 @@ export const reportPost = async (req, res) => {
   console.log(req.body);
   try {
     const addData = `INSERT INTO reports
-    (tile_id, reported_by)
-    VALUES ($1, $2)
+    (tile_id, reported_by, reason)
+    VALUES ($1, $2, $3)
     ON CONFLICT DO NOTHING;`;
-    const values = [req.body.tile_id, req.body.username];
+    const values = [req.body.tile_id, req.body.username, req.body.reason];
+    const response = await client.query(addData, values);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updatePost = async (req, res) => {
+  console.log("Update", req.body);
+  try {
+    const addData = `UPDATE tile_info
+    SET tile_desc = $1
+    WHERE tile_id = $2;`;
+    const values = [req.body.tile_desc, req.body.tile_id];
+    const response = await client.query(addData, values);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deletePost = async (req, res) => {
+  console.log(req.params);
+  try {
+    const addData = `DELETE FROM tile_info
+    WHERE tile_id = $1;`;
+    const values = [req.params.tile_id];
     const response = await client.query(addData, values);
     res.send(response);
   } catch (error) {
