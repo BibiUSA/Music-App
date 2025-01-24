@@ -9,7 +9,7 @@ export default function Tile(data) {
   const iframeRef = useRef(null);
   const pauseButtonRef = useRef(null);
   const [isVisible, setIsVisible] = useState();
-  const [tileData, setTile] = useState(data.data);
+  const [tileData, setTileData] = useState(data.data);
   console.log(tileData);
 
   //if state is visible, play the video, or else pause
@@ -79,7 +79,7 @@ export default function Tile(data) {
           ></iframe>
         </div>
       </div>
-      <BottomTile data={tileData} setTile={setTile} />
+      <BottomTile data={tileData} setTile={setTileData} />
       {/* <button onClick={pauseVideo}>Pause</button> */}
     </div>
   );

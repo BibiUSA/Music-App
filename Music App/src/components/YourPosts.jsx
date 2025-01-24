@@ -4,8 +4,15 @@ import Tile from "./Tile";
 import { useContext } from "react";
 import context from "../contexts/auth/context";
 
-export default function YourPosts() {
+export default function YourPosts(data) {
   const { user } = useContext(context);
+
+  // if (data.data) {
+  //   console.log("DATA FRIEND", data.data);
+  // } else {
+  //   console.log("DATA user", user);
+  // }
+  const feedPerson = data.data ? data.data.friend : user.displayName;
 
   console.log(user);
   const [fullData, setFullData] = useState([]);
@@ -16,7 +23,11 @@ export default function YourPosts() {
   const fetchFeed = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/get/yourposts`, {
-        params: { offset: offset, user: user.displayName },
+        params: {
+          offset: offset,
+          user: user.displayName,
+          feedPerson: feedPerson,
+        },
       });
       console.log(response);
       if (fullData.length > 1) {
@@ -39,7 +50,7 @@ export default function YourPosts() {
   //created to avoid duplicates from strictmode
   const uniqueId = [];
 
-  console.log(fullData);
+  console.log("FULL stuff", fullData);
 
   const spreadTile = fullData.map((tileData) => {
     if (!uniqueId.includes(tileData.tile_id)) {

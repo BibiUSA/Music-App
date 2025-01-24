@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import SearchUser from "./SearchUser";
+import OutsideClickHandler from "react-outside-click-handler";
 
 export default function Navbar() {
   const [searchWord, setSearchWord] = useState("");
@@ -30,22 +31,39 @@ export default function Navbar() {
 
   return (
     <div className="navbar">
-      <div>
-        <input
-          className="search"
-          type="text"
-          placeholder="Search Users"
-          value={searchWord}
-          onChange={(event) => search(event)}
-          onFocus={() => {
-            setSearchBox(true);
-          }}
-          onBlur={() => {
+      <div
+        onFocus={() => {
+          setSearchBox(true);
+        }}
+        // onBlur={() => {
+        //   setSearchBox(false);
+        // }}
+      >
+        <OutsideClickHandler
+          onOutsideClick={() => {
             setSearchBox(false);
           }}
-        ></input>
-        {searchBox && <div className="searchResults">{spread}</div>}
+        >
+          <input
+            className="search"
+            type="text"
+            placeholder="Search Users"
+            value={searchWord}
+            onChange={(event) => search(event)}
+          ></input>
+          {searchBox && (
+            <div
+              className="searchResults"
+              onClick={() => {
+                setSearchBox(false);
+              }}
+            >
+              {spread}
+            </div>
+          )}
+        </OutsideClickHandler>
       </div>
+
       <Link to="/">
         <div className="icons">
           <IconHome stroke={2} />

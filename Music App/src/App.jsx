@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LogIn from "./pages/LogIn/LogIn";
 import Provider from "./contexts/auth/provider";
 import Settings from "./pages/Settings/Settings";
+import FriendPage from "./pages/FriendPage/FriendPage";
 
 function App() {
   const fullData = Data.data;
@@ -27,6 +28,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/friend/:friend" element={<FriendPage />} />
           </Routes>
         </Provider>
       </BrowserRouter>
