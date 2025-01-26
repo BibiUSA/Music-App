@@ -2,6 +2,7 @@
 import { useState, useEffect, useContext } from "react";
 import context from "../contexts/auth/context";
 import "./TileOWner.css";
+import { Link } from "react-router-dom";
 
 export default function TileOwner(data) {
   const tileOwnerData = data.data;
@@ -67,16 +68,20 @@ export default function TileOwner(data) {
 
   return (
     <div className="tileOwner">
-      <div className="tileOwnerInfo">
-        <img
-          className="ownerImg"
-          src={tileOwnerData.img_url || user.photoURL}
-        ></img>
-        <div className="ownerText">
-          <p className="ownerName">{ownerName}</p>
-          <p className="duration">{postTimeTwo()}</p>
+      <Link
+        to={user.displayName != ownerName ? `/friend/${ownerName}` : "/profile"}
+      >
+        <div className="tileOwnerInfo">
+          <img
+            className="ownerImg"
+            src={tileOwnerData.img_url || user.photoURL}
+          ></img>
+          <div className="ownerText">
+            <p className="ownerName">{ownerName}</p>
+            <p className="duration">{postTimeTwo()}</p>
+          </div>
         </div>
-      </div>
+      </Link>
       <div className="description">
         <p>{description}</p>
       </div>

@@ -16,9 +16,16 @@ export default function YourPosts(data) {
 
   console.log(user);
   const [fullData, setFullData] = useState([]);
+
   //trying pagination
 
   const [offset, setOffset] = useState(0);
+
+  //allows the feed to refresh when the friend is changed
+  useEffect(() => {
+    setFullData([]);
+    setOffset(0);
+  }, [feedPerson]);
 
   const fetchFeed = async () => {
     try {
@@ -61,7 +68,7 @@ export default function YourPosts(data) {
 
   useEffect(() => {
     fetchFeed();
-  }, [offset]);
+  }, [offset, feedPerson]);
 
   //used for infinity scroll
   useEffect(() => {
