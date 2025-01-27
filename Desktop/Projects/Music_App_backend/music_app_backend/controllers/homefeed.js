@@ -1,5 +1,4 @@
 import client from "../models/db.js";
-import { likePost } from "./add_tile.js";
 
 export const getFeed = async (req, res) => {
   console.log(req.query);
@@ -49,15 +48,17 @@ ON t.tile_owner = u.username
 export const getYourPosts = async (req, res) => {
   console.log("yourpost", req.query);
   try {
-    const getData = `SELECT t.*, l.username
+    const getData = `SELECT t.*, l.username, u.img_url
 FROM (SELECT *
 FROM likes
 WHERE likes.username = '${req.query.user}') as l
 RIGHT JOIN 
 (SELECT *
 FROM tile_info
-WHERE tile_owner = '${req.query.user}') as t
+WHERE tile_owner = '${req.query.feedPerson}') as t
 ON l.tile_id = t.tile_id
+LEFT JOIN user_info u
+ON u.username = t.tile_owner
 ORDER BY created_date DESC
     LIMIT 2
     OFFSET ${req.query.offset}`;

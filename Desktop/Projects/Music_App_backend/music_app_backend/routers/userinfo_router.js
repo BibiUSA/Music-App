@@ -10,6 +10,8 @@ import {
   userCheck,
   updateName,
   searchUser,
+  friendInfo,
+  updateFriend,
 } from "../controllers/userinfo.js";
 
 const router = express.Router();
@@ -24,5 +26,6 @@ router.route("/img").patch(updateImg);
 router.route("/newuser").post(userCheck);
 router.route("/updatename").patch(updateName);
 router.route("/search").get(searchUser);
-
+router.route("/friend").get(friendInfo);
+router.route("/updatefriend").patch(updateFriend);
 export default router;

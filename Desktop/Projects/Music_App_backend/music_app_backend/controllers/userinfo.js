@@ -164,3 +164,59 @@ export const searchUser = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+export const friendInfo = async (req, res) => {
+  console.log(req.body);
+  try {
+    const getData = `SELECT u.username, u.img_url, c.*
+    FROM (SELECT username, img_url
+    FROM user_info
+    WHERE username = '${req.query.friend}') as u
+    LEFT JOIN 
+    ( SELECT * FROM connections
+    ) as c
+     ON (u.username = c.friend1 AND c.friend2 = '${req.query.user}')
+     OR (u.username = c.friend2 AND c.friend1 = '${req.query.user}')`;
+    const response = await client.query(getData);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
+export const updateFriend = async (req, res) => {
+  console.log(req.body);
+  try {
+    let addData;
+    if (req.body.action == "Send Friend Request") {
+      addData = `INSERT INTO connections (friend1, friend2, accept1)
+    VALUES ('${req.body.user}','${req.body.friend}', TRUE)`;
+    } else if (req.body.action == "Accept Friend Request") {
+      addData = `UPDATE connections 
+    SET accept2 = TRUE
+    WHERE (friend1 = '${req.body.friend}' AND
+    friend2 = '${req.body.user}')`;
+    } else if (req.body.action == "Cancel Friend Request") {
+      addData = `DELETE FROM connections
+    WHERE friend1 = '${req.body.user}' AND
+    friend2 = '${req.body.friend}'`;
+    } else if (req.body.action == "Remove Friend") {
+      addData = `UPDATE connections
+      SET friend1 = '${req.body.friend}',
+      friend2 = '${req.body.user}',
+      accept2 = FALSE
+    WHERE (friend1 = '${req.body.user}' AND
+    friend2 = '${req.body.friend}') OR 
+    (friend1 = '${req.body.friend}' AND
+    friend2 = '${req.body.user}')
+    `;
+    }
+
+    const response = await client.query(addData);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
