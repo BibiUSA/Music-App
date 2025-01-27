@@ -59,7 +59,7 @@ export default function BottomTile(data) {
   const likePost = async (tile_id, username) => {
     try {
       const result = await axios.post(
-        `http://localhost:8080/create/likepost/${tile_id}&${username}`
+        `https://music-app-api-oq6b.onrender.com/create/likepost/${tile_id}&${username}`
       );
       setLiked("liked");
       setHeart(<IconHeartFilled className="heart" />);
@@ -73,7 +73,7 @@ export default function BottomTile(data) {
     console.log(tile_id, username);
     try {
       const result = await axios.delete(
-        `http://localhost:8080/create/unlikepost/${tile_id}&${username}`
+        `https://music-app-api-oq6b.onrender.com/create/unlikepost/${tile_id}&${username}`
       );
       setLiked("notLiked");
       setHeart(<IconHeart stroke={2} className="icon" />);
@@ -91,11 +91,14 @@ export default function BottomTile(data) {
 
   const reportPost = async () => {
     try {
-      const result = await axios.post(`http://localhost:8080/create/report`, {
-        tile_id: tileData.tile_id,
-        username: user.displayName,
-        reason: reportText,
-      });
+      const result = await axios.post(
+        `https://music-app-api-oq6b.onrender.com/create/report`,
+        {
+          tile_id: tileData.tile_id,
+          username: user.displayName,
+          reason: reportText,
+        }
+      );
       console.log(result);
       setReport(false);
       setReportText("");

@@ -16,9 +16,12 @@ export default function FriendProfile() {
   const getFriendInfo = async () => {
     console.log("FRIEND", friendName);
     try {
-      const response = await axios.get(`http://localhost:8080/user/friend`, {
-        params: { friend: friendName, user: user.displayName },
-      });
+      const response = await axios.get(
+        `https://music-app-api-oq6b.onrender.com/user/friend`,
+        {
+          params: { friend: friendName, user: user.displayName },
+        }
+      );
       setFriendInfo(response.data.rows[0]);
       console.log("FRIEND INFO", response);
     } catch (error) {
@@ -67,7 +70,7 @@ export default function FriendProfile() {
     console.log("RUNNING");
     try {
       const result = await axios.patch(
-        `http://localhost:8080/user/updatefriend`,
+        `https://music-app-api-oq6b.onrender.com/user/updatefriend`,
         {
           user: user.displayName,
           friend: friendName,

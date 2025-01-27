@@ -59,9 +59,12 @@ export default function Settings() {
 
   const getUserInfo = async () => {
     try {
-      const result = await axios.get(`http://localhost:8080/user/info`, {
-        params: { uid: user.uid },
-      });
+      const result = await axios.get(
+        `https://music-app-api-oq6b.onrender.com/user/info`,
+        {
+          params: { uid: user.uid },
+        }
+      );
       setFullData(result.data.rows[0]);
       setNames({
         ["firstName"]: result.data.rows[0].fname,
@@ -80,7 +83,7 @@ export default function Settings() {
       console.log(names);
       try {
         const result = await axios.patch(
-          `http://localhost:8080/user/updatename`,
+          `https://music-app-api-oq6b.onrender.com/user/updatename`,
           {
             uid: fullData.firebase_uid,
             fname: names.firstName,

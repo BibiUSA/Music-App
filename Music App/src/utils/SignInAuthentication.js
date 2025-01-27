@@ -74,10 +74,13 @@ export async function signInFacebook() {
 
 const newUser = async (user) => {
   try {
-    const result = await axios.post(`http://localhost:8080/user/newuser`, {
-      email: user.email,
-      uid: user.uid,
-    });
+    const result = await axios.post(
+      `https://music-app-api-oq6b.onrender.com/user/newuser`,
+      {
+        email: user.email,
+        uid: user.uid,
+      }
+    );
     console.log(result);
   } catch (error) {
     console.log(error);

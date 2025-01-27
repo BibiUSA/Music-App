@@ -78,12 +78,15 @@ export default function LinkOutPutBox() {
     const date = new Date();
     console.log(date);
     try {
-      const result = await axios.post(`http://localhost:8080/create/newpost`, {
-        link: linked,
-        description: desc,
-        owner: user.displayName,
-        date: date,
-      });
+      const result = await axios.post(
+        `https://music-app-api-oq6b.onrender.com/create/newpost`,
+        {
+          link: linked,
+          description: desc,
+          owner: user.displayName,
+          date: date,
+        }
+      );
       setSuccess(true);
       console.log(result);
     } catch (error) {

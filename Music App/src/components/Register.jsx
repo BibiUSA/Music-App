@@ -107,13 +107,16 @@ export default function Register() {
     date_created
   ) => {
     try {
-      const response = await axios.post("http://localhost:8080/user/save/", {
-        fname: fname,
-        lname: lname,
-        email: email,
-        firebaseUID: firebaseUID,
-        date_created: date_created,
-      });
+      const response = await axios.post(
+        "https://music-app-api-oq6b.onrender.com/user/save/",
+        {
+          fname: fname,
+          lname: lname,
+          email: email,
+          firebaseUID: firebaseUID,
+          date_created: date_created,
+        }
+      );
 
       console.log(response);
     } catch (error) {

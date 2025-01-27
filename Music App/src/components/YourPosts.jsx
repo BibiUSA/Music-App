@@ -24,13 +24,16 @@ export default function YourPosts(data) {
 
   const fetchFeed = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/get/yourposts`, {
-        params: {
-          offset: offset,
-          user: user.displayName,
-          feedPerson: feedPerson,
-        },
-      });
+      const response = await axios.get(
+        `https://music-app-api-oq6b.onrender.com/get/yourposts`,
+        {
+          params: {
+            offset: offset,
+            user: user.displayName,
+            feedPerson: feedPerson,
+          },
+        }
+      );
       console.log(response);
       if (fullData.length > 1) {
         let newArr = fullData.slice(-2);

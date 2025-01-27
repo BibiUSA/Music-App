@@ -8,10 +8,13 @@ export default function EditPost(data) {
 
   const updatePost = async () => {
     try {
-      const result = axios.patch(`http://localhost:8080/create/edit`, {
-        tile_desc: desc,
-        tile_id: data.data.tile_id,
-      });
+      const result = axios.patch(
+        `https://music-app-api-oq6b.onrender.com/create/edit`,
+        {
+          tile_desc: desc,
+          tile_id: data.data.tile_id,
+        }
+      );
       console.log(result);
       data.setShowEdit(false);
     } catch (error) {

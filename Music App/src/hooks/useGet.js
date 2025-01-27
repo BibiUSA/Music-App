@@ -18,7 +18,9 @@ export default function useGet(props = p) {
     if (state.loading) return;
     setState({ loading: true, params: allParams });
     axios
-      .get("http://localhost:8080/" + allProps.api, { params: allParams })
+      .get("https://music-app-api-oq6b.onrender.com/" + allProps.api, {
+        params: allParams,
+      })
       .then((res) => {
         setState({ res, params: allParams });
         allProps.cb(res);

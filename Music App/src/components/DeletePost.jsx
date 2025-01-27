@@ -7,7 +7,7 @@ export default function DeletePost(data) {
   const handleDelete = async (tile_id) => {
     try {
       const result = axios.delete(
-        `http://localhost:8080/create/delete/${tile_id}`,
+        `https://music-app-api-oq6b.onrender.com/create/delete/${tile_id}`,
         {
           tile_id: data.data.tile_id,
         }
