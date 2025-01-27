@@ -1,9 +1,8 @@
 import app from "./app.js";
 import client from "./models/db.js";
 import dotenv from "dotenv";
-dotenv.config({
-  path: "./config.env",
-});
+dotenv.config();
+import process from "process";
 
 client
   .connect()
@@ -14,7 +13,7 @@ client
     console.log("error connecting to database:", err);
   });
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
   console.log(`server started on port ${port}`);

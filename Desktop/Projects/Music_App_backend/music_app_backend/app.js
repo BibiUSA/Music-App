@@ -13,7 +13,7 @@ const corsOptions = {
   // ["https://music-app-7bvk.onrender.com"],
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use("/create", tileRouter);
 app.use("/get", homeFeedRouter);
