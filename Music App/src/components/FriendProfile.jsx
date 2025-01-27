@@ -11,6 +11,7 @@ export default function FriendProfile() {
   const { user } = useContext(context);
   const friendName = useParams().friend;
   const [friendInfo, setFriendInfo] = useState("");
+  const [friendButton, setFriendButton] = useState("Send Friend Request");
 
   const getFriendInfo = async () => {
     console.log("FRIEND", friendName);
@@ -33,6 +34,53 @@ export default function FriendProfile() {
     getFriendInfo();
   }, [friendName]);
 
+  useEffect(() => {
+    // if (friendInfo == "") {
+    //   getFriendInfo();
+    // }
+    friendButtonSettings();
+  }, [friendInfo]);
+
+  const friendButtonSettings = () => {
+    if (!friendInfo.connectid) {
+      if (friendButton != "Send Friend Request") {
+        setFriendButton("Send Friend Request");
+      }
+    } else if (friendInfo.accept1 && friendInfo.accept2) {
+      setFriendButton("Remove Friend");
+    } else if (friendInfo.friend1 == user.displayName) {
+      if (friendInfo.accept1) {
+        setFriendButton("Cancel Friend Request");
+      } else {
+        setFriendButton("Accept Friend Request");
+      }
+    } else if (friendInfo.friend2 == user.displayName) {
+      if (friendInfo.accept2) {
+        setFriendButton("Cancel Friend Request");
+      } else {
+        setFriendButton("Accept Friend Request");
+      }
+    }
+  };
+
+  const friendButtonAction = async () => {
+    console.log("RUNNING");
+    try {
+      const result = await axios.patch(
+        `http://localhost:8080/user/updatefriend`,
+        {
+          user: user.displayName,
+          friend: friendName,
+          action: friendButton,
+        }
+      );
+      getFriendInfo();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="ProfileInfo">
       <img
@@ -46,11 +94,13 @@ export default function FriendProfile() {
       <div className="card">
         <h5 className="card-title">{friendInfo.username}</h5>
 
-        <Link>
-          <button type="button" className="btn btn-primary">
-            Add Friend
-          </button>
-        </Link>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => friendButtonAction()}
+        >
+          {friendButton}
+        </button>
       </div>
     </div>
   );

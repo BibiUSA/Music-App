@@ -22,7 +22,7 @@ export default function Profile() {
       >
         SignOut
       </button>
-      <YourPosts />
+      {user && <YourPosts />}
     </div>
   );
 }

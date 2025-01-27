@@ -7,11 +7,6 @@ import context from "../contexts/auth/context";
 export default function YourPosts(data) {
   const { user } = useContext(context);
 
-  // if (data.data) {
-  //   console.log("DATA FRIEND", data.data);
-  // } else {
-  //   console.log("DATA user", user);
-  // }
   const feedPerson = data.data ? data.data.friend : user.displayName;
 
   console.log(user);
