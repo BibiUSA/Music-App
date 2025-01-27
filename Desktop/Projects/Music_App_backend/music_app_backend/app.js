@@ -9,7 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: ["https://music-app-7bvk.onrender.com"],
+  // ["http://localhost:5173"],
 };
 
 app.use(cors(corsOptions));
