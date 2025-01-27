@@ -1,7 +1,7 @@
 //Has name of the tileposter /tile owner and the time since it was posted
 import { useState, useEffect, useContext } from "react";
 import context from "../contexts/auth/context";
-import "./TileOWner.css";
+import "./TileOwner.css";
 import { Link } from "react-router-dom";
 
 export default function TileOwner(data) {
