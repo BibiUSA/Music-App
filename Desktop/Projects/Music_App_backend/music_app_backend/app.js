@@ -19,7 +19,7 @@ app.use("/create", tileRouter);
 app.use("/get", homeFeedRouter);
 app.use("/user", userInfoRouter);
 app.get("/api", (req, res) => {
-  res.json({ fruits: ["apple", "orange", "banana"] });
+  res.json({ fruits: ["apple", "orange", "banana", 'Mango'] });
 });
 
 // app.listen(8080, () => {
