@@ -59,7 +59,7 @@ export default function TileOwner(data) {
   }, []);
 
   // const rightImg = () => {
-  //   if (!user) {
+  //   if () {
   //     <img className="ownerImg" src={tileOwnerData.img_url}></img>;
   //   }else if (user.photoURL{
 

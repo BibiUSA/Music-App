@@ -4,11 +4,16 @@ import Tile from "../../components/Tile";
 import "./Home.css";
 import context from "../../contexts/auth/context";
 import useGet from "../../hooks/useGet";
+import { redirect } from "react-router-dom";
 
 export default function Home() {
   const [fullData, setFullData] = useState([]);
   //trying pagination
   const { user } = useContext(context);
+
+  if (!user) {
+    window.location = "/login";
+  }
   const { err, loading, get } = useGet({
     api: "get/",
     params: user ? { offset: 0, user: user.displayName } : { offset: 0 },
@@ -31,6 +36,9 @@ export default function Home() {
   });
 
   useEffect(() => {
+    if (!user) {
+      return <redirect to="login" />;
+    }
     let offset = 0;
     const handleScroll = (e) => {
       const scrollHeight = e.target.documentElement.scrollHeight;

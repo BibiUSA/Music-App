@@ -11,6 +11,10 @@ export default function Settings() {
   const [fullData, setFullData] = useState([]);
   const [names, setNames] = useState({}); //used to change first & last names
 
+  if (!user) {
+    window.location = "/login";
+  }
+
   console.log("USER", user);
   console.log("FULL", fullData);
 

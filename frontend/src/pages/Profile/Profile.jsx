@@ -10,6 +10,11 @@ import { useContext } from "react";
 
 export default function Profile() {
   const { user } = useContext(context);
+
+  if (!user) {
+    window.location = "/login";
+  }
+
   return (
     <div className="profile">
       <ProfileInfo data={user} />
