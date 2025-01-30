@@ -3,7 +3,7 @@ import "./UploadPic.css";
 import { firebaseAuth } from "../Firebase";
 import { updateProfile } from "firebase/auth";
 import context from "../contexts/auth/context";
-import axios from "axios";
+import axios from "../config/axios";
 
 export default function UploadPic() {
   const { user } = useContext(context);
@@ -38,13 +38,10 @@ export default function UploadPic() {
 
   const updateImg = async (username, img) => {
     try {
-      const result = await axios.patch(
-        `https://music-app-api-oq6b.onrender.com/user/img`,
-        {
-          username: username,
-          img: img,
-        }
-      );
+      const result = await axios.patch(`/user/img`, {
+        username: username,
+        img: img,
+      });
       window.location.reload();
       console.log(result);
     } catch (error) {

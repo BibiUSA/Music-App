@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import context from "../contexts/auth/context";
-import axios from "axios";
+import axios from "../config/axios";
 
 export default function FriendProfile() {
   const { user } = useContext(context);
@@ -16,12 +16,9 @@ export default function FriendProfile() {
   const getFriendInfo = async () => {
     console.log("FRIEND", friendName);
     try {
-      const response = await axios.get(
-        `https://music-app-api-oq6b.onrender.com/user/friend`,
-        {
-          params: { friend: friendName, user: user.displayName },
-        }
-      );
+      const response = await axios.get(`/user/friend`, {
+        params: { friend: friendName, user: user.displayName },
+      });
       setFriendInfo(response.data.rows[0]);
       console.log("FRIEND INFO", response);
     } catch (error) {
@@ -69,14 +66,11 @@ export default function FriendProfile() {
   const friendButtonAction = async () => {
     console.log("RUNNING");
     try {
-      const result = await axios.patch(
-        `https://music-app-api-oq6b.onrender.com/user/updatefriend`,
-        {
-          user: user.displayName,
-          friend: friendName,
-          action: friendButton,
-        }
-      );
+      const result = await axios.patch(`/user/updatefriend`, {
+        user: user.displayName,
+        friend: friendName,
+        action: friendButton,
+      });
       getFriendInfo();
       console.log(result);
     } catch (error) {

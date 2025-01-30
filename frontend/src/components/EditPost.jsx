@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./EditPost.css";
-import axios from "axios";
+import axios from "../config/axios";
 
 export default function EditPost(data) {
   console.log("EDITPOST", data.data.tile_desc);
@@ -8,13 +8,10 @@ export default function EditPost(data) {
 
   const updatePost = async () => {
     try {
-      const result = axios.patch(
-        `https://music-app-api-oq6b.onrender.com/create/edit`,
-        {
-          tile_desc: desc,
-          tile_id: data.data.tile_id,
-        }
-      );
+      const result = axios.patch(`/create/edit`, {
+        tile_desc: desc,
+        tile_id: data.data.tile_id,
+      });
       console.log(result);
       data.setShowEdit(false);
     } catch (error) {

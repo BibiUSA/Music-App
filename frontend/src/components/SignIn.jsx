@@ -3,8 +3,7 @@ import { useState } from "react";
 import { firebaseApp, firebaseAuth } from "../Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import "./SignIn.css";
-import axios from "axios";
-
+import axios from "../config/axios";
 import { useEffect } from "react";
 import { signInGoogle, signInFacebook } from "../utils/SignInAuthentication";
 import { useContext } from "react";
@@ -44,13 +43,10 @@ export default function SignIn() {
 
   const lastLogInDate = async (uid, date) => {
     try {
-      const response = await axios.patch(
-        `https://music-app-api-oq6b.onrender.com/user/logindate`,
-        {
-          uid: uid,
-          date_login: date,
-        }
-      );
+      const response = await axios.patch(`/user/logindate`, {
+        uid: uid,
+        date_login: date,
+      });
       localStorage.setItem("uid", uid);
       console.log(response);
     } catch (error) {

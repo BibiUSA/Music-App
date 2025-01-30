@@ -9,11 +9,13 @@ import Profile from "./pages/Profile/Profile";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LogIn from "./pages/LogIn/LogIn";
 import Provider from "./contexts/auth/provider";
-import Settings from "./pages/Settings/Settings";
+import Settings from "./pages/SettingsPage/SettingsPage";
 import FriendPage from "./pages/FriendPage/FriendPage";
 
 function App() {
   const fullData = Data.data;
+
+  console.log(import.meta.env);
 
   return (
     <div className="app">

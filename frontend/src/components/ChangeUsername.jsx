@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../config/axios";
 import { firebaseAuth } from "../Firebase";
 import { updateProfile } from "firebase/auth";
 import { useContext } from "react";
@@ -35,12 +35,9 @@ export default function ChangeUsername(data) {
 
   const usernameExists = async (username) => {
     try {
-      const result = await axios.get(
-        `https://music-app-api-oq6b.onrender.com/user/check`,
-        {
-          params: { username: username },
-        }
-      );
+      const result = await axios.get(`/user/check`, {
+        params: { username: username },
+      });
       console.log(result.data.rows[0].count);
       if (result.data.rows[0].count == 1) {
         window.alert("already taken");
@@ -66,15 +63,12 @@ export default function ChangeUsername(data) {
 
   const updateUsername = async (username, uid) => {
     try {
-      const result = await axios.patch(
-        `https://music-app-api-oq6b.onrender.com/user/username`,
-        {
-          username: username,
-          uid: uid,
-          date: new Date(),
-          // .toISOString().slice(0, 19).replace("T", " "),
-        }
-      );
+      const result = await axios.patch(`/user/username`, {
+        username: username,
+        uid: uid,
+        date: new Date(),
+        // .toISOString().slice(0, 19).replace("T", " "),
+      });
       console.log("finished", username, uid, result);
     } catch (error) {
       console.log(error);

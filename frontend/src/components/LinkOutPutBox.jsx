@@ -1,7 +1,7 @@
 //Creates a post.This converts the clip link from youtube into a storable link if valid and posts the data in the database.
 import "./LinkOutPutBox.css";
 import { useState, useContext } from "react";
-import axios from "axios";
+import axios from "../config/axios";
 import context from "../contexts/auth/context";
 import Success from "./Success";
 
@@ -78,15 +78,12 @@ export default function LinkOutPutBox() {
     const date = new Date();
     console.log(date);
     try {
-      const result = await axios.post(
-        `https://music-app-api-oq6b.onrender.com/create/newpost`,
-        {
-          link: linked,
-          description: desc,
-          owner: user.displayName,
-          date: date,
-        }
-      );
+      const result = await axios.post(`/create/newpost`, {
+        link: linked,
+        description: desc,
+        owner: user.displayName,
+        date: date,
+      });
       setSuccess(true);
       console.log(result);
     } catch (error) {

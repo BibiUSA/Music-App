@@ -1,17 +1,14 @@
 import "./DeletePost.css";
-import axios from "axios";
+import axios from "../config/axios";
 
 export default function DeletePost(data) {
   console.log(data);
 
   const handleDelete = async (tile_id) => {
     try {
-      const result = axios.delete(
-        `https://music-app-api-oq6b.onrender.com/create/delete/${tile_id}`,
-        {
-          tile_id: data.data.tile_id,
-        }
-      );
+      const result = axios.delete(`/create/delete/${tile_id}`, {
+        tile_id: data.data.tile_id,
+      });
       console.log(result);
       data.setShowDel(false);
     } catch (error) {

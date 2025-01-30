@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../config/axios";
 import { useState, useEffect } from "react";
 
 const p = {
@@ -18,7 +18,7 @@ export default function useGet(props = p) {
     if (state.loading) return;
     setState({ loading: true, params: allParams });
     axios
-      .get("https://music-app-api-oq6b.onrender.com/" + allProps.api, {
+      .get("/" + allProps.api, {
         params: allParams,
       })
       .then((res) => {

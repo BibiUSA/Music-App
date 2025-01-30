@@ -3,7 +3,7 @@ import { firebaseApp, firebaseAuth } from "../Firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Placeholder } from "react-bootstrap";
 import "./Register.css";
-import axios from "axios";
+import axios from "../config/axios";
 
 import { signInGoogle, signInFacebook } from "../utils/SignInAuthentication";
 
@@ -107,16 +107,13 @@ export default function Register() {
     date_created
   ) => {
     try {
-      const response = await axios.post(
-        "https://music-app-api-oq6b.onrender.com/user/save/",
-        {
-          fname: fname,
-          lname: lname,
-          email: email,
-          firebaseUID: firebaseUID,
-          date_created: date_created,
-        }
-      );
+      const response = await axios.post("/user/save/", {
+        fname: fname,
+        lname: lname,
+        email: email,
+        firebaseUID: firebaseUID,
+        date_created: date_created,
+      });
 
       console.log(response);
     } catch (error) {

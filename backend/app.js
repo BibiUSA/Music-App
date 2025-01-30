@@ -13,13 +13,13 @@ const corsOptions = {
   // ["https://music-app-7bvk.onrender.com"],
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use("/create", tileRouter);
 app.use("/get", homeFeedRouter);
 app.use("/user", userInfoRouter);
 app.get("/api", (req, res) => {
-  res.json({ fruits: ["apple", "orange", "banana", 'Mango'] });
+  res.json({ fruits: ["apple", "orange", "banana"] });
 });
 
 // app.listen(8080, () => {

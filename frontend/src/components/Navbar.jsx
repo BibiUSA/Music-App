@@ -3,7 +3,7 @@ import { IconHome, IconMessages, IconUserCircle } from "@tabler/icons-react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import axios from "../config/axios";
 import SearchUser from "./SearchUser";
 import OutsideClickHandler from "react-outside-click-handler";
 
@@ -15,12 +15,9 @@ export default function Navbar() {
   const search = async (event) => {
     setSearchWord(event.target.value);
     try {
-      const response = await axios.get(
-        `https://music-app-api-oq6b.onrender.com/user/search`,
-        {
-          params: { search: searchWord.trim() },
-        }
-      );
+      const response = await axios.get(`/user/search`, {
+        params: { search: searchWord.trim() },
+      });
       setResults(response.data.rows);
       console.log(response.data.rows);
     } catch (error) {
