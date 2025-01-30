@@ -1,8 +1,10 @@
 .profilePic{
     width: 200px;
-    max-height: 200px;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .ProfileInfo{
-    
+    margin-top: 80px;
 }

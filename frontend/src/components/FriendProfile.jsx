@@ -86,7 +86,7 @@ export default function FriendProfile() {
             ? friendInfo.img_url
             : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
         }
-        className="rounded-circle img-fluid profilePic"
+        className="rounded-circle profilePic"
       ></img>
       <div className="card">
         <h5 className="card-title">{friendInfo.username}</h5>
