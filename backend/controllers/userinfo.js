@@ -220,3 +220,23 @@ export const updateFriend = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+export const getAllFriends = async (req, res) => {
+  try {
+    const getData = `SELECT username, img_url 
+    FROM user_info
+    WHERE username IN (SELECT friend1 
+    FROM connections where friend2 = '${req.query.user}'
+    AND accept1 = TRUE
+    AND accept2 = TRUE)
+    OR username IN (SELECT friend2 
+    FROM connections where friend1 = '${req.query.user}'
+    AND accept1 = TRUE
+    AND accept2 = TRUE)`;
+    const response = await client.query(getData);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};

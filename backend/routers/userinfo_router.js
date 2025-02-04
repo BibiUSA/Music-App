@@ -12,6 +12,7 @@ import {
   searchUser,
   friendInfo,
   updateFriend,
+  getAllFriends,
 } from "../controllers/userinfo.js";
 
 const router = express.Router();
@@ -28,4 +29,5 @@ router.route("/updatename").patch(updateName);
 router.route("/search").get(searchUser);
 router.route("/friend").get(friendInfo);
 router.route("/updatefriend").patch(updateFriend);
+router.route("/allfriends").get(getAllFriends);
 export default router;
