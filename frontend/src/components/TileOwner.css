@@ -3,6 +3,9 @@
     color: black;
     padding: 0 1rem;
     min-height: 15dvh;
+    max-width: 800px;
+    margin: 0 auto;
+    
     
 }
 .tileOwnerInfo{

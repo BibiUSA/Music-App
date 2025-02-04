@@ -3,11 +3,11 @@
     justify-content: space-between;
     padding: 0px 5%;
     align-items: center;
-    color:white;
+    color:black;
 }
 
 .searchUser:hover{
-    background-color: rgb(45, 42, 42);
+    background-color: gainsboro;
     cursor: pointer;
 }
 

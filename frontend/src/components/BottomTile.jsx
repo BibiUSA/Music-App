@@ -120,10 +120,14 @@ export default function BottomTile(data) {
     if (user.displayName == tileData.tile_owner) {
       return (
         <div>
-          <button className="user-buttons" onClick={edit}>
+          <button className="user-buttons" id="edit-user-button" onClick={edit}>
             Edit
           </button>
-          <button className="user-buttons" onClick={deletePost}>
+          <button
+            className="user-buttons"
+            id="delete-user-button"
+            onClick={deletePost}
+          >
             Delete
           </button>
         </div>

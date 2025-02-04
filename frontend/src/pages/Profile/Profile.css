@@ -1,3 +1,21 @@
 .profile{
     margin-top: 60px;
 }
+
+.profileOptions{
+    display: flex;
+    justify-content: space-around;
+}
+
+#posts, #friends{
+    width:50vw;
+}
+
+#posts:hover,#friends:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+
+.post-selected, .friends-selected{
+    background-color: gainsboro;
+}

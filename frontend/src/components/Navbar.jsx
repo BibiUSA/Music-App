@@ -1,5 +1,10 @@
 //Navigation bar
-import { IconHome, IconMessages, IconUserCircle } from "@tabler/icons-react";
+import {
+  IconHome,
+  IconMessages,
+  IconUserCircle,
+  IconBell,
+} from "@tabler/icons-react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -11,6 +16,8 @@ export default function Navbar() {
   const [searchWord, setSearchWord] = useState("");
   const [results, setResults] = useState([]);
   const [searchBox, setSearchBox] = useState(false);
+
+  console.log("LINKNAME", window.location.href);
 
   const search = async (event) => {
     setSearchWord(event.target.value);
@@ -72,11 +79,16 @@ export default function Navbar() {
       <div className="icons">
         <IconMessages stroke={2} />
       </div>
-      <Link to="/profile">
+      <div className="nav-right-icons">
         <div className="icons">
-          <IconUserCircle stroke={2} />
+          <IconBell stroke={2} />
         </div>
-      </Link>
+        <Link to="/profile">
+          <div className="icons">
+            <IconUserCircle stroke={2} />
+          </div>
+        </Link>
+      </div>
     </div>
   );
 }

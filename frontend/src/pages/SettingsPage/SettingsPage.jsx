@@ -4,7 +4,8 @@ import context from "../../contexts/auth/context";
 import { useContext, useEffect, useState } from "react";
 import axios from "../../config/axios";
 import ChangeUsername from "../../components/ChangeUsername";
-
+import { firebaseAuth } from "../../Firebase";
+import { signOut } from "firebase/auth";
 import "./SettingsPage.css";
 export default function Settings() {
   const { user } = useContext(context);
@@ -146,6 +147,15 @@ export default function Settings() {
 
         <ChangeUsername data={fullData} />
       </div>
+      <button
+        type="button"
+        onClick={() => {
+          signOut(firebaseAuth);
+          window.location = "/profile";
+        }}
+      >
+        SignOut
+      </button>
     </div>
   );
 }

@@ -5,9 +5,13 @@ import "./Home.css";
 import context from "../../contexts/auth/context";
 import useGet from "../../hooks/useGet";
 import { redirect } from "react-router-dom";
+import { IconAdjustments } from "@tabler/icons-react";
 
 export default function Home() {
   const [fullData, setFullData] = useState([]);
+  const [feedSelection, setFeedSelection] = useState(false);
+  //choosing the feed algorithm
+  const [feedChoice, setFeedChoice] = useState("Recent");
   //trying pagination
   const { user } = useContext(context);
 
@@ -16,7 +20,9 @@ export default function Home() {
   }
   const { err, loading, get } = useGet({
     api: "get/",
-    params: user ? { offset: 0, user: user.displayName } : { offset: 0 },
+    params: user
+      ? { offset: 0, user: user.displayName, feedChoice: feedChoice }
+      : { offset: 0 },
     // deps: [offset],
     cb: (res) => {
       //part of this might have been built to deal with StrictMode
@@ -77,6 +83,38 @@ export default function Home() {
 
   return (
     <div className="home">
+      <div
+        className="feedOptions"
+        onClick={() => setFeedSelection((prev) => !prev)}
+      >
+        <section className="feedSetting">
+          <p>{feedChoice}</p>
+          <IconAdjustments stroke={2} />
+        </section>
+      </div>
+      {feedSelection && (
+        <div className="feed-dropdown">
+          <div className="feed-title">Sort By</div>
+          <div
+            className="feed-pick"
+            onClick={() => {
+              setFeedChoice("Recent");
+              setFeedSelection(false);
+            }}
+          >
+            Recent
+          </div>
+          <div
+            className="feed-pick"
+            onClick={() => {
+              setFeedChoice("Friends");
+              setFeedSelection(false);
+            }}
+          >
+            Friends
+          </div>
+        </div>
+      )}
       {spreadTile}
       {loading && (
         <div className="spinner-border" role="status">

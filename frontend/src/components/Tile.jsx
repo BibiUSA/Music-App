@@ -8,6 +8,7 @@ import classes from "./tile.module.css";
 export default function Tile(data) {
   const iframeRef = useRef(null);
   const pauseButtonRef = useRef(null);
+  //don't think the below is used
   const [isVisible, setIsVisible] = useState();
   const [tileData, setTileData] = useState(data.data);
   console.log(tileData);

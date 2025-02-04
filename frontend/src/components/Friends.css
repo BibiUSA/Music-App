@@ -1,0 +1,22 @@
+.friend_img{
+    width: 50px;
+    height:50px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    margin-right: 20px;
+    
+}
+.friendBox{
+    display: flex;
+    border: 1px solid gainsboro;
+    margin-bottom: 5px;
+    align-self: center;
+}
+
+.friendBox:hover{
+    background-color: gainsboro;
+}
+.friends-list{
+    
+}

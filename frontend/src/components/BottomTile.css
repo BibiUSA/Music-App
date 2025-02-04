@@ -7,6 +7,8 @@
 
 .bottomTile{
     position: relative;
+    max-width: 896px;
+    margin:0 auto;
 }
 
 
@@ -44,8 +46,9 @@
     right:10%;
     padding: 8px;
     background: #f4f4f4;
-    border: 1px solid #000000;
+    box-shadow: 2px 2px  gainsboro;
     max-width: 200px;
+    border-radius: 5px;
 }
 .dialog_box:after, .dialog_box:before {
     border: solid transparent;
@@ -119,8 +122,23 @@
 .sendReport{
     background-color: blue;
 }
+#edit-user-button{
+    background-color: rgb(93, 114, 181);
+    color: white;
+}
+#edit-user-button:hover{
+    background-color: rgb(38, 72, 183);
+}
 
 
+#delete-user-button{
+    background-color: rgb(200, 107, 107);
+    color: white;
+}
+#delete-user-button:hover{
+    background-color: rgb(197, 81, 81);
+    
+}
 
 /* @media (min-width: 800px) {
     .bottomTile .icons {
