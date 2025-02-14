@@ -52,8 +52,7 @@ export default function BottomTile(data) {
   };
 
   function handleChange(event) {
-    setMessage(`${event}`);
-    setReport(true);
+    setMessage(`${event.target.value}`);
   }
 
   const likePost = async (tile_id, username) => {
@@ -151,6 +150,21 @@ export default function BottomTile(data) {
     }
   };
 
+  const sendMessage = async () => {
+    try {
+      const response = await axios.post(`message/send`, {
+        sender: user.displayName,
+        receiver: tileData.tile_owner,
+        message: message,
+        tile_id: tileData.tile_id,
+      });
+      setMessage("");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="bottomTile">
       {showDel && <DeletePost data={tileData} setShowDel={setShowDel} />}
@@ -180,7 +194,12 @@ export default function BottomTile(data) {
         placeholder="Send Message"
         value={message}
         onChange={(event) => {
-          handleChange(event.target.value);
+          handleChange(event);
+        }}
+        onKeyPress={(event) => {
+          if (event.key == "Enter") {
+            sendMessage();
+          }
         }}
       ></input>
       {showEdit && <EditPost data={tileData} setShowEdit={setShowEdit} />}

@@ -14,6 +14,7 @@ input:invalid[check="true"]{
 
 .googleSignIn{
     width: 500px;
+    max-width: 80vw;
 height: 66px;
 }
 

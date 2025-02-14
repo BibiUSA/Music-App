@@ -1,0 +1,19 @@
+.sendMessage{
+    background-color: gray;
+    position:fixed;
+    top:90vh;
+    width:70vw;
+    height: 10vh;
+    align-content: center;
+ 
+   
+}
+
+.sendmessageinput{
+    width:90%;
+    height:90%;
+    border-radius: 5px;
+    background-color: gainsboro;
+    color: black;
+
+}

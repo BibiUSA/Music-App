@@ -16,3 +16,7 @@ input:invalid[focused="true"] ~ span{
 input:invalid[focused="true"]{
     border: 1px solid red;
 }
+.google-facebook{
+    display: flex;
+    justify-content:center;
+}

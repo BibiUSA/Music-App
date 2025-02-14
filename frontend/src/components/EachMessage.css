@@ -1,0 +1,9 @@
+
+.eachMessage{
+    background-color:blue;
+    width:max-content;
+    color:white;
+    margin: 10px 0;
+    padding: 3px;
+    border-radius: 5px;
+}

@@ -1,13 +1,19 @@
 import { useState } from "react";
-import { firebaseApp, firebaseAuth } from "../Firebase";
+import { firebaseApp, firebaseAuth, firebaseDb } from "../Firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Placeholder } from "react-bootstrap";
 import "./Register.css";
 import axios from "../config/axios";
+import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import useTotalSaveUser from "../hooks/useTotalSaveUser";
 
 import { signInGoogle, signInFacebook } from "../utils/SignInAuthentication";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const { saveUser } = useTotalSaveUser();
+
   const [values, setValues] = useState({
     firstName: "",
     lastName: "",
@@ -58,7 +64,7 @@ export default function Register() {
       errorMessage:
         "Requirements: at least 1 digit, 1 special character from !@#$%^&*, 6-16 characters long",
       placeholder: "Password",
-      pattern: "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$",
+      pattern: "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,30}$",
     },
     {
       id: "registerRepeatPassword",
@@ -77,19 +83,21 @@ export default function Register() {
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        console.log(user);
-        saveUserInfo(
-          values.firstName,
-          values.lastName,
-          values.email,
-          user.uid,
-          new Date()
-        );
-        updateProfile(firebaseAuth.currentUser, {
-          displayName: `user${user.uid.slice(0, 6)}`,
-        }).then(() => {
-          console.log(`user${user.uid.slice(0, 6)}`);
-        });
+        saveUser(values.firstName, values.lastName, values.email, user.uid);
+        // console.log(user);
+        // saveUserInfo(
+        //   values.firstName,
+        //   values.lastName,
+        //   values.email,
+        //   user.uid,
+        //   new Date()
+        // );
+        // updateProfile(firebaseAuth.currentUser, {
+        //   displayName: `user${user.uid.slice(0, 6)}`,
+        // }).then(() => {
+        //   saveToFirebase(values.email, `user${user.uid.slice(0, 6)}`, user.uid);
+        //   console.log(`user${user.uid.slice(0, 6)}`);
+        // });
         // ...
       })
       .catch((error) => {
@@ -97,6 +105,25 @@ export default function Register() {
         // ..
       });
   };
+
+  //SAVING USER to firebase DB to be used to chat
+  const saveToFirebase = async (email, displayName, firebaseUID) => {
+    try {
+      const docRef = await addDoc(
+        collection(firebaseDb, "users", firebaseUID),
+        {
+          uid: firebaseUID,
+          email: email,
+          displayName: displayName,
+        }
+      );
+      console.log("Document written with ID: ", docRef.id);
+      navigate("/");
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   //NEED TO WORK ON THIS
   //request to save userinfo in database
   const saveUserInfo = async (
@@ -140,13 +167,14 @@ export default function Register() {
       <div className="text-center mb-3">
         <p>Sign up with:</p>
       </div>
-
-      <iframe
-        onClick={signInGoogle}
-        className="googleSignIn"
-        src="https://developers.google.com/frame/identity/sign-in/web/demos/signin_contextual_custom.jshtml"
-      ></iframe>
-      <button onClick={signInFacebook}>Facebook</button>
+      <div className="google-facebook">
+        <iframe
+          onClick={signInGoogle}
+          className="googleSignIn"
+          src="https://developers.google.com/frame/identity/sign-in/web/demos/signin_contextual_custom.jshtml"
+        ></iframe>
+        <button onClick={signInFacebook}>Facebook</button>
+      </div>
 
       <form onSubmit={handleSubmit}>
         <p className="text-center">or:</p>

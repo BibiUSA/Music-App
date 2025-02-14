@@ -89,7 +89,9 @@ export default function ChangeUsername(data) {
       )}
       <br></br>
       {ready ? (
-        <span>Must wait for 7 days after change to make changes again. </span>
+        <span>
+          Choose wisely.Must wait for 7 days after change to make changes again.{" "}
+        </span>
       ) : (
         <span>Need to wait more to update. Only one update per week </span>
       )}

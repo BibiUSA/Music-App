@@ -6,9 +6,11 @@ import context from "../../contexts/auth/context";
 import useGet from "../../hooks/useGet";
 import { redirect } from "react-router-dom";
 import { IconAdjustments } from "@tabler/icons-react";
+import { setLogLevel } from "firebase/app";
 
 export default function Home() {
   const [fullData, setFullData] = useState([]);
+  console.log("FULLDATA", fullData);
   const [feedSelection, setFeedSelection] = useState(false);
   //choosing the feed algorithm
   const [feedChoice, setFeedChoice] = useState("Recent");
@@ -52,6 +54,7 @@ export default function Home() {
         e.target.documentElement.scrollTop + window.innerHeight;
       if (currentHeight + 5 >= scrollHeight) {
         offset += 2;
+        console.log("OFFSET", offset);
         get({ offset });
       }
     };

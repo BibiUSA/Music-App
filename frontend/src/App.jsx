@@ -11,6 +11,7 @@ import LogIn from "./pages/LogIn/LogIn";
 import Provider from "./contexts/auth/provider";
 import Settings from "./pages/SettingsPage/SettingsPage";
 import FriendPage from "./pages/FriendPage/FriendPage";
+import Message from "./pages/Messages/Messages";
 
 function App() {
   const fullData = Data.data;
@@ -26,6 +27,7 @@ function App() {
           </div>
           <Routes>
             <Route index path="/" element={<Home />} />
+            <Route path="/messages" element={<Message />} />
             <Route path="/account" element={<Account />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<LogIn />} />

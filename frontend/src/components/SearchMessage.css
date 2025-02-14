@@ -1,0 +1,12 @@
+.searchMessage{
+    align-items: center;
+    border:1px solid gainsboro;
+}
+
+.seachboxMessage{
+    margin: 1vh 0;
+    background-color: transparent;
+    width:90%;
+    border-radius: 5px;
+}
+

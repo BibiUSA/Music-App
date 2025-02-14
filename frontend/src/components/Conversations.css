@@ -1,0 +1,16 @@
+.conversations{
+    margin-top: 10px;
+}
+
+.eachConvo{
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid gainsboro;
+    align-items: center;
+}
+
+.eachConvoImg{
+    width:50px;
+    height:50px;
+
+}

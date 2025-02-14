@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import "./UploadPic.css";
-import { firebaseAuth } from "../Firebase";
+import { firebaseAuth, firebaseDb } from "../Firebase";
 import { updateProfile } from "firebase/auth";
 import context from "../contexts/auth/context";
 import axios from "../config/axios";

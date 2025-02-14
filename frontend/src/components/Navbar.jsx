@@ -76,9 +76,11 @@ export default function Navbar() {
           <IconHome stroke={2} />
         </div>
       </Link>
-      <div className="icons">
-        <IconMessages stroke={2} />
-      </div>
+      <Link to="/messages">
+        <div className="icons">
+          <IconMessages stroke={2} />
+        </div>
+      </Link>
       <div className="nav-right-icons">
         <div className="icons">
           <IconBell stroke={2} />

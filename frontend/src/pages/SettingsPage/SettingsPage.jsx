@@ -31,7 +31,7 @@ export default function Settings() {
       type: "text",
       errorMessage:
         "Requires a letter and minimum of 2 characters. Allowed signs are period, coma, hyphen, apostrophe",
-      placeholder: `${fullData.fname}`,
+      // placeholder: `${fullData.fname}`,
       pattern: "^[A-Za-z][A-Za-z ,.'\\-]{0,24}[A-Za-z]$",
     },
     {
@@ -40,7 +40,7 @@ export default function Settings() {
       type: "text",
       errorMessage:
         "Requires a letter and minimum of 2 characters. Allowed signs are period, coma, hyphen, apostrophe",
-      placeholder: `${fullData.lname}`,
+      // placeholder: `${fullData.lname}`,
       pattern: "^[A-Za-z][A-Za-z ,.'\\-]{0,24}[A-Za-z]$",
     },
   ];
