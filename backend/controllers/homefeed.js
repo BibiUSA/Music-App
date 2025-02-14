@@ -30,8 +30,10 @@ OFFSET ${req.query.offset}`;
       const response = await client.query(getData);
       res.send(response);
     } else if (req.query.user && req.query.feedChoice == "Friends") {
-      const getData = `(SELECT tiles.*, u.img_irl FROM (SELECT t*
-      FROM tile_info t
+      console.log("FRIENDS FEED");
+      const getData = `SELECT feed.*, likes.* FROM (SELECT item.*, u.img_url 
+ FROM (SELECT *
+      FROM tile_info 
       WHERE tile_owner IN (SELECT friend1 
     FROM connections where friend2 = '${req.query.user}'
     AND accept1 = TRUE
@@ -39,16 +41,16 @@ OFFSET ${req.query.offset}`;
     OR tile_owner IN (SELECT friend2 
     FROM connections where friend1 = '${req.query.user}'
     AND accept1 = TRUE
-    AND accept2 = TRUE)) as tiles
-    JOIN user_info u
-    ON tiles.tile_owner = u.username) as first
-    LEFT JOIN (SELECT *
+    AND accept2 = TRUE)) as item
+ 	JOIN user_info u
+	ON item.tile_owner = u.username)as feed
+	LEFT JOIN (SELECT *
 FROM likes
 WHERE username = '${req.query.user}') as likes 
-ON first.tile_id = likes.tile_id
+ON feed.tile_id = likes.tile_id
 ORDER BY created_date DESC
 LIMIT 2
-OFFSET ${req.query.offset}`;
+    OFFSET ${req.query.offset}`;
       const response = await client.query(getData);
       res.send(response);
     } else {
