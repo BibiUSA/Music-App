@@ -185,6 +185,37 @@ export const friendInfo = async (req, res) => {
   }
 };
 
+export const searchFriend = async (req, res) => {
+  try {
+    // const getData = `SELECT u.username, u.img_url, c.*
+    // FROM (SELECT username, img_url
+    // FROM user_info
+    // WHERE username LIKE '%${req.query.search}%') as u
+    // JOIN
+    // ( SELECT * FROM connections
+    // ) as c
+    //  ON (u.username = c.friend1 AND c.friend2 = '${req.query.user}')
+    //  OR (u.username = c.friend2 AND c.friend1 = '${req.query.user}')`;
+    const getData = `SELECT username, img_url, firebase_uid
+    FROM user_info
+    WHERE username IN (SELECT friend1 
+    FROM connections where friend2 = '${req.query.user}'
+    AND LOWER(friend1) LIKE LOWER('%${req.query.search}%')
+    AND accept1 = TRUE
+    AND accept2 = TRUE)
+    OR username IN (SELECT friend2 
+    FROM connections where friend1 = '${req.query.user}'
+    AND LOWER(friend2) LIKE LOWER('%${req.query.search}%')
+    AND accept1 = TRUE
+    AND accept2 = TRUE)`;
+    const response = await client.query(getData);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
 export const updateFriend = async (req, res) => {
   console.log(req.body);
   try {
@@ -239,4 +270,52 @@ export const getAllFriends = async (req, res) => {
     console.log(error);
     res.status(500).send(error);
   }
+};
+export const getAllRequests = async (req, res) => {
+  try {
+    const getData = `SELECT username, img_url 
+    FROM user_info
+    WHERE username IN (SELECT friend1 
+    FROM connections where friend2 = '${req.query.user}'
+    AND accept1 = TRUE
+    AND accept2 = FALSE)
+    OR username IN (SELECT friend2 
+    FROM connections where friend1 = '${req.query.user}'
+    AND accept1 = FALSE
+    AND accept2 = TRUE)`;
+    const response = await client.query(getData);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
+export const checkFriendship = async (req, res) => {
+  try {
+    const getData = `SELECT exists(SELECT 1 FROM connections 
+    WHERE friend1 = '${req.query.sender}'
+    AND friend2 = '${req.query.tile_owner}'
+    AND accept1 = TRUE
+    AND accept2 = TRUE 
+    OR
+    friend1 = '${req.query.tile_owner}'
+    AND friend2 = '${req.query.sender}'
+    AND accept1 = TRUE
+    AND accept2 = TRUE
+    LIMIT 1)`;
+    const response = await client.query(getData);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUID = async (req, res) => {
+  const getData = `SELECT firebase_uid 
+  FROM user_info
+  WHERE UPPER(username) = UPPER('${req.query.tile_owner}');
+  `;
+  const respone = await client.query(getData);
+  res.send(respone);
 };
