@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { firebaseApp, firebaseAuth, firebaseDb } from "../Firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { firebaseAuth } from "../Firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Placeholder } from "react-bootstrap";
 import "./Register.css";
 import axios from "../config/axios";
-import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import useTotalSaveUser from "../hooks/useTotalSaveUser";
 
@@ -84,68 +83,11 @@ export default function Register() {
         // Signed up
         const user = userCredential.user;
         saveUser(values.firstName, values.lastName, values.email, user.uid);
-        // console.log(user);
-        // saveUserInfo(
-        //   values.firstName,
-        //   values.lastName,
-        //   values.email,
-        //   user.uid,
-        //   new Date()
-        // );
-        // updateProfile(firebaseAuth.currentUser, {
-        //   displayName: `user${user.uid.slice(0, 6)}`,
-        // }).then(() => {
-        //   saveToFirebase(values.email, `user${user.uid.slice(0, 6)}`, user.uid);
-        //   console.log(`user${user.uid.slice(0, 6)}`);
-        // });
-        // ...
       })
       .catch((error) => {
         console.log(error);
         // ..
       });
-  };
-
-  //SAVING USER to firebase DB to be used to chat
-  const saveToFirebase = async (email, displayName, firebaseUID) => {
-    try {
-      const docRef = await addDoc(
-        collection(firebaseDb, "users", firebaseUID),
-        {
-          uid: firebaseUID,
-          email: email,
-          displayName: displayName,
-        }
-      );
-      console.log("Document written with ID: ", docRef.id);
-      navigate("/");
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
-
-  //NEED TO WORK ON THIS
-  //request to save userinfo in database
-  const saveUserInfo = async (
-    fname,
-    lname,
-    email,
-    firebaseUID,
-    date_created
-  ) => {
-    try {
-      const response = await axios.post("/user/save/", {
-        fname: fname,
-        lname: lname,
-        email: email,
-        firebaseUID: firebaseUID,
-        date_created: date_created,
-      });
-
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleFocus = (e) => {

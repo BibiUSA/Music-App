@@ -1,0 +1,37 @@
+.share{
+    
+    width:80vw;
+    max-width: 900px;
+    height: 60vh;
+    max-height: 800px;
+    background-color: white;
+    z-index: 1;
+    position:fixed;
+    /* bottom: -10%; */
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    box-shadow: 3px 3px 3px 3px gainsboro;
+    transform: translate(-50%, -50%);
+}
+
+.header{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close{
+    background-color: black;
+    border: none;
+}
+
+.close:hover{
+    background-color: pink;
+    color:black;
+
+}
+
+.mssgShare{
+    height: 15%;
+    margin-top: 3%;
+}

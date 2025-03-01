@@ -9,6 +9,13 @@ import Side from "../../components/Side";
 
 export default function Message() {
   const { user } = useContext(context);
+  const [convoPartner, setConvoPartner] = useState([]);
+
+  const getConvoPartner = (data) => {
+    console.log("ConvoPartner granparent", data);
+    setConvoPartner(data);
+  };
+
   //   const [conversations, setConversations] = useState([]);
 
   //   const getMessages = async () => {
@@ -34,8 +41,8 @@ export default function Message() {
   return (
     <div className="messagePage">
       <div className="box">
-        <Side />
-        <Chat />
+        <Side getPartner={getConvoPartner} />
+        <Chat partner={convoPartner} />
         {/* <h3>Messages</h3>
       
       <div className="conversations">{spreadConvo}</div> */}

@@ -11,6 +11,16 @@ import context from "../contexts/auth/context";
 import axios from "../config/axios";
 import EditPost from "./EditPost";
 import DeletePost from "./DeletePost";
+import Share from "./Share";
+import {
+  updateDoc,
+  doc,
+  arrayUnion,
+  Timestamp,
+  serverTimestamp,
+} from "firebase/firestore";
+import { firebaseDb } from "../Firebase";
+import { v4 as uuidv4 } from "uuid";
 
 export default function BottomTile(data) {
   const [heart, setHeart] = useState(<IconHeart stroke={2} className="icon" />); //fills up the heart
@@ -21,6 +31,7 @@ export default function BottomTile(data) {
   const [showEdit, setShowEdit] = useState(false);
   const [report, setReport] = useState(false);
   const [reportText, setReportText] = useState("");
+  const [shareState, setShareState] = useState(false);
   const { user } = useContext(context);
   const tileData = data.data;
 
@@ -150,19 +161,83 @@ export default function BottomTile(data) {
     }
   };
 
-  const sendMessage = async () => {
+  //check to see if tile_owner and user are friends. if so, send message
+  const sendMessage = async (message) => {
     try {
-      const response = await axios.post(`message/send`, {
-        sender: user.displayName,
-        receiver: tileData.tile_owner,
-        message: message,
-        tile_id: tileData.tile_id,
+      const response = await axios.get(`user/checkfriendship`, {
+        params: {
+          sender: user.displayName,
+          tile_owner: tileData.tile_owner,
+        },
       });
-      setMessage("");
-      console.log(response);
+      console.log(response.data.rows[0].exists);
+      if (response.data.rows[0].exists) {
+        const check = await axios.get(`user/uid`, {
+          params: {
+            tile_owner: tileData.tile_owner,
+          },
+        });
+        console.log(check.data.rows[0].firebase_uid);
+        const combinedId =
+          check.data.rows[0].firebase_uid > user.uid
+            ? check.data.rows[0].firebase_uid + user.uid
+            : user.uid + check.data.rows[0].firebase_uid;
+        await updateDoc(doc(firebaseDb, "chats", combinedId), {
+          messages: arrayUnion({
+            id: uuidv4(),
+            text: message,
+            tile: { id: tileData.tile_id, link: tileData.tile_link },
+            senderId: user.uid,
+            date: Timestamp.now(),
+          }),
+        });
+        setMessage("");
+        await updateDoc(doc(firebaseDb, "userChats", user.uid), {
+          [combinedId]: {
+            userinfo: {
+              uid: check.data.rows[0].firebase_uid,
+              displayName: tileData.tile_owner,
+              photoUrl: tileData.img_url,
+            },
+            lastMessage: {
+              message,
+            },
+            date: serverTimestamp(),
+          },
+        });
+
+        await updateDoc(
+          doc(firebaseDb, "userChats", check.data.rows[0].firebase_uid),
+          {
+            [combinedId]: {
+              userinfo: {
+                uid: user.uid,
+                displayName: user.displayName,
+                photoUrl: user.photoURL,
+              },
+              lastMessage: {
+                message,
+              },
+              date: serverTimestamp(),
+            },
+          }
+        );
+
+        setMessage("");
+      } else {
+        setMessage("NOT FRIENDS");
+      }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const share = (tileData) => {
+    setShareState(true);
+  };
+
+  const closeShare = () => {
+    setShareState(false);
   };
 
   return (
@@ -171,9 +246,14 @@ export default function BottomTile(data) {
       {show && <div className="dialog_box bottom">{options()}</div>}
       <div className="icons">
         <div onClick={changeHeart}>{heart}</div>
-        <IconMessageUser stroke={2} className="icon" />
+        <IconMessageUser
+          stroke={2}
+          className="icon"
+          onClick={(tileData) => share(tileData)}
+        />
         <IconDots stroke={2} className="icon" onClick={handleOptions} />
       </div>
+      {shareState && <Share tileData={tileData} close={closeShare} />}
 
       {/* shows how many likes a post have if the tile_owner is the signed in user */}
       {user ? (
@@ -198,11 +278,12 @@ export default function BottomTile(data) {
         }}
         onKeyPress={(event) => {
           if (event.key == "Enter") {
-            sendMessage();
+            sendMessage(message);
           }
         }}
       ></input>
       {showEdit && <EditPost data={tileData} setShowEdit={setShowEdit} />}
+
       {report && (
         <div className="reportBox">
           <textarea

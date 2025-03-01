@@ -7,10 +7,28 @@
     justify-content: space-evenly;
     border: 1px solid gainsboro;
     align-items: center;
+    background-color: white;
+    color:black;
 }
+
+.selectedConvo{
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid gainsboro;
+    align-items: center;
+    background-color: rgb(37, 110, 183);
+    color:white;
+}
+
 
 .eachConvoImg{
     width:50px;
     height:50px;
 
+}
+.partnerName{
+    font-weight: bolder;
+}
+.time{
+    font-size: small;
 }

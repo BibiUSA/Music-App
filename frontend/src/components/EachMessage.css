@@ -1,9 +1,37 @@
 
-.eachMessage{
-    background-color:blue;
+.yourMessage{
+    background-color:rgb(37, 110, 183);
     width:max-content;
     color:white;
     margin: 10px 0;
     padding: 3px;
     border-radius: 5px;
+    position: relative;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.friendMessage{
+    background-color:white;
+    width:max-content;
+    color:black;
+    margin: 10px 0;
+    padding: 3px;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+.myVideo{
+    position: relative;
+    margin-left: auto;
+    margin-right: 20px;
+    border: 1px solid black;
+    width:max-content;
+    background-color: rgb(37, 110, 183);
+}
+
+.friendVideo{
+    margin-left: 20px;
+    width:max-content;
+    background-color: white;
 }

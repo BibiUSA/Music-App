@@ -1,7 +1,9 @@
 .box{
     display: flex;
+    height: 100vh;
 }
 
 .messagePage{
     margin-top: 70px;
+    
 }

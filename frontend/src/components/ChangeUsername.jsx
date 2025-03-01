@@ -3,6 +3,8 @@ import { firebaseAuth } from "../Firebase";
 import { updateProfile } from "firebase/auth";
 import { useContext } from "react";
 import context from "../contexts/auth/context";
+import { firebaseDb } from "../Firebase";
+import { updateDoc, doc } from "firebase/firestore";
 
 export default function ChangeUsername(data) {
   const { user } = useContext(context);
@@ -70,6 +72,20 @@ export default function ChangeUsername(data) {
         // .toISOString().slice(0, 19).replace("T", " "),
       });
       console.log("finished", username, uid, result);
+      changeUsernameFirebase(username, uid);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //adds the data to firestore so that it can be updated for messaging
+  const changeUsernameFirebase = async (username, uid) => {
+    try {
+      const userRef = doc(firebaseDb, "users", uid);
+      await updateDoc(userRef, {
+        displayName: username,
+      });
+      console.log("username is now ", username);
     } catch (error) {
       console.log(error);
     }

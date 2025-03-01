@@ -1,5 +1,5 @@
 // for searching users to send messages to
-import "./SearchMessage.css";
+import "./searchFriend.css";
 import useSearchFriend from "../hooks/useSearchFriend";
 import {
   doc,
@@ -9,15 +9,29 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { firebaseDb } from "../Firebase";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import context from "../contexts/auth/context";
 import OutsideClickHandler from "react-outside-click-handler";
 
-export default function SearchMessage(props) {
+export default function SearchFriend(props) {
   const { friendMatch, searchFriend } = useSearchFriend();
   const [search, setSearch] = useState("");
   const { user } = useContext(context);
   const [searching, setSearching] = useState(false);
+  const [selectedFriends, setSelectedFriends] = useState([]);
+
+  //check to see if friend is the selected friend list
+  const checkFriend = (friend) => {
+    setSelectedFriends((prevSelected) => {
+      if (prevSelected.includes(friend.firebase_uid)) {
+        return prevSelected.filter((id) => id !== friend.firebase_uid);
+      } else {
+        return [...prevSelected, friend.firebase_uid];
+      }
+    });
+  };
+
+  props.getFriends(selectedFriends);
 
   const searchFriendPlus = async (event) => {
     setSearch(event.target.value);
@@ -80,17 +94,17 @@ export default function SearchMessage(props) {
           date: serverTimestamp(),
         },
       });
-      props.changePartner({
-        0: combinedId,
-        1: {
-          date: "",
-          userinfo: {
-            displayName: friend.username,
-            photoUrl: friend.img_url,
-            uid: friend.firebase_uid,
-          },
-        },
-      });
+      //   props.changePartner({
+      //     0: combinedId,
+      //     1: {
+      //       date: "",
+      //       userinfo: {
+      //         displayName: friend.username,
+      //         photoUrl: friend.img_url,
+      //         uid: friend.firebase_uid,
+      //       },
+      //     },
+      //   });
       setSearching(false);
       // console.log(props.changePartner);
     } catch (error) {
@@ -102,11 +116,22 @@ export default function SearchMessage(props) {
     return (
       <div
         key={friend.username}
-        className="friendResult"
-        onClick={() => openChat(friend)}
+        className={
+          selectedFriends.includes(friend.firebase_uid)
+            ? "clickedFriend"
+            : "friendResult"
+        }
+        onClick={() => {
+          checkFriend(friend);
+        }}
       >
         <img className="friendResultImg" src={friend.img_url}></img>{" "}
         <span>{friend.username}</span>
+        <div className="friendCheck">
+          {selectedFriends.includes(friend.firebase_uid) && (
+            <div className="checked"></div>
+          )}
+        </div>
       </div>
     );
   });
@@ -125,7 +150,8 @@ export default function SearchMessage(props) {
           type="text"
           placeholder="Enter User to Chat"
         />
-        {searching && <div className="friendTotal">{spreading}</div>}
+        {/* {searching && <div className="friendTotal">{spreading}</div>} */}
+        <div className="friendTotals">{spreading}</div>
       </div>
     </OutsideClickHandler>
   );

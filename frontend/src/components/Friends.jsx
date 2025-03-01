@@ -7,11 +7,13 @@ import context from "../contexts/auth/context";
 export default function Friends() {
   const { user } = useContext(context);
   const [offset, setOffset] = useState(0);
+  const [feed, setFeed] = useState("friends");
   console.log("friend user", user.displayName);
 
   const [friendList, setFriendList] = useState([]);
 
   const getAllFriends = async () => {
+    console.log("getting friends");
     try {
       const result = await axios.get("/user/allfriends", {
         params: { user: user.displayName, offset: 0 },
@@ -23,9 +25,34 @@ export default function Friends() {
     }
   };
 
+  const getAllRequests = async () => {
+    console.log("getting requests");
+    try {
+      const result = await axios.get("/user/allrequests", {
+        params: { user: user.displayName, offset: 0 },
+      });
+      setFriendList(result.data.rows);
+      console.log(result.data.rows);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const changeFeed = (feedChoice) => {
+    if (feed != feedChoice) {
+      setFeed(feedChoice);
+      setOffset(0);
+    }
+  };
+
   useEffect(() => {
-    getAllFriends();
-  }, [offset]);
+    if (feed == "friends") {
+      getAllFriends();
+    } else if (feed == "requests") {
+      getAllRequests();
+      console.log("requests");
+    }
+  }, [offset, feed]);
 
   const yourFriends = friendList.map((friend) => {
     return (
@@ -41,7 +68,22 @@ export default function Friends() {
   return (
     <div className="friends">
       <div className="heading">
-        <h4>Friends</h4>
+        <div
+          className={feed == "friends" ? "onButton" : "offButton"}
+          onClick={() => {
+            changeFeed("friends");
+          }}
+        >
+          Show Friends
+        </div>
+        <div
+          className={feed == "friends" ? "offButton" : "onButton"}
+          onClick={() => {
+            changeFeed("requests");
+          }}
+        >
+          Show Requests
+        </div>
       </div>
       <div className="friends-list">{yourFriends}</div>
     </div>

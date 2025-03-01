@@ -140,6 +140,10 @@
     
 }
 
+.shareBox{
+    position: absolute;
+}
+
 /* @media (min-width: 800px) {
     .bottomTile .icons {
         border: 1px solid red;

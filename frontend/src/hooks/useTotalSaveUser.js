@@ -1,5 +1,5 @@
 import axios from "../config/axios";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { firebaseDb, firebaseAuth } from "../Firebase";
 import { updateProfile } from "firebase/auth";
@@ -22,11 +22,13 @@ export default function useTotalSaveUser() {
         displayName: `user${uid.slice(0, 6)}`,
       });
 
-      await await addDoc(collection(firebaseDb, "users", uid), {
+      await setDoc(doc(firebaseDb, "users", uid), {
         uid: uid,
         email: email,
         displayName: `user${uid.slice(0, 6)}`,
       });
+
+      await setDoc(doc(firebaseDb, "userChats", uid), {});
 
       navigate("/");
     } catch (error) {
