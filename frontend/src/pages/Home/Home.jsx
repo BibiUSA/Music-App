@@ -44,6 +44,7 @@ export default function Home() {
   });
 
   useEffect(() => {
+    //might need to be removed to allow Google signed in users
     if (!user) {
       return <redirect to="login" />;
     }

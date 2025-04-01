@@ -48,9 +48,10 @@ export default function Conversations(props) {
         <div className="eachConvoInfo">
           <h6 className="partnerName">{convo[1]["userinfo"]["displayName"]}</h6>
           <p>
-            {/* {convo[1]["lastMessage"]?["say"]
-              ? convo[1]["lastMessage"]["say"]
-              : "Chat"} */}
+            {/* causes bugs when there is no last message */}
+            {convo[1]["lastMessage"]["message"] == "noMssgYet0000"
+              ? ""
+              : convo[1]["lastMessage"]["message"]}
           </p>
           <p className="time">{time.slice(0, -5)}</p>
         </div>

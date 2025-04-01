@@ -110,16 +110,17 @@ export default function Register() {
         <p>Sign up with:</p>
       </div>
       <div className="google-facebook">
-        <iframe
+        {/* <iframe
           onClick={signInGoogle}
           className="googleSignIn"
           src="https://developers.google.com/frame/identity/sign-in/web/demos/signin_contextual_custom.jshtml"
-        ></iframe>
-        <button onClick={signInFacebook}>Facebook</button>
+        ></iframe> */}
+        {/* <button onClick={signInFacebook}>Facebook</button> */}
       </div>
 
       <form onSubmit={handleSubmit}>
-        <p className="text-center">or:</p>
+        {/* turned off for now */}
+        {/* <p className="text-center">or:</p> */}
 
         {inputs.map((input) => (
           <div key={input.id} data-mdb-input-init className="form-outline mb-4">

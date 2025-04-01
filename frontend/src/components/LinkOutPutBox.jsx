@@ -76,6 +76,10 @@ export default function LinkOutPutBox() {
 
   const sharePost = async (linked) => {
     const date = new Date();
+    if (desc.length < 1) {
+      console.log("look at desc", desc);
+      return;
+    }
     console.log(date);
     try {
       const result = await axios.post(`/create/newpost`, {

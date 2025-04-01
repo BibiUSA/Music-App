@@ -7,7 +7,7 @@
     left:0px;
     display: flex;
     justify-content: center; 
-    align-items: center;
+    align-items:flex-start;
     max-width: 1680px;
     box-shadow: 2px 2px 3px gainsboro;
 }
@@ -39,3 +39,20 @@
 .nav-right-icons{
   display: flex;
 }
+
+
+@media (max-width: 800px) {
+  .searchingSection{
+    position: absolute;
+    top:40px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 2px 2px 2px gainsboro;
+  }
+
+  .icons {
+    margin:-30px 7vw;
+  }
+}
+
+

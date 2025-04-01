@@ -1,7 +1,7 @@
 .side{
     width:30vw;
     height:100vh;
-    position: static;
+    position: realative;
     background-color: white;
     
 }

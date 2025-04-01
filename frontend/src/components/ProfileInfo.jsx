@@ -25,7 +25,7 @@ export default function ProfileInfo() {
             ? user.photoURL
             : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
         }
-        className="rounded-circle img-fluid profilePic"
+        className=" profilePic"
       ></img>
       <div className="card">
         <h5 className="card-title">
@@ -34,10 +34,12 @@ export default function ProfileInfo() {
         {user ? (
           <Link to="/settings">
             <IconSettingsCog stroke={1.5} width={40} height={40} />
+            <p>settings</p>
           </Link>
         ) : (
           <Link onClick={() => signinAlert("adjust settings")}>
             <IconSettingsCog stroke={1.5} width={40} height={40} />
+            <p>settings</p>
           </Link>
         )}
 

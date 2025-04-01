@@ -16,6 +16,12 @@ export function signInGoogle() {
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
+      console.log(token);
+      newUser(user).then(() => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        console.log(user);
+      });
       // The signed-in user info.
       const user = result.user;
       // IdP data available using getAdditionalUserInfo(result)

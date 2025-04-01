@@ -1,11 +1,12 @@
 import EachMessage from "./EachMessage";
 import { firebaseDb } from "../Firebase";
 import { getDoc, doc, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./ConvoMessage.css";
 
 export default function ConvoMessage(props) {
   const [totalMess, setTotalMess] = useState([]);
+  const endOfMessageRef = useRef(null);
 
   useEffect(() => {
     if (Object.keys(props.partner).length > 0) {
@@ -20,6 +21,16 @@ export default function ConvoMessage(props) {
       };
     }
   }, [props.partner["combinedId"]]);
+
+  //scrolls to the bottom of the text message nstantly
+  useEffect(() => {
+    endOfMessageRef.current?.scrollIntoView({ behavior: "instant" });
+  }, []);
+
+  //scrolls to the bottom smoothly to the text when new text comes in
+  useEffect(() => {
+    endOfMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [totalMess]);
 
   console.log(totalMess);
 
@@ -40,6 +51,7 @@ export default function ConvoMessage(props) {
       {totalMess.map((message) => {
         return <EachMessage info={message} key={message.id} />;
       })}
+      <div ref={endOfMessageRef}></div>
     </div>
   );
 }

@@ -22,15 +22,28 @@ export default function SearchFriend(props) {
 
   //check to see if friend is the selected friend list
   const checkFriend = (friend) => {
+    console.log(friend);
     setSelectedFriends((prevSelected) => {
-      if (prevSelected.includes(friend.firebase_uid)) {
-        return prevSelected.filter((id) => id !== friend.firebase_uid);
+      if (prevSelected?.some((obj) => obj.uid == friend.firebase_uid)) {
+        console.log("found");
+        // return delete prevSelected[friend.firebase_uid];
+        return prevSelected.filter((id) => id.uid !== friend.firebase_uid);
       } else {
-        return [...prevSelected, friend.firebase_uid];
+        return [
+          ...prevSelected,
+          {
+            uid: friend.firebase_uid,
+            username: friend.username,
+            img_url: friend.img_url,
+          },
+        ];
       }
     });
   };
 
+  console.log(selectedFriends);
+
+  //gets data to the parent
   props.getFriends(selectedFriends);
 
   const searchFriendPlus = async (event) => {
@@ -58,6 +71,7 @@ export default function SearchFriend(props) {
         //stores the conversation under the logged in user
       }
 
+      //checks to see if the userChat is there- where last message is stored
       const docRefTwo = doc(firebaseDb, "userChats", user.uid);
       const resTwo = await getDoc(docRefTwo);
 
@@ -79,6 +93,9 @@ export default function SearchFriend(props) {
             displayName: friend.username,
             photoUrl: friend.img_url,
           },
+          lastMessage: {
+            message: "noMssgYet0000",
+          },
           date: serverTimestamp(),
         },
       });
@@ -90,6 +107,9 @@ export default function SearchFriend(props) {
             uid: user.uid,
             displayName: user.displayName,
             photoUrl: user.photoURL,
+          },
+          lastMessage: {
+            message: "noMssgYet0000",
           },
           date: serverTimestamp(),
         },
@@ -117,8 +137,9 @@ export default function SearchFriend(props) {
       <div
         key={friend.username}
         className={
-          selectedFriends.includes(friend.firebase_uid)
-            ? "clickedFriend"
+          searchFriend[friend.firebase_uid]
+            ? //   selectedFriends.includes(friend.firebase_uid)
+              "clickedFriend"
             : "friendResult"
         }
         onClick={() => {
@@ -128,9 +149,10 @@ export default function SearchFriend(props) {
         <img className="friendResultImg" src={friend.img_url}></img>{" "}
         <span>{friend.username}</span>
         <div className="friendCheck">
-          {selectedFriends.includes(friend.firebase_uid) && (
-            <div className="checked"></div>
-          )}
+          {Array.isArray(selectedFriends) &&
+            selectedFriends.some((obj) => obj.uid == friend.firebase_uid) && (
+              <div className="checked"></div>
+            )}
         </div>
       </div>
     );

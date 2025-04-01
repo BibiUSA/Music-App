@@ -13,25 +13,25 @@ import { v4 as uuidv4 } from "uuid";
 import context from "../contexts/auth/context";
 
 export default function SendMessage(props) {
-  const [say, setSay] = useState("");
+  const [message, setMessage] = useState("");
   console.log(props.partner);
   const { user } = useContext(context);
   console.log(user);
 
-  const sendSay = async (e) => {
-    if (e.key === "Enter" && say.length > 0) {
+  const sendMessage = async (e) => {
+    if (e.key === "Enter" && message.length > 0) {
       console.log("Entered");
       try {
         await updateDoc(doc(firebaseDb, "chats", props.partner["combinedId"]), {
           messages: arrayUnion({
             id: uuidv4(),
-            text: say,
+            text: message,
             senderId: user.uid,
             date: Timestamp.now(),
           }),
         });
 
-        setSay("");
+        setMessage("");
 
         await updateDoc(doc(firebaseDb, "userChats", user.uid), {
           [props.partner["combinedId"]]: {
@@ -41,7 +41,7 @@ export default function SendMessage(props) {
               photoUrl: props.partner["img_url"],
             },
             lastMessage: {
-              say,
+              message,
             },
             date: serverTimestamp(),
           },
@@ -55,7 +55,7 @@ export default function SendMessage(props) {
               photoUrl: user.photoURL,
             },
             lastMessage: {
-              say,
+              message,
             },
             date: serverTimestamp(),
           },
@@ -74,12 +74,12 @@ export default function SendMessage(props) {
       <input
         className="sendmessageinput"
         onChange={(e) => {
-          setSay(e.target.value);
+          setMessage(e.target.value);
         }}
-        onKeyDown={(e) => sendSay(e)}
+        onKeyDown={(e) => sendMessage(e)}
         type="textarea"
         placeholder="Send Message Here"
-        value={say}
+        value={message}
       />
     </div>
   );
