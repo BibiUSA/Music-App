@@ -1,5 +1,5 @@
 import "./Share.css";
-import SearchFriend from "./searchFriend";
+import SearchFriend from "./SearchFriend";
 import MessageShare from "./MessageShare";
 import { useState } from "react";
 
