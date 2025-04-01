@@ -1,5 +1,5 @@
 // for searching users to send messages to
-import "./searchFriend.css";
+import "./SearchFriend.css";
 import useSearchFriend from "../hooks/useSearchFriend";
 import {
   doc,
