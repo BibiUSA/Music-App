@@ -92,23 +92,24 @@ export default function ChangeUsername(data) {
   };
 
   return (
-    <form onSubmit={(event) => handleSubmit(event)}>
-      {ready && (
-        <div>
-          <input
-            type="text"
-            name="username"
-            pattern="^[a-zA-Z0-9][a-zA-Z0-9._]{1,13}[a-zA-Z0-9]$"
-          ></input>
-          <button type="submit">Confirm Username</button>
-        </div>
-      )}
-      <br></br>
-      {ready ? (
-        <span>{"Choose wisely.Must can't change username again."} </span>
-      ) : (
-        <span> </span>
-      )}
-    </form>
+    <button>Username Change Coming Soon</button>
+    // <form onSubmit={(event) => handleSubmit(event)}>
+    //   {ready && (
+    //     <div>
+    //       <input
+    //         type="text"
+    //         name="username"
+    //         pattern="^[a-zA-Z0-9][a-zA-Z0-9._]{1,13}[a-zA-Z0-9]$"
+    //       ></input>
+    //       <button type="submit">Confirm Username</button>
+    //     </div>
+    //   )}
+    //   <br></br>
+    //   {ready ? (
+    //     <span>{"Choose wisely.Must can't change username again."} </span>
+    //   ) : (
+    //     <span> </span>
+    //   )}
+    // </form>
   );
 }
