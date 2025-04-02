@@ -30,6 +30,10 @@ app.get("/api", (req, res) => {
   res.json({ fruits: ["apple", "orange", "banana"] });
 });
 
+app.get("/test", (req, res) => {
+  res.send("Server is running");
+});
+
 //MAY BE TAKE OUT- DEPLOYMENT
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
