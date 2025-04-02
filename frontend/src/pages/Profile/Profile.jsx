@@ -6,10 +6,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { signOut } from "firebase/auth";
 import { firebaseAuth } from "../../Firebase";
 import context from "../../contexts/auth/context";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Friends from "../../components/Friends";
 
 export default function Profile() {
+  //MAY BE TAKE OUT- DEPLOYMENT
+  useEffect(() => {
+    console.log("Profile mounted");
+    return () => console.log("Profile unmounted");
+  }, []);
+
   const { user } = useContext(context);
   const [profileSelection, setProfileSelection] = useState("posts");
 
