@@ -35,11 +35,11 @@ app.get("/test", (req, res) => {
 });
 
 //MAY BE TAKE OUT- DEPLOYMENT
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static(path.join(__dirname, "../frontend/client/dist")));
 
 //MAY BE TAKE OUT- DEPLOYMENT
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/client/dist/index.html"));
 });
 
 // app.listen(8080, () => {
