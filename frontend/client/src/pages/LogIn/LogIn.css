@@ -1,24 +1,41 @@
 .bannersection{
    
+   box-sizing: border-box;
+   width:42vw;
+    overflow: hidden;
+    max-width: 648px;
+    height:100%;
 }
 
 .logIn{
-    
-   
+    background-color: white;
+    height:100vh;
+   padding-top: calc(50vh - 20rem);
 }
+
+#row{
+    display: flex;
+    justify-content: space-between;
+    max-width: 1500px;
+    align-items: center;
+}
+
 
 .signinsection{
     border: 1px solid gainsboro;
     box-shadow: 0px 5px 3px  3px gainsboro;
     border-radius: 2%;
     max-width: 100vw;
+    background-color: white;
+    box-sizing: border-box;
 }
 
 .login_pic{
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
-    width:42vw;
+    width: 100%;
     margin: 0 auto;
+    
 }
 
 @media (max-width: 800px) {
@@ -27,7 +44,8 @@
    }
 
    .signinsection{
-    max-width: 100vw;
+    width: 100%;
    }
+   
 
 }

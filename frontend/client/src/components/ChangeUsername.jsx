@@ -92,7 +92,8 @@ export default function ChangeUsername(data) {
   };
 
   return (
-    <button>Username Change Coming Soon</button>
+    <div></div>
+    // <button>Username Change Coming Soon</button>
     // <form onSubmit={(event) => handleSubmit(event)}>
     //   {ready && (
     //     <div>

@@ -1,10 +1,17 @@
 .searchMessage{
     align-items: center;
     border:1px solid gainsboro;
+    box-sizing: border-box;
+    position: fixed;
+    width:30%;
+    max-width: 504px;
+    background-color: white;
+    height:3.5rem;
+    z-index: 100;
 }
 
 .seachboxMessage{
-    margin: 1vh 0;
+    margin: 2% 0;
     background-color: transparent;
     width:90%;
     border-radius: 5px;

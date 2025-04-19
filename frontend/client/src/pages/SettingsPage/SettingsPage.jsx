@@ -115,6 +115,12 @@ export default function Settings() {
               data-mdb-input-init
               className="form-outline mb-4"
             >
+              <label className="form-label" htmlFor={input.id}>
+                {input.name}
+              </label>
+              <span className="label-span">
+                {input.name == "firstName" ? "First Name" : "Last Name"}
+              </span>
               <input
                 type={input.type}
                 id={input.id}
@@ -131,14 +137,11 @@ export default function Settings() {
               ></input>
               <span className="errorMsg">{input.errorMessage}</span>
               {/* not sure why this isn't showing */}
-              <label className="form-label" htmlFor={input.id}>
-                {input.name}
-              </label>
             </div>
           ))}
           <button
             type="submit"
-            className="btn btn-primary button-x"
+            className="btn btn-primary button-x update-button"
             // onClick={editName}
           >
             Update Name

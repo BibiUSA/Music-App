@@ -1,6 +1,10 @@
 .searchMessage{
     align-items: center;
     border:1px solid gainsboro;
+    position: absolute;
+    top:50%;
+    width: 80vw;
+    max-width: 900px;
 }
 
 .seachboxMessage{
@@ -19,10 +23,11 @@
 .friendTotals{
     border: 1px solid gainsboro;
     background-color: white;
-    min-height: 200px;
+    /* min-height: 200px; */
     width: 90%;
     height:60%;
     margin: 0 auto;
+
 }
 
 .friendResultImg{

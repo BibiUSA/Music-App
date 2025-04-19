@@ -1,12 +1,20 @@
 .chat{
     background-color: gainsboro;
-    height: 100vh;
+    min-height: calc(100%-7rem);
+    /* height: calc(100%-10vh); */
     width:70%;
+    border:1px solid gainsboro;
+    
 }
 
 .messagePartner{
     background-color: white;
-    height:40px;
+    border-top:1px solid gainsboro;
+    height:2.5rem;
     text-align: center;
     align-content: center;
+    /* position: fixed; */
+    width:100%;
+    box-sizing: border-box;
+    z-index: 100;
 }

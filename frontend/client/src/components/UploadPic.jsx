@@ -70,6 +70,7 @@ export default function UploadPic() {
           type="textarea"
           id="imageLink"
           value={text}
+          placeholder="Enter Image Link"
           onChange={(event) => {
             setText(event.target.value);
           }}

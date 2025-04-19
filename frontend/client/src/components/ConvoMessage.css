@@ -1,8 +1,7 @@
 .messages{
-    max-height: 800px;
+    max-height: calc(80vh);
     margin-top: 5vh;
     overflow-y: auto;
     background-color: gainsboro;
-    
     padding-bottom: 11vh;
 }

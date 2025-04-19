@@ -1,14 +1,19 @@
 .upload-pic{
-    background-color: grey;
+    background-color: white;
     /* display: flex;
     justify-content: space-around; */
-
+    padding: 5px auto;
     max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 2rem auto;
 }
 
+.profile-pic{
+    margin: 1rem;
+}
 
 label{
     color:black;
@@ -17,8 +22,20 @@ label{
 
 
 .imageLinkLabel{
-   
-    color:red;
-  
+    
+    color:black;
 
+}
+
+#imageLink{
+    background-color: gainsboro;
+    color:black;
+    text-decoration: black;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    padding: 3px 6px;
+}
+
+#imageLink ::placeholder{
+    color: black;
 }

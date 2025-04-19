@@ -1,9 +1,11 @@
 .box{
     display: flex;
-    height: 100vh;
+    height: 100%;
+ 
 }
 
 .messagePage{
-    margin-top: 70px;
-   
+    margin-top: 3.75rem;
+    height: calc(100vh - 3.5rem);
+    background-color: green;
 }

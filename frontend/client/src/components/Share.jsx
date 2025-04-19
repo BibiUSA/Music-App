@@ -25,10 +25,11 @@ export default function Share(props) {
           x
         </button>
       </div>
-      <SearchFriend getFriends={getState} />
+
       <div className="mssgShare">
         <MessageShare friends={childFriends} tileData={props.tileData} />
       </div>
+      <SearchFriend getFriends={getState} />
     </div>
   );
 }

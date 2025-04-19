@@ -4,20 +4,23 @@ import {
   IconMessages,
   IconUserCircle,
   IconBell,
+  IconSearch,
 } from "@tabler/icons-react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../config/axios";
 import SearchUser from "./SearchUser";
 import OutsideClickHandler from "react-outside-click-handler";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [searchWord, setSearchWord] = useState("");
   const [results, setResults] = useState([]);
   const [searchBox, setSearchBox] = useState(false);
+  const [mobileSearch, setMobileSearch] = useState(false);
 
-  console.log("LINKNAME", window.location.href);
+  console.log(mobileSearch);
 
   const search = async (event) => {
     setSearchWord(event.target.value);
@@ -39,7 +42,7 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <div
-        className="searchingSection"
+        className={mobileSearch ? "mobileSearchSection" : "searchingSection"}
         onFocus={() => {
           setSearchBox(true);
         }}
@@ -53,7 +56,7 @@ export default function Navbar() {
           }}
         >
           <input
-            className="search"
+            className={mobileSearch ? "mobileSearch" : "search"}
             type="text"
             placeholder="Search Users"
             value={searchWord}
@@ -71,26 +74,33 @@ export default function Navbar() {
           )}
         </OutsideClickHandler>
       </div>
-
-      <Link to="/">
-        <div className="icons">
-          <IconHome stroke={2} />
+      <div className="links">
+        <div
+          className="search_icon"
+          onClick={() => setMobileSearch(!mobileSearch)}
+        >
+          <IconSearch stroke={2} />
         </div>
-      </Link>
-      <Link to="/messages">
-        <div className="icons">
-          <IconMessages stroke={2} />
-        </div>
-      </Link>
-      <div className="nav-right-icons">
-        <div className="icons">
+        <Link to="/">
+          <div className="icons">
+            <IconHome stroke={2} />
+          </div>
+        </Link>
+        <Link to="/messages">
+          <div className="icons">
+            <IconMessages stroke={2} />
+          </div>
+        </Link>
+        {/* <div className="nav-right-icons"> */}
+        {/* <div className="icons">
           <IconBell stroke={2} />
-        </div>
+        </div> */}
         <Link to="/profile">
           <div className="icons">
             <IconUserCircle stroke={2} />
           </div>
         </Link>
+        {/* </div> */}
       </div>
     </div>
   );

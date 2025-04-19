@@ -173,7 +173,7 @@ export default function SearchFriend(props) {
           placeholder="Enter User to Chat"
         />
         {/* {searching && <div className="friendTotal">{spreading}</div>} */}
-        <div className="friendTotals">{spreading}</div>
+        {searching && <div className="friendTotals">{spreading}</div>}
       </div>
     </OutsideClickHandler>
   );

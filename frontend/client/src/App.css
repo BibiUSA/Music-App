@@ -7,17 +7,18 @@
   /* background-color: black; */
 }
 
-.nav{
+ .nav{
   position: fixed;
-  top:0;
+  top:-2rem;
   left:0;
   width:100%;
-  z-index: 2;
   background-color: white;
-  display: flex;
-  justify-content: center;
-
-}
+  padding-top: 0px;
+  height:0px;
+  display: hidden;
+  box-sizing: border-box;
+  z-index: 100;
+} 
 
 
 /* .box{

@@ -12,30 +12,32 @@ import Provider from "./contexts/auth/provider";
 import Settings from "./pages/SettingsPage/SettingsPage";
 import FriendPage from "./pages/FriendPage/FriendPage";
 import Message from "./pages/Messages/Messages";
+import { useLocation } from "react-router-dom";
 
 function App() {
   const fullData = Data.data;
+  const location = useLocation();
 
   console.log(import.meta.env);
 
   return (
     <div className="app">
-      <BrowserRouter>
-        <Provider>
+      <Provider>
+        {location.pathname !== "/login" && (
           <div className="nav">
             <Navbar />
           </div>
-          <Routes>
-            <Route index path="/" element={<Home />} />
-            <Route path="/messages" element={<Message />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/friend/:friend" element={<FriendPage />} />
-          </Routes>
-        </Provider>
-      </BrowserRouter>
+        )}
+        <Routes>
+          <Route index path="/" element={<Home />} />
+          <Route path="/messages" element={<Message />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/friend/:friend" element={<FriendPage />} />
+        </Routes>
+      </Provider>
     </div>
   );
 }

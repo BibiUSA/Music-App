@@ -1,7 +1,11 @@
 .side{
-    width:30vw;
-    height:100vh;
-    position: realative;
-    background-color: white;
+    width:30%;
+    /* margin-top: 3.5%;
+    height:calc(100%-3.5%); */
+    height:100%;
+    position: relative;
+    /* background-color: green; */
     
+    /* border:2px solid green; */
+    box-sizing: border-box;
 }

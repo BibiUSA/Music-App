@@ -5,7 +5,7 @@ import SignInBox from "../../components/SignInBox";
 export default function LogIn() {
   return (
     <div className="logIn container-xl">
-      <div className="row">
+      <div id="row">
         <section className="bannersection col-md-6">
           <img
             src="https://thumbs.dreamstime.com/b/music-together-sharing-music-music-brains-music-lover-51701642.jpg"
