@@ -7,7 +7,7 @@ export const saveUserInfo = async (req, res) => {
       req.body.email,
       req.body.fname,
       req.body.lname,
-      "user" + req.body.firebaseUID.slice(0, 6),
+      req.body.username,
       req.body.firebaseUID,
       req.body.date_created,
     ];

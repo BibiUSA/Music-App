@@ -31,7 +31,7 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/test", (req, res) => {
-  res.send("Server is running");
+  res.send("Server is running fine");
 });
 
 //MAY BE TAKE OUT- DEPLOYMENT
