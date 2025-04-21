@@ -164,7 +164,7 @@ export default function SearchFriend(props) {
         setSearching(false);
       }}
     >
-      <div className="searchMessage" onFocus={() => setSearching(true)}>
+      <div className="searchFriend" onFocus={() => setSearching(true)}>
         <input
           className="seachboxMessage"
           onChange={(event) => searchFriendPlus(event)}

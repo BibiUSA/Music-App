@@ -1,14 +1,15 @@
 
 .successbox{
-    border: 1px solid black;
+    border: 1px solid gainsboro;
+    box-shadow: 4px 4px 2px 2px gainsboro;
     position: fixed;
     width:60vw;
     height:50vh;
     left:20vw;
     top:20vh;
-    background-color: rgb(235, 237, 243);
     border-radius: 5px;
     padding: 5% 5%;
+    background-color: white;
     
 }
 
@@ -19,4 +20,12 @@
 
 .button{
     margin: 5%;
+    background-color: rgb(38, 72, 183);
+    border: 1px solid rgb(38, 72, 183);
+    box-shadow: 1px 1px 1px rgb(38, 72, 183);
+}
+
+.button:hover{
+    background-color: white;
+    color: rgb(38, 72, 183);
 }

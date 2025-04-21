@@ -32,9 +32,9 @@
     
 }
 
-/* 
-@media (max-width:1700px){
+
+@media (min-width:700px) and (max-height:900px) {
     .root{
-        min-height: 100vw;
+        min-height: 750px;
     }
-} */
+}

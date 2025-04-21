@@ -7,10 +7,12 @@ input{
     /* display: flex; */
     /* justify-content: space-around; */
     
-    border: 1px solid black;
+ 
     background-color: white;
     height: 100vh;
     padding-top: 3.75rem;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .settingBox{
