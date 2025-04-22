@@ -27,7 +27,11 @@ export default function Share(props) {
       </div>
 
       <div className="mssgShare">
-        <MessageShare friends={childFriends} tileData={props.tileData} />
+        <MessageShare
+          friends={childFriends}
+          tileData={props.tileData}
+          close={props.close}
+        />
       </div>
       <SearchFriend getFriends={getState} />
     </div>

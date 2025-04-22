@@ -18,6 +18,9 @@ import {
   arrayUnion,
   Timestamp,
   serverTimestamp,
+  getDoc,
+  increment,
+  setDoc,
 } from "firebase/firestore";
 import { firebaseDb } from "../Firebase";
 import { v4 as uuidv4 } from "uuid";
@@ -192,19 +195,101 @@ export default function BottomTile(data) {
           }),
         });
         setMessage("");
-        await updateDoc(doc(firebaseDb, "userChats", user.uid), {
-          [combinedId]: {
-            userinfo: {
-              uid: check.data.rows[0].firebase_uid,
-              displayName: tileData.tile_owner,
-              photoUrl: tileData.img_url,
-            },
-            lastMessage: {
-              message,
-            },
-            date: serverTimestamp(),
-          },
-        });
+
+        //Check to see if userChat between 2 users, especially the receiving user exists
+        const docRef = doc(
+          firebaseDb,
+          "userChats",
+          check.data.rows[0].firebase_uid
+        );
+        const res = await getDoc(docRef);
+
+        //if it exists, check to see if "seen" exists and if seen is not false, set as false
+        //and increment unseenMessage by 1
+        if (res.exists()) {
+          console.log("RAN");
+          const data = res.data();
+          const seen = data[combinedId]?.lastMessage?.seen;
+
+          if (seen !== false) {
+            const docRef2 = doc(
+              firebaseDb,
+              "unseenMessages",
+              check.data.rows[0].firebase_uid
+            );
+            const res2 = await getDoc(docRef2);
+            //IF MESSAGE NOTIFICATION HASN"T BEEN CREATED, create one
+            if (!res2.exists()) {
+              await setDoc(
+                doc(
+                  firebaseDb,
+                  "unseenMessages",
+                  check.data.rows[0].firebase_uid
+                ),
+                { unseenMessage: 1 }
+              );
+            } else {
+              await updateDoc(
+                doc(
+                  firebaseDb,
+                  "unseenMessages",
+                  check.data.rows[0].firebase_uid
+                ),
+                {
+                  unseenMessage: increment(1),
+                }
+              );
+            }
+          }
+        } else {
+          await setDoc(
+            doc(firebaseDb, "unseenMessages", check.data.rows[0].firebase_uid),
+            {
+              unseenMessage: increment(1),
+            }
+          );
+        }
+
+        //so that if last message wasn't seen by the sender, it won't be marked as seen
+        const docRef3 = doc(firebaseDb, "userChats", user.uid);
+        const res3 = await getDoc(docRef3);
+
+        if (res3.exists()) {
+          const data = res3.data();
+          const seen = data[combinedId]?.lastMessage?.seen;
+
+          if (seen !== false) {
+            await updateDoc(doc(firebaseDb, "userChats", user.uid), {
+              [combinedId]: {
+                userinfo: {
+                  uid: check.data.rows[0].firebase_uid,
+                  displayName: tileData.tile_owner,
+                  photoUrl: tileData.img_url,
+                },
+                lastMessage: {
+                  message,
+                  seen: true,
+                },
+                date: serverTimestamp(),
+              },
+            });
+          } else {
+            await updateDoc(doc(firebaseDb, "userChats", user.uid), {
+              [combinedId]: {
+                userinfo: {
+                  uid: check.data.rows[0].firebase_uid,
+                  displayName: tileData.tile_owner,
+                  photoUrl: tileData.img_url,
+                },
+                lastMessage: {
+                  message,
+                  seen: false,
+                },
+                date: serverTimestamp(),
+              },
+            });
+          }
+        }
 
         await updateDoc(
           doc(firebaseDb, "userChats", check.data.rows[0].firebase_uid),
@@ -217,6 +302,7 @@ export default function BottomTile(data) {
               },
               lastMessage: {
                 message,
+                seen: false,
               },
               date: serverTimestamp(),
             },

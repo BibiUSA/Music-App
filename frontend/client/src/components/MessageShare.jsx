@@ -20,6 +20,7 @@ export default function MessageShare(props) {
         props.tileData.tile_link,
       ]);
     }
+    props.close();
   };
 
   return (

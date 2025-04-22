@@ -8,19 +8,41 @@ import {
 } from "@tabler/icons-react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "../config/axios";
 import SearchUser from "./SearchUser";
 import OutsideClickHandler from "react-outside-click-handler";
 import { useLocation } from "react-router-dom";
+import { onSnapshot, doc } from "firebase/firestore";
+import { firebaseDb } from "../Firebase";
+import context from "../contexts/auth/context";
 
 export default function Navbar() {
   const [searchWord, setSearchWord] = useState("");
   const [results, setResults] = useState([]);
   const [searchBox, setSearchBox] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
-
+  const [newMessage, setNewMessage] = useState([]);
   console.log(mobileSearch);
+  const { user } = useContext(context);
+
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(
+        doc(firebaseDb, "unseenMessages", user.uid),
+        (doc) => {
+          setNewMessage(doc.data());
+        }
+      );
+
+      return () => {
+        unsub();
+      };
+    };
+    user.uid && getChats();
+  }, [user.uid]);
+
+  console.log(newMessage["unseenMessage"]);
 
   const search = async (event) => {
     setSearchWord(event.target.value);
@@ -87,8 +109,13 @@ export default function Navbar() {
           </div>
         </Link>
         <Link to="/messages">
-          <div className="icons">
+          <div
+            className={newMessage["unseenMessage"] > 0 ? "red-icon" : "icons"}
+          >
             <IconMessages stroke={2} />
+            <p className="mssg-notification">
+              {newMessage["unseenMessage"] > 0 && newMessage["unseenMessage"]}
+            </p>
           </div>
         </Link>
         {/* <div className="nav-right-icons"> */}

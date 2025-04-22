@@ -95,6 +95,7 @@ export default function SearchFriend(props) {
           },
           lastMessage: {
             message: "noMssgYet0000",
+            seen: true,
           },
           date: serverTimestamp(),
         },
@@ -110,6 +111,7 @@ export default function SearchFriend(props) {
           },
           lastMessage: {
             message: "noMssgYet0000",
+            seen: true,
           },
           date: serverTimestamp(),
         },

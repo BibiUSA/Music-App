@@ -40,3 +40,8 @@
 .time{
     font-size: small;
 }
+
+.boldMssg{
+    font-weight: bolder;
+    color: blue;
+}

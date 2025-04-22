@@ -24,15 +24,22 @@
 
 }
 
-
+.red-icon{
+  color:red;
+}
 
 .icons {
   /* margin:0 7vw; */
   color:gray;
+  
 }
 
 .icons:hover{
   color:blue;
+}
+
+.mssg-notification{
+  display: inline;
 }
 
 .searchingSection{

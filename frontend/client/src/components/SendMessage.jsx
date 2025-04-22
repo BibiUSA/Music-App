@@ -2,10 +2,13 @@
 import "./SendMessage.css";
 import {
   updateDoc,
+  getDoc,
   doc,
   arrayUnion,
   Timestamp,
   serverTimestamp,
+  increment,
+  setDoc,
 } from "firebase/firestore";
 import { firebaseDb } from "../Firebase";
 import { useContext, useState } from "react";
@@ -14,7 +17,7 @@ import context from "../contexts/auth/context";
 
 export default function SendMessage(props) {
   const [message, setMessage] = useState("");
-  console.log(props.partner);
+  console.log(props);
   const { user } = useContext(context);
   console.log(user);
 
@@ -33,6 +36,49 @@ export default function SendMessage(props) {
 
         setMessage("");
 
+        //Check to see if userChat between 2 users, especially the receiving user exists
+        const docRef = doc(firebaseDb, "userChats", props.partner["uid"]);
+        const res = await getDoc(docRef);
+
+        //if it exists, check to see if "seen" exists and if seen is not false, set as false
+        //and increment unseenMessage by 1
+        if (res.exists()) {
+          console.log("RAN");
+          const data = res.data();
+          const seen = data[props.partner["combinedId"]]?.lastMessage?.seen;
+
+          if (seen !== false) {
+            const docRef2 = doc(
+              firebaseDb,
+              "unseenMessages",
+              props.partner["uid"]
+            );
+            const res2 = await getDoc(docRef2);
+            //IF MESSAGE NOTIFICATION HASN"T BEEN CREATED, create one
+            if (!res2.exists()) {
+              await setDoc(
+                doc(firebaseDb, "unseenMessages", props.partner["uid"]),
+                { unseenMessage: 1 }
+              );
+            } else {
+              await updateDoc(
+                doc(firebaseDb, "unseenMessages", props.partner["uid"]),
+                {
+                  unseenMessage: increment(1),
+                }
+              );
+            }
+          }
+        } else {
+          await setDoc(
+            doc(firebaseDb, "unseenMessages", props.partner["uid"]),
+            {
+              unseenMessage: increment(1),
+            }
+          );
+        }
+
+        //make sure convo been sender and receiver exists and set senders to seen
         await updateDoc(doc(firebaseDb, "userChats", user.uid), {
           [props.partner["combinedId"]]: {
             userinfo: {
@@ -42,11 +88,13 @@ export default function SendMessage(props) {
             },
             lastMessage: {
               message,
+              seen: true,
             },
             date: serverTimestamp(),
           },
         });
 
+        //make sure convo been sender and receiver exists and set receivers to not seen
         await updateDoc(doc(firebaseDb, "userChats", props.partner["uid"]), {
           [props.partner["combinedId"]]: {
             userinfo: {
@@ -56,6 +104,7 @@ export default function SendMessage(props) {
             },
             lastMessage: {
               message,
+              seen: false,
             },
             date: serverTimestamp(),
           },

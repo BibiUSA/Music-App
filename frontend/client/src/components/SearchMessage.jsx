@@ -59,26 +59,22 @@ export default function SearchMessage(props) {
       }
 
       await updateDoc(doc(firebaseDb, "userChats", user.uid), {
-        [combinedId]: {
-          userinfo: {
-            uid: friend.firebase_uid,
-            displayName: friend.username,
-            photoUrl: friend.img_url,
-          },
-          date: serverTimestamp(),
+        [`${combinedId}.userinfo`]: {
+          uid: friend.firebase_uid,
+          displayName: friend.username,
+          photoUrl: friend.img_url,
         },
+        [`${combinedId}.date`]: serverTimestamp(),
       });
 
       //stores one for the other user
       await updateDoc(doc(firebaseDb, "userChats", friend.firebase_uid), {
-        [combinedId]: {
-          userinfo: {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoUrl: user.photoURL,
-          },
-          date: serverTimestamp(),
+        [`${combinedId}.userinfo`]: {
+          uid: user.uid,
+          displayName: user.displayName,
+          photoUrl: user.photoURL,
         },
+        [`${combinedId}.date`]: serverTimestamp(),
       });
       props.changePartner({
         0: combinedId,

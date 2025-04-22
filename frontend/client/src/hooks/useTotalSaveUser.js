@@ -31,6 +31,10 @@ export default function useTotalSaveUser() {
 
       await setDoc(doc(firebaseDb, "userChats", uid), {});
 
+      await setDoc(doc(firebaseDb, "unseenMessages", uid), {
+        unseenMessage: 0,
+      });
+
       navigate("/");
     } catch (error) {
       console.log(error);
