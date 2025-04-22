@@ -8,7 +8,7 @@ console.log(" Testing Axios Base URL:", axios.defaults.baseURL);
 
 axios.defaults.baseURL = "https://music-app-api-oq6b.onrender.com";
 
-console.log(" Testing Axios Base URL 2:", axios.defaults.baseURL);
+console.log(" Testing Axios Base URL :", axios.defaults.baseURL);
 // axios.defaults.baseURL =
 //   import.meta.env.VITE_API_URL || "http://localhost:8080";
 
