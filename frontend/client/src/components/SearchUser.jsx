@@ -1,10 +1,11 @@
 import "./SearchUser.css";
 import { Link } from "react-router-dom";
+import { environment } from "../environment";
 
 export default function SearchUser(data) {
-  console.log("SEARCH", data);
+  environment.development && console.log("SEARCH", data);
   const viewProfile = () => {
-    console.log("Hey");
+    environment.development && console.log("Hey");
     //NEED TO WRITE THE CODE TO VIEW THEIR PROFILE
   };
   return (

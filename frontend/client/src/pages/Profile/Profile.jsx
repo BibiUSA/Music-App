@@ -8,12 +8,13 @@ import { firebaseAuth } from "../../Firebase";
 import context from "../../contexts/auth/context";
 import { useContext, useState, useEffect } from "react";
 import Friends from "../../components/Friends";
+import { environment } from "../../environment";
 
 export default function Profile() {
   //MAY BE TAKE OUT- DEPLOYMENT
   useEffect(() => {
-    console.log("Profile mounted");
-    return () => console.log("Profile unmounted");
+    environment.development && console.log("Profile mounted");
+    return () => environment.development && console.log("Profile unmounted");
   }, []);
 
   const { user } = useContext(context);

@@ -6,13 +6,14 @@ import context from "../../contexts/auth/context";
 import Conversation from "../../components/Conversation";
 import Chat from "../../components/Chat";
 import Side from "../../components/Side";
+import { environment } from "../../environment";
 
 export default function Message() {
   const { user } = useContext(context);
   const [convoPartner, setConvoPartner] = useState([]);
 
   const getConvoPartner = (data) => {
-    console.log("ConvoPartner granparent", data);
+    environment.development && console.log("ConvoPartner granparent", data);
     setConvoPartner(data);
   };
 

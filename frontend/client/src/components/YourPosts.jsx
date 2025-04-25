@@ -3,13 +3,14 @@ import axios from "../config/axios";
 import Tile from "./Tile";
 import { useContext } from "react";
 import context from "../contexts/auth/context";
+import { environment } from "../environment";
 
 export default function YourPosts(data) {
   const { user } = useContext(context);
 
   const feedPerson = data.data ? data.data.friend : user.displayName;
 
-  console.log(user);
+  environment.development && console.log(user);
   const [fullData, setFullData] = useState([]);
 
   //trying pagination
@@ -31,7 +32,7 @@ export default function YourPosts(data) {
           feedPerson: feedPerson,
         },
       });
-      console.log(response);
+      environment.development && console.log(response);
       if (fullData.length > 1) {
         let newArr = fullData.slice(-2);
         if (newArr[0].tile_id == response.data.rows[0].tile_id) {
@@ -45,14 +46,14 @@ export default function YourPosts(data) {
 
       // console.log(response.data.rows);
     } catch (error) {
-      console.log("fetchFeed err", error);
+      environment.development && console.log("fetchFeed err", error);
     }
   };
 
   //created to avoid duplicates from strictmode
   const uniqueId = [];
 
-  console.log("FULL stuff", fullData);
+  environment.development && console.log("FULL stuff", fullData);
 
   const spreadTile = fullData.map((tileData) => {
     if (!uniqueId.includes(tileData.tile_id)) {

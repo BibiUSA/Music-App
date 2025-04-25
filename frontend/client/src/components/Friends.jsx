@@ -3,38 +3,39 @@ import { Link } from "react-router-dom";
 import axios from "../config/axios";
 import { useState, useContext, useEffect } from "react";
 import context from "../contexts/auth/context";
+import { environment } from "../environment";
 
 export default function Friends() {
   const { user } = useContext(context);
   const [offset, setOffset] = useState(0);
   const [feed, setFeed] = useState("friends");
-  console.log("friend user", user.displayName);
+  environment.development && console.log("friend user", user.displayName);
 
   const [friendList, setFriendList] = useState([]);
 
   const getAllFriends = async () => {
-    console.log("getting friends");
+    environment.development && console.log("getting friends");
     try {
       const result = await axios.get("/user/allfriends", {
         params: { user: user.displayName, offset: 0 },
       });
       setFriendList(result.data.rows);
-      console.log(result.data.rows);
+      environment.development && console.log(result.data.rows);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 
   const getAllRequests = async () => {
-    console.log("getting requests");
+    environment.development && console.log("getting requests");
     try {
       const result = await axios.get("/user/allrequests", {
         params: { user: user.displayName, offset: 0 },
       });
       setFriendList(result.data.rows);
-      console.log(result.data.rows);
+      environment.development && console.log(result.data.rows);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 
@@ -50,7 +51,7 @@ export default function Friends() {
       getAllFriends();
     } else if (feed == "requests") {
       getAllRequests();
-      console.log("requests");
+      environment.development && console.log("requests");
     }
   }, [offset, feed]);
 

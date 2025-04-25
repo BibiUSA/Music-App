@@ -1,6 +1,8 @@
 import axios from "axios";
+import { environment } from "../environment";
 
-console.log(" Testing Axios Base URL:", axios.defaults.baseURL);
+environment.development &&
+  console.log(" Testing Axios Base URL:", axios.defaults.baseURL);
 
 // axios.defaults.baseURL = import.meta.env.DEV
 //   ? "http://localhost:8080"

@@ -14,16 +14,17 @@ import { firebaseDb } from "../Firebase";
 import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import context from "../contexts/auth/context";
+import { environment } from "../environment";
 
 export default function SendMessage(props) {
   const [message, setMessage] = useState("");
-  console.log(props);
+  environment.development && console.log(props);
   const { user } = useContext(context);
-  console.log(user);
+  environment.development && console.log(user);
 
   const sendMessage = async (e) => {
     if (e.key === "Enter" && message.length > 0) {
-      console.log("Entered");
+      environment.development && console.log("Entered");
       try {
         await updateDoc(doc(firebaseDb, "chats", props.partner["combinedId"]), {
           messages: arrayUnion({
@@ -43,7 +44,7 @@ export default function SendMessage(props) {
         //if it exists, check to see if "seen" exists and if seen is not false, set as false
         //and increment unseenMessage by 1
         if (res.exists()) {
-          console.log("RAN");
+          environment.development && console.log("RAN");
           const data = res.data();
           const seen = data[props.partner["combinedId"]]?.lastMessage?.seen;
 
@@ -110,13 +111,13 @@ export default function SendMessage(props) {
           },
         });
 
-        console.log("done");
+        environment.development && console.log("done");
       } catch (error) {
-        console.log(error);
+        environment.development && console.log(error);
       }
     }
   };
-  console.log("wow");
+  environment.development && console.log("wow");
 
   return (
     <div className="sendMessage">

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import "./EditPost.css";
 import axios from "../config/axios";
+import { environment } from "../environment";
 
 export default function EditPost(data) {
-  console.log("EDITPOST", data.data.tile_desc);
+  environment.development && console.log("EDITPOST", data.data.tile_desc);
   const [desc, setDesc] = useState(data.data.tile_desc);
 
   const updatePost = async () => {
@@ -12,12 +13,12 @@ export default function EditPost(data) {
         tile_desc: desc,
         tile_id: data.data.tile_id,
       });
-      console.log(result);
+      environment.development && console.log(result);
       data.setShowEdit(false);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
-    console.log("hellp");
+    environment.development && console.log("hellp");
   };
 
   return (

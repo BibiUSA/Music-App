@@ -7,6 +7,8 @@ import ChangeUsername from "../../components/ChangeUsername";
 import { firebaseAuth } from "../../Firebase";
 import { signOut } from "firebase/auth";
 import "./SettingsPage.css";
+import { environment } from "../../environment";
+
 export default function Settings() {
   const { user } = useContext(context);
   const [fullData, setFullData] = useState([]);
@@ -16,11 +18,11 @@ export default function Settings() {
     window.location = "/login";
   }
 
-  console.log("USER", user);
-  console.log("FULL", fullData);
+  environment.development && console.log("USER", user);
+  environment.development && console.log("FULL", fullData);
 
   useEffect(() => {
-    console.log(user);
+    environment.development && console.log(user);
     getUserInfo();
   }, []);
 
@@ -73,7 +75,7 @@ export default function Settings() {
         ["lastName"]: result.data.rows[0].lname,
       });
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 
@@ -82,16 +84,16 @@ export default function Settings() {
       names.firstName !== fullData.fname ||
       names.lastName !== fullData.lname
     ) {
-      console.log(names);
+      environment.development && console.log(names);
       try {
         const result = await axios.patch(`/user/updatename`, {
           uid: fullData.firebase_uid,
           fname: names.firstName,
           lname: names.lastName,
         });
-        console.log(result);
+        environment.development && console.log(result);
       } catch (error) {
-        console.log(error);
+        environment.development && console.log(error);
       }
     }
     // console.log(names);

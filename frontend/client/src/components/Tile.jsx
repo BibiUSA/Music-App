@@ -4,6 +4,7 @@ import BottomTile from "./BottomTile";
 import "./Tile.css";
 import { useEffect, useRef, useState } from "react";
 import classes from "./tile.module.css";
+import { environment } from "../environment";
 
 export default function Tile(data) {
   const iframeRef = useRef(null);
@@ -11,7 +12,7 @@ export default function Tile(data) {
   //don't think the below is used
   const [isVisible, setIsVisible] = useState();
   const [tileData, setTileData] = useState(data.data);
-  console.log(tileData);
+  environment.development && console.log(tileData);
 
   //if state is visible, play the video, or else pause
   //may not need this

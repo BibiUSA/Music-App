@@ -9,6 +9,7 @@ import {
 import context from "../contexts/auth/context";
 import { useContext, useState, useEffect } from "react";
 import { firebaseDb } from "../Firebase";
+import { environment } from "../environment";
 //shows the list of people the user is having conversations with
 
 export default function Conversations(props) {
@@ -38,7 +39,8 @@ export default function Conversations(props) {
       const res = await getDoc(docRef);
 
       const data = res.data();
-      console.log("HERE", data[convoID]["lastMessage"]["seen"]);
+      environment.development &&
+        console.log("HERE", data[convoID]["lastMessage"]["seen"]);
       if (data[convoID]["lastMessage"]["seen"] == false) {
         await updateDoc(doc(firebaseDb, "userChats", user.uid), {
           [`${convoID}.lastMessage.seen`]: true,
@@ -48,7 +50,7 @@ export default function Conversations(props) {
         });
       }
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 
@@ -58,8 +60,8 @@ export default function Conversations(props) {
     let time = new Date(0);
     time.setSeconds(convo[1]["date"]);
     time = time.toDateString();
-    console.log(time);
-    console.log(convo[1]["date"]);
+    environment.development && console.log(time);
+    environment.development && console.log(convo[1]["date"]);
     return (
       <div
         className={selected == convo[0] ? "selectedConvo" : "eachConvo"}
@@ -67,7 +69,7 @@ export default function Conversations(props) {
         //passes info on who you chose to have a convo with
         onClick={() => {
           setAsSeen(convo[0]);
-          console.log(convo[0]);
+          environment.development && console.log(convo[0]);
           setSelected(convo[0]);
           props.changePartner(convo);
         }}

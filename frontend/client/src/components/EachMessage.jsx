@@ -1,11 +1,12 @@
 import "./EachMessage.css";
 import context from "../contexts/auth/context";
 import { useContext } from "react";
+import { environment } from "../environment";
 
 export default function EachMessage(props) {
   const { user } = useContext(context);
 
-  console.log("mESSAGE", props.info);
+  environment.development && console.log("mESSAGE", props.info);
 
   return (
     <div>

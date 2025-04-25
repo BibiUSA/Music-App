@@ -1,5 +1,7 @@
+import { environment } from "../environment";
+
 export default function Conversation(prop) {
-  console.log(prop.message);
+  environment.development && console.log(prop.message);
   return (
     <div className="conversation">
       <h4>{prop.message.sender}</h4>

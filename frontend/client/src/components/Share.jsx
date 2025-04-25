@@ -2,16 +2,17 @@ import "./Share.css";
 import SearchFriend from "./SearchFriend";
 import MessageShare from "./MessageShare";
 import { useState } from "react";
+import { environment } from "../environment";
 
 export default function Share(props) {
   const [childFriends, setChildFriends] = useState([]);
-  console.log("parentprops", props);
+  environment.development && console.log("parentprops", props);
 
   const getState = (list) => {
     setChildFriends(list);
   };
 
-  console.log("parent", childFriends);
+  environment.development && console.log("parent", childFriends);
 
   return (
     <div className="share">

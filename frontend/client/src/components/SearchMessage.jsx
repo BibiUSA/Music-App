@@ -12,6 +12,7 @@ import { firebaseDb } from "../Firebase";
 import { useState, useContext } from "react";
 import context from "../contexts/auth/context";
 import OutsideClickHandler from "react-outside-click-handler";
+import { environment } from "../environment";
 
 export default function SearchMessage(props) {
   const { friendMatch, searchFriend } = useSearchFriend();
@@ -30,7 +31,7 @@ export default function SearchMessage(props) {
       friend.firebase_uid > user.uid
         ? friend.firebase_uid + user.uid
         : user.uid + friend.firebase_uid;
-    console.log(friend, user);
+    environment.development && console.log(friend, user);
 
     try {
       //checks to see if chat already exists
@@ -39,7 +40,7 @@ export default function SearchMessage(props) {
 
       //if not starts the conversation in "chats" and stores "userChats"
       if (!res.exists()) {
-        console.log("this ran");
+        environment.development && console.log("this ran");
         await setDoc(doc(firebaseDb, "chats", combinedId), { messages: [] });
         //stores the conversation under the logged in user
       }
@@ -90,7 +91,7 @@ export default function SearchMessage(props) {
       setSearching(false);
       // console.log(props.changePartner);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   }
 

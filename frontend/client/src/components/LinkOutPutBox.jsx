@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import axios from "../config/axios";
 import context from "../contexts/auth/context";
 import Success from "./Success";
+import { environment } from "../environment";
 
 export default function LinkOutPutBox() {
   const [linkInput, setLinkInput] = useState(""); //holds the text inserted in the inputbox
@@ -12,7 +13,7 @@ export default function LinkOutPutBox() {
   const [success, setSuccess] = useState(false);
   const { user } = useContext(context);
 
-  console.log(user);
+  environment.development && console.log(user);
 
   //holds entry into textarea
   function handleChange(event) {
@@ -77,10 +78,10 @@ export default function LinkOutPutBox() {
   const sharePost = async (linked) => {
     const date = new Date();
     if (desc.length < 1) {
-      console.log("look at desc", desc);
+      environment.development && console.log("look at desc", desc);
       return;
     }
-    console.log(date);
+    environment.development && console.log(date);
     try {
       const result = await axios.post(`/create/newpost`, {
         link: linked,
@@ -89,9 +90,9 @@ export default function LinkOutPutBox() {
         date: date,
       });
       setSuccess(true);
-      console.log(result);
+      environment.development && console.log(result);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 

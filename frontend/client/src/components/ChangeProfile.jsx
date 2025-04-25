@@ -2,11 +2,12 @@ import "./ChangeProfile.css";
 import { useContext, useState } from "react";
 import UploadPic from "./UploadPic.jsx";
 import context from "../contexts/auth/context.jsx";
+import { environment } from "../environment.js";
 
 export default function ChangeProfile() {
   const { user } = useContext(context);
   const [pic, setPic] = useState(false);
-  console.log(user);
+  environment.development && console.log(user);
 
   const editPic = () => {
     if (pic == false) {

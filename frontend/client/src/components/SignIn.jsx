@@ -9,6 +9,8 @@ import { signInGoogle, signInFacebook } from "../utils/SignInAuthentication";
 import { useContext } from "react";
 import context from "../contexts/auth/context";
 import { useNavigate } from "react-router-dom";
+import { environment } from "../environment";
+
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +26,7 @@ export default function SignIn() {
     }
   }, [auth.user]);
 
-  console.log(auth);
+  environment.development && console.log(auth);
   //Signing In Using email and password
   const firebaseSignIn = (e) => {
     e.preventDefault();
@@ -33,11 +35,11 @@ export default function SignIn() {
       .then((userCredential) => {
         // Signed in
         lastLogInDate(userCredential.user.uid, new Date());
-        console.log(userCredential.user);
+        environment.development && console.log(userCredential.user);
         // ...
       })
       .catch((error) => {
-        console.log(error);
+        environment.development && console.log(error);
       });
   };
 
@@ -48,9 +50,9 @@ export default function SignIn() {
         date_login: date,
       });
       localStorage.setItem("uid", uid);
-      console.log(response);
+      environment.development && console.log(response);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 

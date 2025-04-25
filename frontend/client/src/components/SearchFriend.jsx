@@ -12,6 +12,7 @@ import { firebaseDb } from "../Firebase";
 import { useState, useContext, useEffect } from "react";
 import context from "../contexts/auth/context";
 import OutsideClickHandler from "react-outside-click-handler";
+import { environment } from "../environment";
 
 export default function SearchFriend(props) {
   const { friendMatch, searchFriend } = useSearchFriend();
@@ -22,10 +23,10 @@ export default function SearchFriend(props) {
 
   //check to see if friend is the selected friend list
   const checkFriend = (friend) => {
-    console.log(friend);
+    environment.development && console.log(friend);
     setSelectedFriends((prevSelected) => {
       if (prevSelected?.some((obj) => obj.uid == friend.firebase_uid)) {
-        console.log("found");
+        environment.development && console.log("found");
         // return delete prevSelected[friend.firebase_uid];
         return prevSelected.filter((id) => id.uid !== friend.firebase_uid);
       } else {
@@ -41,7 +42,7 @@ export default function SearchFriend(props) {
     });
   };
 
-  console.log(selectedFriends);
+  environment.development && console.log(selectedFriends);
 
   //gets data to the parent
   props.getFriends(selectedFriends);
@@ -57,7 +58,7 @@ export default function SearchFriend(props) {
       friend.firebase_uid > user.uid
         ? friend.firebase_uid + user.uid
         : user.uid + friend.firebase_uid;
-    console.log(friend, user);
+    environment.development && console.log(friend, user);
 
     try {
       //checks to see if chat already exists
@@ -66,7 +67,7 @@ export default function SearchFriend(props) {
 
       //if not starts the conversation in "chats" and stores "userChats"
       if (!res.exists()) {
-        console.log("this ran");
+        environment.development && console.log("this ran");
         await setDoc(doc(firebaseDb, "chats", combinedId), { messages: [] });
         //stores the conversation under the logged in user
       }
@@ -130,7 +131,7 @@ export default function SearchFriend(props) {
       setSearching(false);
       // console.log(props.changePartner);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   }
 

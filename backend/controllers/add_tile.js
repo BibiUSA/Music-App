@@ -1,7 +1,7 @@
 import client from "../models/db.js";
 
 export const createPost = async (req, res) => {
-  console.log(req.body);
+  console.log("here", req.body);
   try {
     const addData = `INSERT INTO tile_info (tile_owner, tile_link, tile_likes, tile_desc, created_date, view_count, replays)
     VALUES ($1, $2, 0, $3, $4, 0, 0);`;

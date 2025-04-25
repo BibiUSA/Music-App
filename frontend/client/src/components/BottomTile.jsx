@@ -24,6 +24,7 @@ import {
 } from "firebase/firestore";
 import { firebaseDb } from "../Firebase";
 import { v4 as uuidv4 } from "uuid";
+import { environment } from "../environment";
 
 export default function BottomTile(data) {
   const [heart, setHeart] = useState(<IconHeart stroke={2} className="icon" />); //fills up the heart
@@ -38,8 +39,8 @@ export default function BottomTile(data) {
   const { user } = useContext(context);
   const tileData = data.data;
 
-  console.log("USER", user);
-  console.log(tileData);
+  environment.development && console.log("USER", user);
+  environment.development && console.log(tileData);
 
   useEffect(() => {
     if (tileData.username) {
@@ -50,7 +51,7 @@ export default function BottomTile(data) {
 
   const changeHeart = () => {
     if (!user) {
-      console.log("LOG IN PLEASE");
+      environment.development && console.log("LOG IN PLEASE");
       setTimeout(function () {
         alert("Log in to like posts.");
       }, 1);
@@ -76,23 +77,23 @@ export default function BottomTile(data) {
       );
       setLiked("liked");
       setHeart(<IconHeartFilled className="heart" />);
-      console.log(result);
+      environment.development && console.log(result);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 
   const unLikePost = async (tile_id, username) => {
-    console.log(tile_id, username);
+    environment.development && console.log(tile_id, username);
     try {
       const result = await axios.delete(
         `/create/unlikepost/${tile_id}&${username}`
       );
       setLiked("notLiked");
       setHeart(<IconHeart stroke={2} className="icon" />);
-      console.log(result);
+      environment.development && console.log(result);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 
@@ -109,11 +110,11 @@ export default function BottomTile(data) {
         username: user.displayName,
         reason: reportText,
       });
-      console.log(result);
+      environment.development && console.log(result);
       setReport(false);
       setReportText("");
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 
@@ -123,7 +124,7 @@ export default function BottomTile(data) {
   };
 
   const edit = async () => {
-    console.log("edit this");
+    environment.development && console.log("edit this");
     setShow(false);
     setShowEdit((prev) => !prev);
   };
@@ -173,14 +174,14 @@ export default function BottomTile(data) {
           tile_owner: tileData.tile_owner,
         },
       });
-      console.log(response.data.rows[0].exists);
+      environment.development && console.log(response.data.rows[0].exists);
       if (response.data.rows[0].exists) {
         const check = await axios.get(`user/uid`, {
           params: {
             tile_owner: tileData.tile_owner,
           },
         });
-        console.log(check.data.rows[0].firebase_uid);
+        environment.development && console.log(check.data.rows[0].firebase_uid);
         const combinedId =
           check.data.rows[0].firebase_uid > user.uid
             ? check.data.rows[0].firebase_uid + user.uid
@@ -207,7 +208,7 @@ export default function BottomTile(data) {
         //if it exists, check to see if "seen" exists and if seen is not false, set as false
         //and increment unseenMessage by 1
         if (res.exists()) {
-          console.log("RAN");
+          environment.development && console.log("RAN");
           const data = res.data();
           const seen = data[combinedId]?.lastMessage?.seen;
 
@@ -314,7 +315,7 @@ export default function BottomTile(data) {
         setMessage("NOT FRIENDS");
       }
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 

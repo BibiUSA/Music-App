@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import context from "../contexts/auth/context";
 import axios from "../config/axios";
+import { environment } from "../environment";
 
 export default function FriendProfile() {
   const { user } = useContext(context);
@@ -14,15 +15,15 @@ export default function FriendProfile() {
   const [friendButton, setFriendButton] = useState("Send Friend Request");
 
   const getFriendInfo = async () => {
-    console.log("FRIEND", friendName);
+    environment.development && console.log("FRIEND", friendName);
     try {
       const response = await axios.get(`/user/friend`, {
         params: { friend: friendName, user: user.displayName },
       });
       setFriendInfo(response.data.rows[0]);
-      console.log("FRIEND INFO", response);
+      environment.development && console.log("FRIEND INFO", response);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 
@@ -64,7 +65,7 @@ export default function FriendProfile() {
   };
 
   const friendButtonAction = async () => {
-    console.log("RUNNING");
+    environment.development && console.log("RUNNING");
     try {
       const result = await axios.patch(`/user/updatefriend`, {
         user: user.displayName,
@@ -72,9 +73,9 @@ export default function FriendProfile() {
         action: friendButton,
       });
       getFriendInfo();
-      console.log(result);
+      environment.development && console.log(result);
     } catch (error) {
-      console.log(error);
+      environment.development && console.log(error);
     }
   };
 

@@ -4,6 +4,7 @@ import { firebaseAuth } from "../../Firebase";
 import { onAuthStateChanged } from "firebase/auth";
 // import { axios } from "axios";
 // import useGet from "../../hooks/useGet";
+import { environment } from "../../environment";
 
 const Provider = (props) => {
   const [user, setUser] = useState("loading");
@@ -11,7 +12,7 @@ const Provider = (props) => {
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (userInfo) => {
       setUser(userInfo);
-      console.log(userInfo);
+      environment.development && console.log(userInfo);
     });
   }, []);
 
