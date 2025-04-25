@@ -1,7 +1,8 @@
 import client from "../models/db.js";
+import { environment } from "../../frontend/client/src/environment.js";
 
 export const createPost = async (req, res) => {
-  console.log("here", req.body);
+  environment.development && console.log("here", req.body);
   try {
     const addData = `INSERT INTO tile_info (tile_owner, tile_link, tile_likes, tile_desc, created_date, view_count, replays)
     VALUES ($1, $2, 0, $3, $4, 0, 0);`;
@@ -14,12 +15,12 @@ export const createPost = async (req, res) => {
     const response = await client.query(addData, values);
     res.send({ data: response });
   } catch (error) {
-    console.log("createPost err", error);
+    environment.development && console.log("createPost err", error);
   }
 };
 
 export const likePost = async (req, res) => {
-  console.log(req.body);
+  environment.development && console.log(req.body);
   try {
     const addData = `WITH inserted AS(
     INSERT INTO likes (username, tile_id)
@@ -33,12 +34,12 @@ export const likePost = async (req, res) => {
     const response = await client.query(addData, values);
     res.send({ data: response });
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
 export const unLikePost = async (req, res) => {
-  console.log(req.params);
+  environment.development && console.log(req.params);
   try {
     const addData = `WITH delete AS (DELETE 
     FROM likes 
@@ -52,12 +53,12 @@ export const unLikePost = async (req, res) => {
     const response = await client.query(addData, values);
     res.send({ data: response });
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
 export const reportPost = async (req, res) => {
-  console.log(req.body);
+  environment.development && console.log(req.body);
   try {
     const addData = `INSERT INTO reports
     (tile_id, reported_by, reason)
@@ -67,12 +68,12 @@ export const reportPost = async (req, res) => {
     const response = await client.query(addData, values);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
 export const updatePost = async (req, res) => {
-  console.log("Update", req.body);
+  environment.development && console.log("Update", req.body);
   try {
     const addData = `UPDATE tile_info
     SET tile_desc = $1
@@ -81,12 +82,12 @@ export const updatePost = async (req, res) => {
     const response = await client.query(addData, values);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
 export const deletePost = async (req, res) => {
-  console.log(req.params);
+  environment.development && console.log(req.params);
   try {
     const addData = `DELETE FROM tile_info
     WHERE tile_id = $1;`;
@@ -94,6 +95,6 @@ export const deletePost = async (req, res) => {
     const response = await client.query(addData, values);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };

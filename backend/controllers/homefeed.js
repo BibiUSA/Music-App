@@ -1,7 +1,8 @@
 import client from "../models/db.js";
+import { environment } from "../../frontend/client/src/environment.js";
 
 export const getFeed = async (req, res) => {
-  console.log(req.query);
+  environment.development && console.log(req.query);
   try {
     if (req.query.user && req.query.feedChoice == "Recent") {
       const getData = `SELECT first.*, likes.username
@@ -30,7 +31,7 @@ OFFSET ${req.query.offset}`;
       const response = await client.query(getData);
       res.send(response);
     } else if (req.query.user && req.query.feedChoice == "Friends") {
-      console.log("FRIENDS FEED");
+      environment.development && console.log("FRIENDS FEED");
       const getData = `SELECT feed.*, likes.* FROM (SELECT item.*, u.img_url 
  FROM (SELECT *
       FROM tile_info 
@@ -65,12 +66,12 @@ ON t.tile_owner = u.username
       res.send(response);
     }
   } catch (error) {
-    console.log("getFeed err", error);
+    environment.development && console.log("getFeed err", error);
   }
 };
 
 export const getYourPosts = async (req, res) => {
-  console.log("yourpost", req.query);
+  environment.development && console.log("yourpost", req.query);
   try {
     const getData = `SELECT t.*, l.username, u.img_url
 FROM (SELECT *
@@ -89,6 +90,6 @@ ORDER BY created_date DESC
     const response = await client.query(getData);
     res.send(response);
   } catch (error) {
-    console.log("getFeed err", error);
+    environment.development && console.log("getFeed err", error);
   }
 };

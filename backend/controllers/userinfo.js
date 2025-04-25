@@ -1,7 +1,8 @@
 import client from "../models/db.js";
+import { environment } from "../../frontend/client/src/environment.js";
 
 export const saveUserInfo = async (req, res) => {
-  console.log(req.body);
+  environment.development && console.log(req.body);
   try {
     const values = [
       req.body.email,
@@ -19,12 +20,12 @@ export const saveUserInfo = async (req, res) => {
     const response = await client.query(addData, values);
     res.send({ data: response });
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
 export const lastLogInDate = async (req, res) => {
-  console.log(req.body);
+  environment.development && console.log(req.body);
   try {
     const values = [req.body.uid, req.body.date_login];
     const addData = `UPDATE user_info
@@ -34,25 +35,25 @@ export const lastLogInDate = async (req, res) => {
     const response = await client.query(addData, values);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
 //checks to if a user and gets username
 export const isSignedIn = async (req, res) => {
-  console.log(req.body);
+  environment.development && console.log(req.body);
   try {
     const response = `SELECT COUNT(1)
     FROM user_info
     WHERE firebase_uid = '${req.body.uid}';`;
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
 export const userInfo = async (req, res) => {
-  console.log("test", req.query);
+  environment.development && console.log("test", req.query);
   try {
     const addData = `SELECT *
     FROM user_info
@@ -60,12 +61,12 @@ export const userInfo = async (req, res) => {
     const response = await client.query(addData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
 export const usernameExists = async (req, res) => {
-  console.log("test", req.query);
+  environment.development && console.log("test", req.query);
   try {
     const addData = `SELECT COUNT(1)
     FROM user_info
@@ -78,7 +79,7 @@ export const usernameExists = async (req, res) => {
 };
 
 export const updateUsername = async (req, res) => {
-  console.log("final", req.body);
+  environment.development && console.log("final", req.body);
   try {
     const addData = `UPDATE user_info
     SET username_change_d = '${req.body.date}',
@@ -106,14 +107,14 @@ export const updateImg = async (req, res) => {
 };
 
 export const userCheck = async (req, res) => {
-  console.log(req.body);
+  environment.development && console.log(req.body);
   try {
     const addData = `SELECT COUNT(1)
     FROM user_info
     WHERE firebase_uid = '${req.body.uid}';`;
     const response = await client.query(addData);
     if (response.rows[0].count == 0) {
-      console.log("got here");
+      environment.development && console.log("got here");
       const date = new Date();
       try {
         const newData = `INSERT INTO user_info
@@ -148,7 +149,7 @@ export const updateName = async (req, res) => {
     const response = await client.query(addData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
     res.status(500).send(error);
   }
 };
@@ -160,13 +161,13 @@ export const searchUser = async (req, res) => {
     const response = await client.query(getData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
     res.status(500).send(error);
   }
 };
 
 export const friendInfo = async (req, res) => {
-  console.log(req.body);
+  environment.development && console.log(req.body);
   try {
     const getData = `SELECT u.username, u.img_url, c.*
     FROM (SELECT username, img_url
@@ -180,7 +181,7 @@ export const friendInfo = async (req, res) => {
     const response = await client.query(getData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
     res.status(500).send(error);
   }
 };
@@ -211,13 +212,13 @@ export const searchFriend = async (req, res) => {
     const response = await client.query(getData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
     res.status(500).send(error);
   }
 };
 
 export const updateFriend = async (req, res) => {
-  console.log(req.body);
+  environment.development && console.log(req.body);
   try {
     let addData;
     if (req.body.action == "Send Friend Request") {
@@ -247,7 +248,7 @@ export const updateFriend = async (req, res) => {
     const response = await client.query(addData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
     res.status(500).send(error);
   }
 };
@@ -267,7 +268,7 @@ export const getAllFriends = async (req, res) => {
     const response = await client.query(getData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
     res.status(500).send(error);
   }
 };
@@ -286,7 +287,7 @@ export const getAllRequests = async (req, res) => {
     const response = await client.query(getData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
     res.status(500).send(error);
   }
 };
@@ -307,7 +308,7 @@ export const checkFriendship = async (req, res) => {
     const response = await client.query(getData);
     res.send(response);
   } catch (error) {
-    console.log(error);
+    environment.development && console.log(error);
   }
 };
 
