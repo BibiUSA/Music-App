@@ -1,5 +1,4 @@
 import client from "../models/db.js";
-import { environment } from "../../frontend/client/src/environment.js";
 
 // export const check = async (req, res) => {
 //   try {
@@ -21,7 +20,7 @@ import { environment } from "../../frontend/client/src/environment.js";
 // };
 
 export const getConversations = async (req, res) => {
-  environment.development && console.log(req.query.user);
+  console.log(req.query.user);
   try {
     const getData = `SELECT * 
     FROM messages
@@ -30,7 +29,7 @@ export const getConversations = async (req, res) => {
     const response = await client.query(getData);
     res.send(response);
   } catch (error) {
-    environment.development && console.log(error);
+    console.log(error);
     res.send(error);
   }
 };

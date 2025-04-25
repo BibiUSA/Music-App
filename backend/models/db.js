@@ -1,8 +1,7 @@
 import pg from "pg";
 import process from "process";
-import { environment } from "../../frontend/client/src/environment";
 
-environment.development && console.log(process.env.HOST, "Database CRed");
+console.log(process.env.HOST, "Database CRed");
 
 const client = new pg.Client({
   //   connectionString: process.env.DATABASE_URL,
