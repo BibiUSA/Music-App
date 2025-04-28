@@ -9,7 +9,8 @@ import {
 import context from "../contexts/auth/context";
 import { useContext, useState, useEffect } from "react";
 import { firebaseDb } from "../Firebase";
-import { environment } from "../environment";
+import { isMobile } from "../utils/isMobile";
+
 //shows the list of people the user is having conversations with
 
 export default function Conversations(props) {
@@ -39,8 +40,8 @@ export default function Conversations(props) {
       const res = await getDoc(docRef);
 
       const data = res.data();
-      environment.development &&
-        console.log("HERE", data[convoID]["lastMessage"]["seen"]);
+
+      console.log("HERE", data[convoID]["lastMessage"]["seen"]);
       if (data[convoID]["lastMessage"]["seen"] == false) {
         await updateDoc(doc(firebaseDb, "userChats", user.uid), {
           [`${convoID}.lastMessage.seen`]: true,
@@ -50,7 +51,7 @@ export default function Conversations(props) {
         });
       }
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 
@@ -60,8 +61,8 @@ export default function Conversations(props) {
     let time = new Date(0);
     time.setSeconds(convo[1]["date"]);
     time = time.toDateString();
-    environment.development && console.log(time);
-    environment.development && console.log(convo[1]["date"]);
+    console.log(time);
+    console.log(convo[1]["date"]);
     return (
       <div
         className={selected == convo[0] ? "selectedConvo" : "eachConvo"}
@@ -69,7 +70,7 @@ export default function Conversations(props) {
         //passes info on who you chose to have a convo with
         onClick={() => {
           setAsSeen(convo[0]);
-          environment.development && console.log(convo[0]);
+          console.log(convo[0]);
           setSelected(convo[0]);
           props.changePartner(convo);
         }}
@@ -90,18 +91,12 @@ export default function Conversations(props) {
   });
 
   return (
-    <div className="conversations">
+    <div
+      className={
+        isMobile() ? "conversations-mobile conversations" : "conversations"
+      }
+    >
       {spreadConvo}
-      {/* <div className="eachConvo">
-        <img
-          className="eachConvoImg"
-          src="https://thedecisionlab.com/_next/image?url=https%3A%2F%2Fimages.prismic.io%2Fthedecisionlab%2Fcc70a04a-f6a5-40fd-9799-4a61b89e51bc_barack-obama.png%3Fauto%3Dcompress%2Cformat%26rect%3D0%2C0%2C400%2C400%26w%3D400%26h%3D400&w=3840&q=75"
-        />
-        <div className="eachConvoInfo">
-          <p>Chat Username</p>
-          <p>2 hours ago</p>
-        </div>
-      </div> */}
     </div>
   );
 }

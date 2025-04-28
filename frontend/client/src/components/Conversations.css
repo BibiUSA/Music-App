@@ -45,3 +45,8 @@
     font-weight: bolder;
     color: blue;
 }
+
+.conversations-mobile{
+    width:100%;
+    max-width: none;
+}

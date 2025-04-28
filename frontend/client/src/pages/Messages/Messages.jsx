@@ -6,47 +6,48 @@ import context from "../../contexts/auth/context";
 import Conversation from "../../components/Conversation";
 import Chat from "../../components/Chat";
 import Side from "../../components/Side";
-import { environment } from "../../environment";
+import { isMobile } from "../../utils/isMobile";
 
 export default function Message() {
   const { user } = useContext(context);
   const [convoPartner, setConvoPartner] = useState([]);
 
+  console.log("Mobile", isMobile());
+
+  console.log("CONVO PARTNER", convoPartner);
+
+  //collected from grandchildren to see who the person the chat on the right side will open up for
   const getConvoPartner = (data) => {
-    environment.development && console.log("ConvoPartner granparent", data);
+    console.log("ConvoPartner granparent", data);
     setConvoPartner(data);
   };
 
-  //   const [conversations, setConversations] = useState([]);
+  const showSide = () => {
+    console.log("SHOWSIDE");
+    if (!isMobile()) {
+      return <Side getPartner={getConvoPartner} />;
+    } else if (isMobile() && convoPartner.length == 0) {
+      return <Side getPartner={getConvoPartner} />;
+    }
+  };
 
-  //   const getMessages = async () => {
-  //     try {
-  //       const response = await axios.get("/message/get", {
-  //         params: { user: user.displayName },
-  //       });
-  //       setConversations(response.data.rows);
-  //       console.log(response.data.rows);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     getMessages();
-  //   }, []);
-
-  //   const spreadConvo = conversations.map((convo) => {
-  //     return <Conversation key={convo.message_id} message={convo} />;
-  //   });
+  const showChat = () => {
+    if (!isMobile()) {
+      return <Chat partner={convoPartner} />;
+    } else if (isMobile() && convoPartner.length > 0) {
+      return <Chat partner={convoPartner} getPartner={getConvoPartner} />;
+    }
+  };
 
   return (
     <div className="messagePage">
       <div className="box">
-        <Side getPartner={getConvoPartner} />
-        <Chat partner={convoPartner} />
-        {/* <h3>Messages</h3>
-      
-      <div className="conversations">{spreadConvo}</div> */}
+        {/* {isMobile() && convoPartner.length == 0 && (
+          <Side getPartner={getConvoPartner} />
+        )} */}
+        {showSide()}
+        {showChat()}
+        {/* <Chat partner={convoPartner} /> */}
       </div>
     </div>
   );

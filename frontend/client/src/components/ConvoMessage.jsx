@@ -3,7 +3,6 @@ import { firebaseDb } from "../Firebase";
 import { getDoc, doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useRef } from "react";
 import "./ConvoMessage.css";
-import { environment } from "../environment";
 
 export default function ConvoMessage(props) {
   const [totalMess, setTotalMess] = useState([]);
@@ -33,7 +32,7 @@ export default function ConvoMessage(props) {
     endOfMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [totalMess]);
 
-  environment.development && console.log(totalMess);
+  console.log(totalMess);
 
   // const getPartnerConvo = async () => {
   //   if (Object.keys(props.partner).length > 0) {

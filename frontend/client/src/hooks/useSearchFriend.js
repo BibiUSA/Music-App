@@ -1,6 +1,5 @@
 import axios from "../config/axios";
 import { useState, useEffect } from "react";
-import { environment } from "../environment";
 
 export default function useSearchFriend() {
   const [friendMatch, setFriendMatch] = useState([]);
@@ -11,9 +10,9 @@ export default function useSearchFriend() {
         params: { search: search, user: user },
       });
       setFriendMatch(result.data.rows);
-      environment.development && console.log(result.data.rows);
+      console.log(result.data.rows);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
   return { friendMatch, searchFriend };

@@ -24,7 +24,6 @@ import {
 } from "firebase/firestore";
 import { firebaseDb } from "../Firebase";
 import { v4 as uuidv4 } from "uuid";
-import { environment } from "../environment";
 
 export default function BottomTile(data) {
   const [heart, setHeart] = useState(<IconHeart stroke={2} className="icon" />); //fills up the heart
@@ -39,8 +38,8 @@ export default function BottomTile(data) {
   const { user } = useContext(context);
   const tileData = data.data;
 
-  environment.development && console.log("USER", user);
-  environment.development && console.log(tileData);
+  console.log("USER", user);
+  console.log(tileData);
 
   useEffect(() => {
     if (tileData.username) {
@@ -51,7 +50,7 @@ export default function BottomTile(data) {
 
   const changeHeart = () => {
     if (!user) {
-      environment.development && console.log("LOG IN PLEASE");
+      console.log("LOG IN PLEASE");
       setTimeout(function () {
         alert("Log in to like posts.");
       }, 1);
@@ -77,23 +76,23 @@ export default function BottomTile(data) {
       );
       setLiked("liked");
       setHeart(<IconHeartFilled className="heart" />);
-      environment.development && console.log(result);
+      console.log(result);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 
   const unLikePost = async (tile_id, username) => {
-    environment.development && console.log(tile_id, username);
+    console.log(tile_id, username);
     try {
       const result = await axios.delete(
         `/create/unlikepost/${tile_id}&${username}`
       );
       setLiked("notLiked");
       setHeart(<IconHeart stroke={2} className="icon" />);
-      environment.development && console.log(result);
+      console.log(result);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 
@@ -110,11 +109,11 @@ export default function BottomTile(data) {
         username: user.displayName,
         reason: reportText,
       });
-      environment.development && console.log(result);
+      console.log(result);
       setReport(false);
       setReportText("");
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 
@@ -124,7 +123,7 @@ export default function BottomTile(data) {
   };
 
   const edit = async () => {
-    environment.development && console.log("edit this");
+    console.log("edit this");
     setShow(false);
     setShowEdit((prev) => !prev);
   };
@@ -174,18 +173,19 @@ export default function BottomTile(data) {
           tile_owner: tileData.tile_owner,
         },
       });
-      environment.development && console.log(response.data.rows[0].exists);
+      console.log(response.data.rows[0].exists);
       if (response.data.rows[0].exists) {
         const check = await axios.get(`user/uid`, {
           params: {
             tile_owner: tileData.tile_owner,
           },
         });
-        environment.development && console.log(check.data.rows[0].firebase_uid);
+        console.log(check.data.rows[0].firebase_uid);
         const combinedId =
           check.data.rows[0].firebase_uid > user.uid
             ? check.data.rows[0].firebase_uid + user.uid
             : user.uid + check.data.rows[0].firebase_uid;
+        //adds message to their chat conversation
         await updateDoc(doc(firebaseDb, "chats", combinedId), {
           messages: arrayUnion({
             id: uuidv4(),
@@ -208,7 +208,7 @@ export default function BottomTile(data) {
         //if it exists, check to see if "seen" exists and if seen is not false, set as false
         //and increment unseenMessage by 1
         if (res.exists()) {
-          environment.development && console.log("RAN");
+          console.log("RAN");
           const data = res.data();
           const seen = data[combinedId]?.lastMessage?.seen;
 
@@ -315,7 +315,7 @@ export default function BottomTile(data) {
         setMessage("NOT FRIENDS");
       }
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 

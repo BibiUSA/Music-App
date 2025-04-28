@@ -13,14 +13,13 @@ import Settings from "./pages/SettingsPage/SettingsPage";
 import FriendPage from "./pages/FriendPage/FriendPage";
 import Message from "./pages/Messages/Messages";
 import { useLocation } from "react-router-dom";
-import { environment } from "./environment";
 
 function App() {
   const fullData = Data.data;
   const location = useLocation();
 
   {
-    environment.development && console.log(import.meta.env);
+    console.log(import.meta.env);
   }
 
   return (

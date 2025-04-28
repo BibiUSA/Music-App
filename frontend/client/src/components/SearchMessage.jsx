@@ -12,7 +12,7 @@ import { firebaseDb } from "../Firebase";
 import { useState, useContext } from "react";
 import context from "../contexts/auth/context";
 import OutsideClickHandler from "react-outside-click-handler";
-import { environment } from "../environment";
+import { isMobile } from "../utils/isMobile";
 
 export default function SearchMessage(props) {
   const { friendMatch, searchFriend } = useSearchFriend();
@@ -26,12 +26,13 @@ export default function SearchMessage(props) {
     searchFriend(search, user.displayName);
   };
 
+  //Opens chat conversation with the person and if first time convo, create the database
   async function openChat(friend) {
     const combinedId =
       friend.firebase_uid > user.uid
         ? friend.firebase_uid + user.uid
         : user.uid + friend.firebase_uid;
-    environment.development && console.log(friend, user);
+    console.log(friend, user);
 
     try {
       //checks to see if chat already exists
@@ -40,7 +41,7 @@ export default function SearchMessage(props) {
 
       //if not starts the conversation in "chats" and stores "userChats"
       if (!res.exists()) {
-        environment.development && console.log("this ran");
+        console.log("this ran");
         await setDoc(doc(firebaseDb, "chats", combinedId), { messages: [] });
         //stores the conversation under the logged in user
       }
@@ -77,6 +78,7 @@ export default function SearchMessage(props) {
         },
         [`${combinedId}.date`]: serverTimestamp(),
       });
+      //passes up to the grandparent Message.jsx to say which person we're having convo with
       props.changePartner({
         0: combinedId,
         1: {
@@ -91,7 +93,7 @@ export default function SearchMessage(props) {
       setSearching(false);
       // console.log(props.changePartner);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   }
 
@@ -114,7 +116,12 @@ export default function SearchMessage(props) {
         setSearching(false);
       }}
     >
-      <div className="searchMessage" onFocus={() => setSearching(true)}>
+      <div
+        className={
+          isMobile() ? "searchMessage-mobile searchMessage" : "searchMessage"
+        }
+        onFocus={() => setSearching(true)}
+      >
         <input
           className="seachboxMessage"
           onChange={(event) => searchFriendPlus(event)}
@@ -122,7 +129,15 @@ export default function SearchMessage(props) {
           type="text"
           placeholder="Enter User to Chat"
         />
-        {searching && <div className="friendTotal">{spreading}</div>}
+        {searching && (
+          <div
+            className={
+              isMobile() ? "friendTotal-mobile friendTotal " : "friendTotal"
+            }
+          >
+            {spreading}
+          </div>
+        )}
       </div>
     </OutsideClickHandler>
   );

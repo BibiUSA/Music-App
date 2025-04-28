@@ -14,17 +14,17 @@ import { firebaseDb } from "../Firebase";
 import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import context from "../contexts/auth/context";
-import { environment } from "../environment";
+import { isMobile } from "../utils/isMobile";
 
 export default function SendMessage(props) {
   const [message, setMessage] = useState("");
-  environment.development && console.log(props);
+  console.log(props);
   const { user } = useContext(context);
-  environment.development && console.log(user);
+  console.log(user);
 
   const sendMessage = async (e) => {
     if (e.key === "Enter" && message.length > 0) {
-      environment.development && console.log("Entered");
+      console.log("Entered");
       try {
         await updateDoc(doc(firebaseDb, "chats", props.partner["combinedId"]), {
           messages: arrayUnion({
@@ -44,7 +44,7 @@ export default function SendMessage(props) {
         //if it exists, check to see if "seen" exists and if seen is not false, set as false
         //and increment unseenMessage by 1
         if (res.exists()) {
-          environment.development && console.log("RAN");
+          console.log("RAN");
           const data = res.data();
           const seen = data[props.partner["combinedId"]]?.lastMessage?.seen;
 
@@ -111,16 +111,18 @@ export default function SendMessage(props) {
           },
         });
 
-        environment.development && console.log("done");
+        console.log("done");
       } catch (error) {
-        environment.development && console.log(error);
+        console.log(error);
       }
     }
   };
-  environment.development && console.log("wow");
+  console.log("wow");
 
   return (
-    <div className="sendMessage">
+    <div
+      className={isMobile() ? "sendMessage-mobile sendMessage" : "sendMessage"}
+    >
       <input
         className="sendmessageinput"
         onChange={(e) => {

@@ -6,7 +6,6 @@ import "./Register.css";
 import axios from "../config/axios";
 import { useNavigate } from "react-router-dom";
 import useTotalSaveUser from "../hooks/useTotalSaveUser";
-import { environment } from "../environment";
 
 import { signInGoogle, signInFacebook } from "../utils/SignInAuthentication";
 
@@ -46,9 +45,9 @@ export default function Register() {
       if (result.data.rows[0].count == 0) {
         setVerifiedUsrName(username);
       }
-      environment.development && console.log(username);
+      console.log(username);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 
@@ -115,7 +114,7 @@ export default function Register() {
     if (userNameReady != 0) {
       return;
     }
-    environment.development && console.log("here");
+    console.log("here");
     createUserWithEmailAndPassword(firebaseAuth, values.email, values.password)
       .then((userCredential) => {
         // Signed up
@@ -129,7 +128,7 @@ export default function Register() {
         );
       })
       .catch((error) => {
-        environment.development && console.log(error);
+        console.log(error);
         // ..
       });
   };

@@ -41,3 +41,13 @@
     display: flex;
     justify-content: space-around;
 }
+
+.searchMessage-mobile{
+    width:100%;
+    max-width: none;
+}
+
+.friendTotal-mobile{
+    width:100vw;
+    
+}

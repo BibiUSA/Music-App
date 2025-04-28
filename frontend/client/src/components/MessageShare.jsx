@@ -2,12 +2,11 @@
 import { useState } from "react";
 import "./MessageShare.css";
 import useShare from "../hooks/useShare";
-import { environment } from "../environment";
 
 export default function MessageShare(props) {
   const [shareMssg, setShareMssg] = useState("");
   const { openChat } = useShare();
-  environment.development && console.log("CHILDREN", props);
+  console.log("CHILDREN", props);
 
   const share = () => {
     if (props.friends.length < 1) {

@@ -12,7 +12,6 @@ import {
 } from "firebase/firestore";
 import { firebaseDb } from "../Firebase";
 import { v4 as uuidv4 } from "uuid";
-import { environment } from "../environment";
 
 export default function useShare() {
   const { user } = useContext(context);
@@ -24,7 +23,7 @@ export default function useShare() {
     const tile_link = item[3];
     const combinedId =
       friend.uid > user.uid ? friend.uid + user.uid : user.uid + friend.uid;
-    environment.development && console.log(friend, user);
+    console.log(friend, user);
 
     try {
       //checks to see if chat already exists
@@ -33,7 +32,7 @@ export default function useShare() {
 
       //if not starts the conversation in "chats" and stores "userChats"
       if (!res.exists()) {
-        environment.development && console.log("this ran");
+        console.log("this ran");
         await setDoc(doc(firebaseDb, "chats", combinedId), { messages: [] });
         //stores the conversation under the logged in user
       }
@@ -79,7 +78,7 @@ export default function useShare() {
       //if it exists, check to see if "seen" exists and if seen is not false, set as false
       //and increment unseenMessage by 1
       if (res1.exists()) {
-        environment.development && console.log("RAN");
+        console.log("RAN");
         const data = res1.data();
         const seen = data[combinedId]?.lastMessage?.seen;
 
@@ -175,7 +174,7 @@ export default function useShare() {
 
       // console.log(props.changePartner);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   }
   return { openChat };

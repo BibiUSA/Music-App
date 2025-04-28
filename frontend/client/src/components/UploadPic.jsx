@@ -4,14 +4,13 @@ import { firebaseAuth, firebaseDb } from "../Firebase";
 import { updateProfile } from "firebase/auth";
 import context from "../contexts/auth/context";
 import axios from "../config/axios";
-import { environment } from "../environment";
 
 export default function UploadPic() {
   const { user } = useContext(context);
   const [imgSrc, setImgSrc] = useState(user.photoURL);
   const [text, setText] = useState("");
 
-  environment.development && console.log(user.photoURL);
+  console.log(user.photoURL);
 
   function handleChange() {
     setImgSrc(text);
@@ -22,7 +21,7 @@ export default function UploadPic() {
 
   const sendToFirebase = () => {
     if (imgSrc == user.photoURL) {
-      environment.development && console.log("choose an image");
+      console.log("choose an image");
       return;
     }
     updateProfile(firebaseAuth.currentUser, {
@@ -33,7 +32,7 @@ export default function UploadPic() {
         updateImg(user.displayName, imgSrc);
       })
       .catch((error) => {
-        environment.development && console.log(error);
+        console.log(error);
       });
   };
 
@@ -44,9 +43,9 @@ export default function UploadPic() {
         img: img,
       });
       window.location.reload();
-      environment.development && console.log(result);
+      console.log(result);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 

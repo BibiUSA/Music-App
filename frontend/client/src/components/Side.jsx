@@ -2,21 +2,21 @@ import "./Side.css";
 import SearchMessage from "./SearchMessage";
 import Conversations from "./Conversations";
 import { useState } from "react";
-import { environment } from "../environment";
+import { isMobile } from "../utils/isMobile";
 
 export default function Side(props) {
   const [convoPartner, setConvoPartner] = useState([]);
 
   const getConvoPartner = (data) => {
     setConvoPartner(data);
-    environment.development && console.log("made it to parent", data);
+    console.log("made it to parent", data);
     props.getPartner(data);
   };
 
-  environment.development && console.log(convoPartner);
+  console.log(convoPartner);
 
   return (
-    <div className="side">
+    <div className={isMobile() ? "side-mobile side" : "side"}>
       <SearchMessage changePartner={getConvoPartner} />
       <Conversations changePartner={getConvoPartner} />
     </div>

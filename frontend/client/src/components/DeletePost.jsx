@@ -1,19 +1,18 @@
 import "./DeletePost.css";
 import axios from "../config/axios";
-import { environment } from "../environment";
 
 export default function DeletePost(data) {
-  environment.development && console.log(data);
+  console.log(data);
 
   const handleDelete = async (tile_id) => {
     try {
       const result = axios.delete(`/create/delete/${tile_id}`, {
         tile_id: data.data.tile_id,
       });
-      environment.development && console.log(result);
+      console.log(result);
       data.setShowDel(false);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
   return (

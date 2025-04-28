@@ -7,12 +7,11 @@ import useGet from "../../hooks/useGet";
 import { redirect } from "react-router-dom";
 import { IconAdjustments } from "@tabler/icons-react";
 import { setLogLevel } from "firebase/app";
-import { environment } from "../../environment";
 
 export default function Home() {
   const [fullData, setFullData] = useState([]);
   {
-    environment.development && console.log("FULLDATA", fullData);
+    console.log("FULLDATA", fullData);
   }
   const [feedSelection, setFeedSelection] = useState(false);
   //choosing the feed algorithm
@@ -32,7 +31,7 @@ export default function Home() {
     cb: (res) => {
       //part of this might have been built to deal with StrictMode
       if (fullData.length > 1) {
-        environment.development && console.log("fulldata", fullData);
+        console.log("fulldata", fullData);
         let newArr = fullData.slice(-2);
         if (newArr[0].tile_id == res.data.rows[0].tile_id) {
           return;
@@ -40,7 +39,7 @@ export default function Home() {
           setFullData((prev) => [...prev, ...res.data.rows]);
         }
       } else {
-        environment.development && console.log("fulldata", res.data.rows);
+        console.log("fulldata", res.data.rows);
         setFullData((prev) => [...prev, ...res.data.rows]);
       }
     },
@@ -58,7 +57,7 @@ export default function Home() {
         e.target.documentElement.scrollTop + window.innerHeight;
       if (currentHeight + 5 >= scrollHeight) {
         offset += 2;
-        environment.development && console.log("OFFSET", offset);
+        console.log("OFFSET", offset);
         get({ offset });
       }
     };
@@ -79,11 +78,11 @@ export default function Home() {
 
   //used to get data for the tile and map it
   const spreadTile = fullData.map((tileData) => {
-    environment.development && console.log(tileData);
-    environment.development && console.log("ID", uniqueId);
+    console.log(tileData);
+    console.log("ID", uniqueId);
     if (!uniqueId.includes(tileData.tile_id)) {
       uniqueId.push(tileData.tile_id);
-      environment.development && console.log("TILE", tileData.tile_id);
+      console.log("TILE", tileData.tile_id);
       return <Tile key={tileData.tile_id} data={tileData} />;
     }
   });

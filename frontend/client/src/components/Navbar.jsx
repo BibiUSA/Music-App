@@ -16,7 +16,6 @@ import { useLocation } from "react-router-dom";
 import { onSnapshot, doc } from "firebase/firestore";
 import { firebaseDb } from "../Firebase";
 import context from "../contexts/auth/context";
-import { environment } from "../environment";
 
 export default function Navbar() {
   const [searchWord, setSearchWord] = useState("");
@@ -24,7 +23,7 @@ export default function Navbar() {
   const [searchBox, setSearchBox] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
   const [newMessage, setNewMessage] = useState([]);
-  environment.development && console.log(mobileSearch);
+  console.log(mobileSearch);
   const { user } = useContext(context);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ export default function Navbar() {
     user.uid && getChats();
   }, [user.uid]);
 
-  environment.development && console.log(newMessage["unseenMessage"]);
+  console.log(newMessage["unseenMessage"]);
 
   const search = async (event) => {
     setSearchWord(event.target.value);
@@ -52,9 +51,9 @@ export default function Navbar() {
         params: { search: searchWord.trim() },
       });
       setResults(response.data.rows);
-      environment.development && console.log(response.data.rows);
+      console.log(response.data.rows);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 

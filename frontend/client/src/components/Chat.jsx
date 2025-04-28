@@ -2,11 +2,11 @@ import "./Chat.css";
 import ConvoMessage from "./ConvoMessage";
 //shows all the interaction between user and a friend
 import SendMessage from "./SendMessage";
-import { environment } from "../environment";
+import { isMobile } from "../utils/isMobile";
+import { IconChevronLeft } from "@tabler/icons-react";
 
 export default function Chat(props) {
-  environment.development &&
-    console.log("Conversation ready with", props.partner);
+  console.log("Conversation ready with", props.partner);
   let nextProp = {};
   if (props.partner[1]) {
     nextProp = {
@@ -17,11 +17,24 @@ export default function Chat(props) {
     };
   }
 
+  const setPartnerNone = () => {
+    props.getPartner([]);
+  };
+
   return (
-    <div className="chat">
-      <div className="messagePartner">{`To: ${
-        props.partner[1] ? props.partner[1]["userinfo"]["displayName"] : "none"
-      }`}</div>
+    <div className={isMobile() ? "chat-mobile chat" : "chat"}>
+      <div className="messagePartner">
+        {isMobile() && (
+          <div className="back" onClick={() => setPartnerNone()}>
+            <IconChevronLeft stroke={2} />
+          </div>
+        )}
+        <h4 className="person-title">{`To: ${
+          props.partner[1]
+            ? props.partner[1]["userinfo"]["displayName"]
+            : "none"
+        }`}</h4>
+      </div>
       <ConvoMessage partner={nextProp} />
       <SendMessage partner={nextProp} />
     </div>

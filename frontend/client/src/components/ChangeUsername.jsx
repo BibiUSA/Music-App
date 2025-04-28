@@ -5,11 +5,10 @@ import { useContext } from "react";
 import context from "../contexts/auth/context";
 import { firebaseDb } from "../Firebase";
 import { updateDoc, doc } from "firebase/firestore";
-import { environment } from "../environment";
 
 export default function ChangeUsername(data) {
   const { user } = useContext(context);
-  environment.development && console.log(user);
+  console.log(user);
   const usernameDate = data.data.username_change_d;
 
   const timeSince = (past, today) => {
@@ -28,11 +27,11 @@ export default function ChangeUsername(data) {
   };
 
   const ready = timeSince(usernameDate, new Date());
-  environment.development && console.log(ready);
+  console.log(ready);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    environment.development && console.log(event.target[0].value);
+    console.log(event.target[0].value);
     usernameExists(event.target[0].value);
   };
 
@@ -41,14 +40,14 @@ export default function ChangeUsername(data) {
       const result = await axios.get(`/user/check`, {
         params: { username: username },
       });
-      environment.development && console.log(result.data.rows[0].count);
+      console.log(result.data.rows[0].count);
       if (result.data.rows[0].count == 1) {
         window.alert("already taken");
       } else {
         sentUserName(username);
       }
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 
@@ -60,7 +59,7 @@ export default function ChangeUsername(data) {
         updateUsername(username, user.uid);
       })
       .catch((error) => {
-        environment.development && console.log(error);
+        console.log(error);
       });
   };
 
@@ -72,10 +71,10 @@ export default function ChangeUsername(data) {
         date: new Date(),
         // .toISOString().slice(0, 19).replace("T", " "),
       });
-      environment.development && console.log("finished", username, uid, result);
+      console.log("finished", username, uid, result);
       changeUsernameFirebase(username, uid);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 
@@ -86,9 +85,9 @@ export default function ChangeUsername(data) {
       await updateDoc(userRef, {
         displayName: username,
       });
-      environment.development && console.log("username is now ", username);
+      console.log("username is now ", username);
     } catch (error) {
-      environment.development && console.log(error);
+      console.log(error);
     }
   };
 
