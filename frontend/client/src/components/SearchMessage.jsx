@@ -12,7 +12,7 @@ import { firebaseDb } from "../Firebase";
 import { useState, useContext } from "react";
 import context from "../contexts/auth/context";
 import OutsideClickHandler from "react-outside-click-handler";
-import { isMobile } from "../utils/isMobile.js";
+import { isMobile } from "../utils/isMobile";
 
 export default function SearchMessage(props) {
   const { friendMatch, searchFriend } = useSearchFriend();

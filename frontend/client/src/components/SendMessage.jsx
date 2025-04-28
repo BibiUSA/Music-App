@@ -14,7 +14,7 @@ import { firebaseDb } from "../Firebase";
 import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import context from "../contexts/auth/context";
-import { isMobile } from "../utils/isMobile.js";
+import { isMobile } from "../utils/isMobile";
 
 export default function SendMessage(props) {
   const [message, setMessage] = useState("");

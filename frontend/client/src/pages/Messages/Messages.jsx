@@ -6,7 +6,7 @@ import context from "../../contexts/auth/context";
 import Conversation from "../../components/Conversation";
 import Chat from "../../components/Chat";
 import Side from "../../components/Side";
-import { isMobile } from "../../utils/isMobile.js";
+import { isMobile } from "../../utils/isMobile";
 
 export default function Message() {
   const { user } = useContext(context);
