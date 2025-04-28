@@ -1,9 +1,9 @@
 .sendMessage{
     background-color: gray;
     position:fixed;
-    top:90vh;
+    top:90dvh;
     width:70vw;
-    height: 10vh;
+    height: 10dvh;
     align-content: center;
     max-width: 1176px;
     /* comment */
