@@ -2,7 +2,7 @@ import "./Side.css";
 import SearchMessage from "./SearchMessage";
 import Conversations from "./Conversations";
 import { useState } from "react";
-import { isMobile } from "../utils/isMobile";
+import { isMobile } from "../utils/isMobile.js";
 
 export default function Side(props) {
   const [convoPartner, setConvoPartner] = useState([]);

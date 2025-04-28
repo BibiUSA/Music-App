@@ -9,7 +9,7 @@ import {
 import context from "../contexts/auth/context";
 import { useContext, useState, useEffect } from "react";
 import { firebaseDb } from "../Firebase";
-import { isMobile } from "../utils/isMobile";
+import { isMobile } from "../utils/isMobile.js";
 
 //shows the list of people the user is having conversations with
 
