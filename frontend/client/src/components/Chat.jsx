@@ -2,7 +2,7 @@ import "./Chat.css";
 import ConvoMessage from "./ConvoMessage";
 //shows all the interaction between user and a friend
 import SendMessage from "./SendMessage";
-import { isMobile } from "../utils/isMobile";
+import { isMobile } from "../utils/IsMobile";
 import { IconChevronLeft } from "@tabler/icons-react";
 
 export default function Chat(props) {
