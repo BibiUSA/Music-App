@@ -79,9 +79,20 @@ export default function SearchMessage(props) {
         [`${combinedId}.date`]: serverTimestamp(),
       });
       //passes up to the grandparent Message.jsx to say which person we're having convo with
-      props.changePartner({
-        0: combinedId,
-        1: {
+      // props.changePartner({
+      //   0: combinedId,
+      //   1: {
+      //     date: "",
+      //     userinfo: {
+      //       displayName: friend.username,
+      //       photoUrl: friend.img_url,
+      //       uid: friend.firebase_uid,
+      //     },
+      //   },
+      // });
+      props.changePartner([
+        combinedId,
+        {
           date: "",
           userinfo: {
             displayName: friend.username,
@@ -89,7 +100,7 @@ export default function SearchMessage(props) {
             uid: friend.firebase_uid,
           },
         },
-      });
+      ]);
       setSearching(false);
       // console.log(props.changePartner);
     } catch (error) {
