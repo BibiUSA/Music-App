@@ -10,15 +10,15 @@ export default function TileOwner(data) {
   const { user } = useContext(context);
 
   const description = tileOwnerData.tile_desc;
-  console.log("tileOwnerDate", tileOwnerData);
-  console.log("USER", user);
+  //console.log("tileOwnerDate", tileOwnerData);
+  //console.log("USER", user);
 
   const postTimeTwo = () => {
     let temp_date = new Date(tileOwnerData.created_date);
     let today = new Date();
-    console.log("CREATED", temp_date);
+    //console.log("CREATED", temp_date);
     let seconds = Math.abs((temp_date - today) / 1000);
-    console.log("TODAY", seconds);
+    //console.log("TODAY", seconds);
     let interval = seconds / 31536000;
     if (interval > 2) {
       return `${Math.floor(interval)} years ago`;

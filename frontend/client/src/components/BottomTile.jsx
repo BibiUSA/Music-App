@@ -38,8 +38,8 @@ export default function BottomTile(data) {
   const { user } = useContext(context);
   const tileData = data.data;
 
-  console.log("USER", user);
-  console.log(tileData);
+  //console.log("USER", user);
+  //console.log(tileData);
 
   useEffect(() => {
     if (tileData.username) {

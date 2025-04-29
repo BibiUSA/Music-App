@@ -5,6 +5,7 @@ import "./Tile.css";
 import { useEffect, useRef, useState } from "react";
 import classes from "./tile.module.css";
 import { isMobile } from "../utils/IsMobile";
+import MobilePlay from "../contexts/auth/mobilePlay";
 
 export default function Tile(data) {
   const iframeRef = useRef(null);
@@ -12,7 +13,19 @@ export default function Tile(data) {
   //don't think the below is used
   const [isVisible, setIsVisible] = useState();
   const [tileData, setTileData] = useState(data.data);
-  console.log(tileData.tile_link);
+  const [playOnMobile, setPlayOnMobile] = useState(MobilePlay());
+  //console.log(tileData.tile_link);
+  console.log("MOBILE PLAY", MobilePlay());
+  console.log("PLAY", playOnMobile);
+
+  useEffect(() => {
+    if (!isMobile()) {
+      return;
+    }
+    if (playOnMobile == false) {
+      setPlayOnMobile(true);
+    }
+  }, [MobilePlay() == true]);
 
   //if state is visible, play the video, or else pause
   //may not need this
@@ -23,7 +36,7 @@ export default function Tile(data) {
   }
 
   let videoEmbed = `${tileData.tile_link}&enablejsapi=1`;
-  if (isMobile()) {
+  if (isMobile() && playOnMobile == false) {
     videoEmbed = `${tileData.tile_link}&enablejsapi=1&mute=1`;
   }
   // ("https://www.youtube.com/embed/hX0aI5Jz8i8?si=kMQJ5wV5HQ_a4Ghu&amp;clip=UgkxcHRk8al08naF9QQZjqjv27cnSwhdO1Ta&amp;clipt=EPDfBBiI1QU&enablejsapi=1");
