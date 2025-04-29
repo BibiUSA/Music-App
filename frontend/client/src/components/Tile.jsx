@@ -5,8 +5,7 @@ import "./Tile.css";
 import { useEffect, useRef, useState } from "react";
 import classes from "./tile.module.css";
 import { isMobile } from "../utils/IsMobile";
-import MobilePlay from "../contexts/auth/mobilePlay";
-
+import MobilePlay from "../contexts/auth/MobilePlay";
 export default function Tile(data) {
   const iframeRef = useRef(null);
   const pauseButtonRef = useRef(null);
