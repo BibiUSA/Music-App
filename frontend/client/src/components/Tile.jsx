@@ -4,6 +4,7 @@ import BottomTile from "./BottomTile";
 import "./Tile.css";
 import { useEffect, useRef, useState } from "react";
 import classes from "./tile.module.css";
+import { isMobile } from "../utils/IsMobile";
 
 export default function Tile(data) {
   const iframeRef = useRef(null);
@@ -11,7 +12,7 @@ export default function Tile(data) {
   //don't think the below is used
   const [isVisible, setIsVisible] = useState();
   const [tileData, setTileData] = useState(data.data);
-  console.log(tileData);
+  console.log(tileData.tile_link);
 
   //if state is visible, play the video, or else pause
   //may not need this
@@ -21,7 +22,10 @@ export default function Tile(data) {
     pauseVideo();
   }
 
-  const videoEmbed = `${tileData.tile_link}&enablejsapi=1`;
+  let videoEmbed = `${tileData.tile_link}&enablejsapi=1`;
+  if (isMobile()) {
+    videoEmbed = `${tileData.tile_link}&enablejsapi=1&mute=1`;
+  }
   // ("https://www.youtube.com/embed/hX0aI5Jz8i8?si=kMQJ5wV5HQ_a4Ghu&amp;clip=UgkxcHRk8al08naF9QQZjqjv27cnSwhdO1Ta&amp;clipt=EPDfBBiI1QU&enablejsapi=1");
 
   function pauseVideo() {
