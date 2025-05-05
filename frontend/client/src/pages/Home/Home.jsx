@@ -6,8 +6,6 @@ import context from "../../contexts/auth/context";
 import useGet from "../../hooks/useGet";
 import { redirect } from "react-router-dom";
 import { IconAdjustments } from "@tabler/icons-react";
-import { setLogLevel } from "firebase/app";
-import { isMobile } from "../../utils/IsMobile";
 
 export default function Home() {
   const [fullData, setFullData] = useState([]);
@@ -19,18 +17,6 @@ export default function Home() {
   const [feedChoice, setFeedChoice] = useState("Recent");
   //trying pagination
   const { user } = useContext(context);
-  // const [touched, setTouched] = useState(false);
-
-  // useEffect(() => {
-  //   if (!isMobile()) {
-  //     return;
-  //   }
-  //   const gotTouched = () => {
-  //     if (touched == false) {
-  //       setTouched(true);
-  //     }
-  //   };
-  // });
 
   if (!user) {
     window.location = "/login";

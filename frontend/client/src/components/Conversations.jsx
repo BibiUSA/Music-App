@@ -58,11 +58,12 @@ export default function Conversations(props) {
   // console.log(Object.entries(chats)[0][1][1]["date"]);
 
   const spreadConvo = chats.map((convo) => {
+    console.log(convo);
     let time = new Date(0);
     time.setSeconds(convo[1]["date"]);
     time = time.toDateString();
     console.log(time);
-    console.log(convo[1]["date"]);
+    console.log(convo[1]);
     return (
       <div
         className={selected == convo[0] ? "selectedConvo" : "eachConvo"}

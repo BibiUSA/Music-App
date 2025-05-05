@@ -5,7 +5,7 @@ import { useContext } from "react";
 export default function EachMessage(props) {
   const { user } = useContext(context);
 
-  console.log("mESSAGE", props.info);
+  // console.log("mESSAGE", props.info);
 
   return (
     <div>

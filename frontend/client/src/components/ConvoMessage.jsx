@@ -32,7 +32,7 @@ export default function ConvoMessage(props) {
     endOfMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [totalMess]);
 
-  console.log(totalMess);
+  // console.log(totalMess);
 
   // const getPartnerConvo = async () => {
   //   if (Object.keys(props.partner).length > 0) {

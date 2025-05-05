@@ -17,14 +17,15 @@ export default function Tile(data) {
   console.log("MOBILE PLAY", MobilePlay());
   console.log("PLAY", playOnMobile);
 
-  useEffect(() => {
-    if (!isMobile()) {
-      return;
-    }
-    if (playOnMobile == false) {
-      setPlayOnMobile(true);
-    }
-  }, [MobilePlay() == true]);
+  //attempt to play sound on cell
+  // useEffect(() => {
+  //   if (!isMobile()) {
+  //     return;
+  //   }
+  //   if (playOnMobile == false) {
+  //     setPlayOnMobile(true);
+  //   }
+  // }, [MobilePlay() == true]);
 
   //if state is visible, play the video, or else pause
   //may not need this
@@ -35,9 +36,9 @@ export default function Tile(data) {
   }
 
   let videoEmbed = `${tileData.tile_link}&enablejsapi=1`;
-  if (isMobile() && playOnMobile == false) {
-    videoEmbed = `${tileData.tile_link}&enablejsapi=1&mute=1`;
-  }
+  // if (isMobile() && playOnMobile == false) {
+  //   videoEmbed = `${tileData.tile_link}&enablejsapi=1&mute=1`;
+  // }
   // ("https://www.youtube.com/embed/hX0aI5Jz8i8?si=kMQJ5wV5HQ_a4Ghu&amp;clip=UgkxcHRk8al08naF9QQZjqjv27cnSwhdO1Ta&amp;clipt=EPDfBBiI1QU&enablejsapi=1");
 
   function pauseVideo() {
