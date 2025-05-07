@@ -14,18 +14,5 @@ const client = new pg.Client({
     rejectUnauthorized: false, // Use `true` if you have a valid certificate
   },
 });
-
-// const client = new pg.Client({
-//   //   connectionString: process.env.DATABASE_URL,
-//   user: "postgres",
-//   host: "localhost",
-//   database: "music_app",
-//   password: "Skater28!",
-//   port: 5432,
-//   // ssl: {
-//   //   rejectUnauthorized: false, // Use `true` if you have a valid certificate
-//   // },
-// });
 //
-
 export default client;

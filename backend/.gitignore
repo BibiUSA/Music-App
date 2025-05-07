@@ -25,3 +25,5 @@ config.env
 *.sw?
 
 .env
+
+config/serviceAccountKey.json
