@@ -8,6 +8,7 @@
     background-color: white;
     height:3.5rem;
     z-index: 50;
+    max-width: 504px;
 }
 
 .seachboxMessage{
