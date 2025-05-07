@@ -12,19 +12,8 @@ import axios from "../config/axios";
 import EditPost from "./EditPost";
 import DeletePost from "./DeletePost";
 import Share from "./Share";
-import {
-  updateDoc,
-  doc,
-  arrayUnion,
-  Timestamp,
-  serverTimestamp,
-  getDoc,
-  increment,
-  setDoc,
-} from "firebase/firestore";
-import { firebaseDb } from "../Firebase";
-import { v4 as uuidv4 } from "uuid";
 import { sendAMessage, setSeenLastMssgTime } from "../Services/firebaseCalls";
+import { updateLikesNotification } from "../Services/firebaseCalls";
 
 export default function BottomTile(data) {
   const [heart, setHeart] = useState(<IconHeart stroke={2} className="icon" />); //fills up the heart
@@ -40,7 +29,7 @@ export default function BottomTile(data) {
   const tileData = data.data;
 
   //console.log("USER", user);
-  //console.log(tileData);
+  console.log(tileData);
 
   useEffect(() => {
     if (tileData.username) {
@@ -49,7 +38,7 @@ export default function BottomTile(data) {
     }
   }, []);
 
-  const changeHeart = () => {
+  const changeHeart = async () => {
     if (!user) {
       console.log("LOG IN PLEASE");
       setTimeout(function () {
@@ -58,11 +47,19 @@ export default function BottomTile(data) {
       return;
     }
     if (liked === "notLiked") {
-      likePost(tileData.tile_id, user.displayName);
-      // setLiked("liked");
-      // setHeart(<IconHeartFilled className="heart" />);
+      await likePost(tileData.tile_id, user.displayName);
+      const check = await axios.get(`user/uid`, {
+        params: {
+          tile_owner: tileData.tile_owner,
+        },
+      });
+
+      await updateLikesNotification(
+        user.displayName,
+        check.data.rows[0].firebase_uid
+      );
     } else {
-      unLikePost(tileData.tile_id, user.displayName);
+      await unLikePost(tileData.tile_id, user.displayName);
     }
   };
 

@@ -35,6 +35,13 @@ export default function useTotalSaveUser() {
         unseenMessage: 0,
       });
 
+      await setDoc(doc(firebaseDb, "notifications", uid), {
+        newFriendRequest: 0,
+        newLikes: 0,
+        likeNews: [],
+        friendRequestNews: [],
+      });
+
       navigate("/");
     } catch (error) {
       console.log(error);

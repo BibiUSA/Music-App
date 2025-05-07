@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import context from "../contexts/auth/context";
 import axios from "../config/axios";
+import { updateFriendRequest } from "../Services/firebaseCalls";
 
 export default function FriendProfile() {
   const { user } = useContext(context);
@@ -63,16 +64,26 @@ export default function FriendProfile() {
     }
   };
 
-  const friendButtonAction = async () => {
-    console.log("RUNNING");
+  const friendButtonAction = async (userName, friendName, friendButton) => {
+    console.log("RUNNING", friendButton);
     try {
       const result = await axios.patch(`/user/updatefriend`, {
         user: user.displayName,
         friend: friendName,
         action: friendButton,
       });
+      const check = await axios.get(`user/uid`, {
+        params: {
+          tile_owner: friendName,
+        },
+      });
+      updateFriendRequest(
+        userName,
+        check.data.rows[0].firebase_uid,
+        friendButton
+      );
       getFriendInfo();
-      console.log(result);
+      await console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -94,7 +105,9 @@ export default function FriendProfile() {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => friendButtonAction()}
+          onClick={() =>
+            friendButtonAction(user.displayName, friendName, friendButton)
+          }
         >
           {friendButton}
         </button>

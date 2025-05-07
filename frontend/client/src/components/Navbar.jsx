@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom";
 import { onSnapshot, doc } from "firebase/firestore";
 import { firebaseDb } from "../Firebase";
 import context from "../contexts/auth/context";
+import Notification from "./Notification";
 
 export default function Navbar() {
   const [searchWord, setSearchWord] = useState("");
@@ -23,6 +24,8 @@ export default function Navbar() {
   const [searchBox, setSearchBox] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
   const [newMessage, setNewMessage] = useState([]);
+  const [notification, setNotification] = useState([]);
+  const [notificationWindow, setNotificationWindow] = useState(false);
   console.log(mobileSearch);
   const { user } = useContext(context);
 
@@ -42,6 +45,25 @@ export default function Navbar() {
     user.uid && getChats();
   }, [user.uid]);
 
+  useEffect(() => {
+    const getNotifications = () => {
+      const unSub = onSnapshot(
+        doc(firebaseDb, "notifications", user.uid),
+        (doc) => {
+          doc.exists() &&
+            setNotification([doc.data().newLikes, doc.data().newFriendRequest]);
+        }
+      );
+      return () => {
+        unSub();
+      };
+    };
+
+    user.uid && getNotifications();
+  }, [user.uid]);
+
+  console.log("NOTFICATION", notification);
+
   console.log(newMessage["unseenMessage"]);
 
   const search = async (event) => {
@@ -60,6 +82,15 @@ export default function Navbar() {
   const spread = results.map((item) => {
     return <SearchUser key={item.username} data={item} />;
   });
+
+  //closes the notification window. Timeout set so that when clicked on notification icon agian, it doesn't keep reopening
+  const closeNotification = (data) => {
+    if (data == true) {
+      setTimeout(() => {
+        setNotificationWindow(false);
+      }, [50]);
+    }
+  };
 
   return (
     <div className="navbar">
@@ -122,11 +153,26 @@ export default function Navbar() {
         {/* <div className="icons">
           <IconBell stroke={2} />
         </div> */}
-        <Link to="/profile">
-          <div className="icons">
+        <Link
+          onClick={() => {
+            setNotificationWindow((prevState) => !prevState);
+          }}
+        >
+          <div
+            className={
+              notification[0] + notification[1] > 0 ? "red-icon" : "icons"
+            }
+          >
             <IconUserCircle stroke={2} />
+            <p className="mssg-notification">
+              {notification[0] + notification[1] > 0 &&
+                notification[0] + notification[1]}{" "}
+            </p>
           </div>
         </Link>
+        {notificationWindow && (
+          <Notification closeNotificationWindow={closeNotification} />
+        )}
         {/* </div> */}
       </div>
     </div>

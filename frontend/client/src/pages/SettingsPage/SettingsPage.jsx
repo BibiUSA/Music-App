@@ -17,9 +17,6 @@ export default function Settings() {
     window.location = "/login";
   }
 
-  console.log("USER", user);
-  console.log("FULL", fullData);
-
   useEffect(() => {
     console.log(user);
     getUserInfo();

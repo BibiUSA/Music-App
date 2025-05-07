@@ -255,3 +255,68 @@ export const doesDocumentExist = async (collection, document, needData) => {
     console.log(error);
   }
 };
+
+//updates firestore for friend request and accept notification
+export const updateFriendRequest = async (userName, friendId, friendButton) => {
+  //only runs if action is sending friend request or acceptiing friend request
+  if (
+    friendButton == "Send Friend Request" ||
+    friendButton == "Accept Friend Request"
+  ) {
+    try {
+      const isfriendRequestNewsFull = await doesDocumentExist(
+        "notifications",
+        friendId,
+        true
+      );
+      if (isfriendRequestNewsFull.friendRequestNews.length < 50) {
+        const entry =
+          friendButton == "Send Friend Request"
+            ? `${userName} sent a friend request.`
+            : `${userName} accepted the friend request.`;
+        await updateDoc(doc(firebaseDb, "notifications", friendId), {
+          friendRequestNews: arrayUnion(entry),
+        });
+      }
+      await updateDoc(doc(firebaseDb, "notifications", friendId), {
+        newFriendRequest: increment(1),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+//updates notification data when a tile is liked
+export const updateLikesNotification = async (userName, friendId) => {
+  try {
+    const isLikeNewsFull = await doesDocumentExist(
+      "notifications",
+      friendId,
+      true
+    );
+    if (isLikeNewsFull.likeNews.length < 50) {
+      await updateDoc(doc(firebaseDb, "notifications", friendId), {
+        likeNews: arrayUnion(`${userName}`),
+      });
+    }
+    await updateDoc(doc(firebaseDb, "notifications", friendId), {
+      newLikes: increment(1),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const resetNotifications = async (userId) => {
+  try {
+    await updateDoc(doc(firebaseDb, "notifications", userId), {
+      friendRequestNews: [],
+      likeNews: [],
+      newFriendRequest: 0,
+      newLikes: 0,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
