@@ -11,3 +11,14 @@
     /* margin-top: 80px; */
     padding-top:3.75rem;
 }
+.settings-name{
+    display: inline;
+    margin-right: 0.5rem;
+    
+    
+    
+}
+
+.setting-link{
+    margin: 1rem 0 1.5rem 0;
+}

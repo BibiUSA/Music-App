@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import classes from "./tile.module.css";
 import { isMobile } from "../utils/IsMobile";
 import MobilePlay from "../contexts/auth/MobilePlay";
-
 export default function Tile(data) {
   const iframeRef = useRef(null);
   const pauseButtonRef = useRef(null);
@@ -14,12 +13,9 @@ export default function Tile(data) {
   const [isVisible, setIsVisible] = useState();
   const [tileData, setTileData] = useState(data.data);
   const [playOnMobile, setPlayOnMobile] = useState(MobilePlay());
-  const [loadVideo, setLoadVideo] = useState(false);
   //console.log(tileData.tile_link);
   console.log("MOBILE PLAY", MobilePlay());
   console.log("PLAY", playOnMobile);
-
-  let videoEmbed = `${tileData.tile_link}&enablejsapi=1`;
 
   //attempt to play sound on cell
   // useEffect(() => {
@@ -42,6 +38,7 @@ export default function Tile(data) {
     }
   }, [isVisible]);
 
+  let videoEmbed = `${tileData.tile_link}&enablejsapi=1`;
   // if (isMobile() && playOnMobile == false) {
   //   videoEmbed = `${tileData.tile_link}&enablejsapi=1&mute=1`;
   // }
@@ -68,28 +65,6 @@ export default function Tile(data) {
       // console.log("entry", entry);
     });
     observer.observe(pauseButtonRef.current);
-
-    // return () => observer.disconnect();
-    // console.log("pauseButton", pauseButtonRef.current);
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        // setIsVisible(entry.isIntersecting);
-        if (entry.isIntersecting == true) {
-          setLoadVideo(true);
-        }
-
-        // console.log("entry", entry);
-      },
-      {
-        rootMargin: "200px",
-      }
-    );
-    observer.observe(pauseButtonRef.current);
-
     // return () => observer.disconnect();
     // console.log("pauseButton", pauseButtonRef.current);
   }, []);
@@ -111,20 +86,18 @@ export default function Tile(data) {
       <div className="bar" ref={pauseButtonRef}></div>
       <div className={classes.videoWrapper}>
         <div>
-          {loadVideo && (
-            <iframe
-              ref={iframeRef}
-              className={classes.video}
-              width="896"
-              height="504"
-              src={videoEmbed}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
-          )}
+          <iframe
+            ref={iframeRef}
+            className={classes.video}
+            width="896"
+            height="504"
+            src={videoEmbed}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
         </div>
       </div>
       <BottomTile data={tileData} setTile={setTileData} />

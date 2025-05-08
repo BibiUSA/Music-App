@@ -32,15 +32,19 @@ export default function ProfileInfo() {
           {user?.displayName?.length <= 25 ? user.displayName : ""}
         </h5>
         {user ? (
-          <Link to="/settings">
-            <IconSettingsCog stroke={1.5} width={40} height={40} />
-            <p>settings</p>
-          </Link>
+          <div className="setting-link">
+            <Link to="/settings">
+              <p className="settings-name">settings</p>
+              <IconSettingsCog stroke={1.5} width={20} height={20} />
+            </Link>
+          </div>
         ) : (
-          <Link onClick={() => signinAlert("adjust settings")}>
-            <IconSettingsCog stroke={1.5} width={40} height={40} />
-            <p>settings</p>
-          </Link>
+          <div className="setting-link">
+            <Link onClick={() => signinAlert("adjust settings")}>
+              <p className="settings-name">settings</p>
+              <IconSettingsCog stroke={1.5} width={20} height={20} />
+            </Link>
+          </div>
         )}
 
         {user ? (

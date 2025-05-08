@@ -62,10 +62,6 @@ export default function Navbar() {
     user.uid && getNotifications();
   }, [user.uid]);
 
-  console.log("NOTFICATION", notification);
-
-  console.log(newMessage["unseenMessage"]);
-
   const search = async (event) => {
     setSearchWord(event.target.value);
     try {
