@@ -75,11 +75,11 @@ export default function SignIn() {
       </div>
 
       {/* Google and facebook login */}
-      {/* <iframe
+      <iframe
         onClick={signInGoogle}
         className="googleSignIn"
         src="https://developers.google.com/frame/identity/sign-in/web/demos/signin_contextual_custom.jshtml"
-      ></iframe> */}
+      ></iframe>
 
       {/* <button onClick={signInFacebook}>Facebook</button> */}
 
