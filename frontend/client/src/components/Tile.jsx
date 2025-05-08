@@ -59,21 +59,27 @@ export default function Tile(data) {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
-      // setIsVisible(entry.isIntersecting);
+
       if (entry.isIntersecting == true) {
         playVideo();
       } else if (entry.isIntersecting == false) {
         pauseVideo();
       }
-      // console.log("entry", entry);
     });
+
+    console.log(tileData.tile_id, "PLAYING");
     observer.observe(pauseButtonRef.current);
 
-    // return () => observer.disconnect();
+    return () => observer.disconnect();
     // console.log("pauseButton", pauseButtonRef.current);
   }, []);
 
+  //for lazy loading
   useEffect(() => {
+    // only have it on mobile
+    if (!isMobile()) {
+      return;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
@@ -90,7 +96,7 @@ export default function Tile(data) {
     );
     observer.observe(pauseButtonRef.current);
 
-    // return () => observer.disconnect();
+    return () => observer.disconnect();
     // console.log("pauseButton", pauseButtonRef.current);
   }, []);
 
@@ -111,7 +117,7 @@ export default function Tile(data) {
       <div className="bar" ref={pauseButtonRef}></div>
       <div className={classes.videoWrapper}>
         <div>
-          {loadVideo && (
+          {(loadVideo || !isMobile()) && (
             <iframe
               ref={iframeRef}
               className={classes.video}
