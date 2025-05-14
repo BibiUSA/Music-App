@@ -227,6 +227,7 @@ export default function BottomTile(data) {
       {show && <div className="dialog_box bottom">{options()}</div>}
       <div className="icons">
         <div onClick={changeHeart}>{heart}</div>
+
         <IconMessageUser
           stroke={2}
           className="icon"
@@ -240,7 +241,7 @@ export default function BottomTile(data) {
       {user ? (
         <div>
           {user.displayName == tileData.tile_owner ? (
-            <p>LIKES: {tileData.tile_likes}</p>
+            <p className="like_num">LIKES: {tileData.tile_likes}</p>
           ) : (
             <></>
           )}

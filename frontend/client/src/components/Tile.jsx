@@ -70,7 +70,7 @@ export default function Tile(data) {
     console.log(tileData.tile_id, "PLAYING");
     observer.observe(pauseButtonRef.current);
 
-    return () => observer.disconnect();
+    // return () => observer.disconnect();
     // console.log("pauseButton", pauseButtonRef.current);
   }, []);
 

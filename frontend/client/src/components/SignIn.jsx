@@ -9,6 +9,8 @@ import { signInGoogle, signInFacebook } from "../utils/SignInAuthentication";
 import { useContext } from "react";
 import context from "../contexts/auth/context";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -19,6 +21,7 @@ export default function SignIn() {
   const auth = useContext(context);
 
   const navigate = useNavigate();
+
   useEffect(() => {
     if (auth.user) {
       navigate("/");
@@ -75,11 +78,25 @@ export default function SignIn() {
       </div>
 
       {/* Google and facebook login */}
-      <iframe
+      {/* <iframe
         onClick={signInGoogle}
+        // onClick={signInGoogle}
         className="googleSignIn"
         src="https://developers.google.com/frame/identity/sign-in/web/demos/signin_contextual_custom.jshtml"
-      ></iframe>
+      ></iframe> */}
+      <GoogleOAuthProvider clientId="250922353884-a3kof0anl97as569a7oll8669hnhkrs7.apps.googleusercontent.com">
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            let credentialResponseDecoded = jwtDecode(
+              credentialResponse.credential
+            );
+            console.log(credentialResponseDecoded.email);
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
+      </GoogleOAuthProvider>
 
       {/* <button onClick={signInFacebook}>Facebook</button> */}
 
