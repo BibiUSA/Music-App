@@ -14,5 +14,5 @@ const client = new pg.Client({
     rejectUnauthorized: false, // Use `true` if you have a valid certificate
   },
 });
-/
+//
 export default client;
