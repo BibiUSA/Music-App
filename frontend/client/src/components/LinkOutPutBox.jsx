@@ -12,7 +12,9 @@ export default function LinkOutPutBox() {
   const [success, setSuccess] = useState(false);
   const { user } = useContext(context);
 
-  console.log(user);
+  console.log("LINKOUTPUT", linkInput);
+  console.log("LINKDESC", desc);
+  console.log("OUTPUT", outputLink);
 
   //holds entry into textarea
   function handleChange(event) {
@@ -41,42 +43,21 @@ export default function LinkOutPutBox() {
         finalLink.includes("clip=") &&
         finalLink.includes("clipt=")
       ) {
-        setOutputLink(
-          <>
-            <iframe
-              className="youtubeVideo"
-              width="896"
-              height="504"
-              src={finalLink}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
-            <button
-              type="submit"
-              className="submit"
-              onClick={() => {
-                sharePost(finalLink);
-              }}
-            >
-              Share
-            </button>
-          </>
-        );
+        setOutputLink(finalLink);
       } else {
-        setOutputLink("Double Check the Link or contact support.");
+        setOutputLink("support");
       }
     } else {
       //if link is incorrect
-      setOutputLink(<p>Wrong Link</p>);
+      setOutputLink("error");
     }
   }
 
-  const sharePost = async (linked) => {
+  const sharePost = async (linked, desc) => {
     const date = new Date();
+
     if (desc.length < 1) {
+      console.log("DEscription here", desc);
       console.log("look at desc", desc);
       return;
     }
@@ -123,7 +104,39 @@ export default function LinkOutPutBox() {
         onClick={convertLink}
         className="convert"
       ></input>
-      <div className="output">{outputLink}</div>
+      <div className="output">
+        {outputLink == "error" && <p>Wrong Link</p>}
+        {outputLink.length > 1 &&
+          outputLink != "error" &&
+          outputLink != "Outputs Link Here." && (
+            <>
+              <iframe
+                className="youtubeVideo"
+                width="896"
+                height="504"
+                src={outputLink}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+              <button
+                type="submit"
+                className="submit"
+                onClick={() => {
+                  sharePost(outputLink, desc);
+                }}
+              >
+                Share
+              </button>
+            </>
+          )}
+        {outputLink == "support" && (
+          <p>Double Check the Link or contact support.</p>
+        )}
+        {outputLink == "Outputs Link Here." && <p>Outputs Link Here.</p>}
+      </div>
       {success && <Success />}
       {/* <label>Private</label> */}
       {/* <input type="checkbox" value="private" name="private"></input> */}

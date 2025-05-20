@@ -91,7 +91,7 @@ export default function Tile(data) {
         // console.log("entry", entry);
       },
       {
-        rootMargin: "200px",
+        rootMargin: "500px",
       }
     );
     observer.observe(pauseButtonRef.current);
