@@ -134,7 +134,6 @@ export default function Tile(data) {
         </div>
       </div>
       <BottomTile data={tileData} setTile={setTileData} />
-      {/* <button onClick={pauseVideo}>Pause</button> */}
     </div>
   );
 }
