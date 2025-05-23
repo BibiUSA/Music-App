@@ -79,7 +79,7 @@ WHERE likes.username = '${req.query.user}') as l
 RIGHT JOIN 
 (SELECT *
 FROM tile_info
-WHERE tile_owner = '${req.query.feedPerson}') as t
+WHERE tile_owner = '${req.query.feedPerson}' AND starttime IS NULL) as t
 ON l.tile_id = t.tile_id
 LEFT JOIN user_info u
 ON u.username = t.tile_owner
