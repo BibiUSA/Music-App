@@ -14,6 +14,7 @@ import FriendPage from "./pages/FriendPage/FriendPage";
 import Message from "./pages/Messages/Messages";
 import { useLocation } from "react-router-dom";
 import RegularVideo from "./components/RegularVideo";
+import UploadVideo from "./pages/UploadVideo/UploadVideo";
 
 function App() {
   const fullData = Data.data;
@@ -39,7 +40,8 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/friend/:friend" element={<FriendPage />} />
-          {/* <Route path="/regular" element={<RegularVideo />} /> */}
+          <Route path="/regular" element={<RegularVideo />} />
+          <Route path="/upload" element={<UploadVideo />} />
         </Routes>
       </Provider>
     </div>
