@@ -1,8 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
+import "./RegularVideo.css";
+import axios from "axios";
+import context from "../contexts/auth/context";
 
 export default function RegularVideo(link) {
   const [startTime, setStartTime] = useState({ minute: 0, seconds: 0 });
   const [endTime, setEndTime] = useState({ minute: 0, seconds: 10 });
+  const { user } = useContext(context);
   console.log("LINK", link);
 
   let IDforVideo = "U8F5G5wR1mk";
@@ -85,106 +89,111 @@ export default function RegularVideo(link) {
         }
       }, 300);
     }
-  }, [finalStartTime, finalEndTime, link]);
+  }, [finalStartTime, finalEndTime, link.link]);
 
-  //   useEffect(() => {
-  //     // Load YouTube IFrame API
-  //     if (!window.YT) {
-  //       const tag = document.createElement("script");
-  //       tag.src = "https://www.youtube.com/iframe_api";
-  //       const firstScriptTag = document.getElementsByTagName("script")[0];
-  //       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  //     }
+  const sharePost = async (linked, desc) => {
+    const date = new Date();
 
-  //     window.onYouTubeIframeAPIReady = () => {
-  //       if (playerInstance.current) {
-  //         playerInstance.current.destroy();
-  //       }
-
-  //       // Make the global function for YouTube API
-  //       playerInstance.current = new window.YT.Player(playerRef.current, {
-  //         height: "390",
-  //         width: "640",
-  //         videoId: IDforVideo,
-  //         playerVars: {
-  //           autoplay: 1,
-  //           controls: 1,
-  //           start: finalStartTime,
-  //           end: finalEndTime,
-  //         },
-  //         events: {
-  //           onReady: (event) => event.target.playVideo(),
-  //           onStateChange: (event) => {
-  //             if (event.data === window.YT.PlayerState.ENDED) {
-  //               playerInstance.current.seekTo(finalEndTime);
-  //             }
-  //           },
-  //         },
-  //       });
-  //     };
-
-  //     //   }, []);
-
-  //     return () => {
-  //       // Cleanup
-  //       if (playerInstance.current && playerInstance.current.destroy) {
-  //         playerInstance.current.destroy();
-  //       }
-  //     };
-  //   }, [startTime, endTime]);
+    if (desc.length < 1) {
+      console.log("DEscription here", desc);
+      console.log("look at desc", desc);
+      return;
+    }
+    console.log(date);
+    try {
+      const result = await axios.post(`/create/newvideo`, {
+        link: linked,
+        description: desc,
+        owner: user.displayName,
+        date: date,
+        startTime: finalStartTime,
+        endTime: finalEndTime,
+      });
+      link.changeSuccess(true);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
-      <label>Enter Start Time</label>
-      <input
-        type="number"
-        min="0"
-        placeholder="minute"
-        onChange={(event) =>
-          setStartTime((prevState) => ({
-            ...prevState,
-            minute: Number(event.target.value),
-          }))
-        }
-      />
-      <input
-        type="number"
-        min="0"
-        max="59"
-        placeholder="seconds"
-        onChange={(event) =>
-          setStartTime((prevState) => ({
-            ...prevState,
-            seconds: Number(event.target.value),
-          }))
-        }
-      />
-      <label>Enter End Time</label>
-      <input
-        type="number"
-        min="0"
-        placeholder="minute"
-        onChange={(event) =>
-          setEndTime((prevState) => ({
-            ...prevState,
-            minute: Number(event.target.value),
-          }))
-        }
-      />
-      <input
-        type="number"
-        min="0"
-        max="59"
-        placeholder="seconds"
-        onChange={(event) =>
-          setEndTime((prevState) => ({
-            ...prevState,
-            seconds: Number(event.target.value),
-          }))
-        }
-      />
+      <section className="timeSection">
+        <label>Enter Start Time</label>
+        <p className="timeDesc">START</p>
+        {/* <span>START</span> */}
+        <div className="startTimes">
+          <input
+            className="startmin"
+            type="number"
+            min="0"
+            placeholder="minute"
+            onChange={(event) =>
+              setStartTime((prevState) => ({
+                ...prevState,
+                minute: Number(event.target.value),
+              }))
+            }
+          />
+          <input
+            className="startsec"
+            type="number"
+            min="0"
+            max="59"
+            placeholder="seconds"
+            onChange={(event) =>
+              setStartTime((prevState) => ({
+                ...prevState,
+                seconds: Number(event.target.value),
+              }))
+            }
+          />
+        </div>
+      </section>
       <br></br>
-      <div ref={playerRef}></div>;
+      <section className="timeSection">
+        <label>Enter End Time</label>
+        <p className="timeDesc">END</p>
+        <div className="endTimes">
+          <input
+            className="endmin"
+            type="number"
+            min="0"
+            placeholder="minute"
+            onChange={(event) =>
+              setEndTime((prevState) => ({
+                ...prevState,
+                minute: Number(event.target.value),
+              }))
+            }
+          />
+          <input
+            className="endsec"
+            type="number"
+            min="0"
+            max="59"
+            placeholder="seconds"
+            onChange={(event) =>
+              setEndTime((prevState) => ({
+                ...prevState,
+                seconds: Number(event.target.value),
+              }))
+            }
+          />
+        </div>
+      </section>
+      <br></br>
+      <div className="youtubeVideo" ref={playerRef}></div>
+      <button
+        type="submit"
+        className="submit"
+        onClick={() => {
+          sharePost(link.link, link.description);
+        }}
+      >
+        Share
+      </button>
+      ;
     </div>
   );
 }

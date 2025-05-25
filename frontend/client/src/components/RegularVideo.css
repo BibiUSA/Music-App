@@ -1,0 +1,42 @@
+.youtubeVideo{
+    max-width: 100vw;
+    width:640px;
+    height:390px;
+    margin-top: 0;
+}
+
+.endmin , .endsec,.startmin, .startsec {
+    background-color: white;
+    border: 2px solid dodgerblue;;
+    border-radius: 5px;
+    width: 30%;
+    color:black;
+    
+}
+
+.startTimes, .endTimes{
+    width:60%;
+    display: inline-flex;
+    justify-content: space-around;
+    margin: 0 auto;
+    
+}
+
+.timeDesc{
+    width:40%;
+    margin: 0 auto;
+    color: white;
+    font-weight: bolder;
+
+}
+
+.timeSection {
+    max-width: 100vw;
+    width:640px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    border: 2px solid dodgerblue;
+    background-color: dodgerblue;
+    border-radius: 5px;
+}

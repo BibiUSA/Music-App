@@ -13,7 +13,7 @@ export default function Success() {
         <Link to="/">
           <button className="button">Home Feed</button>
         </Link>
-        <Link to="/profile">
+        <Link to="/upload">
           <button className="button">Your Feed</button>
         </Link>
       </div>

@@ -3,6 +3,7 @@ import axios from "axios";
 import context from "../../contexts/auth/context";
 import Success from "../../components/Success";
 import RegularVideo from "../../components/RegularVideo";
+import "./UploadVideo.css";
 
 export default function UploadVideo() {
   //Creates a post.This converts the clip link from youtube into a storable link if valid and posts the data in the database.
@@ -85,31 +86,36 @@ export default function UploadVideo() {
     setRenderKey((prev) => prev + 1);
   }
 
-  const sharePost = async (linked, desc) => {
-    const date = new Date();
-
-    if (desc.length < 1) {
-      console.log("DEscription here", desc);
-      console.log("look at desc", desc);
-      return;
-    }
-    console.log(date);
-    try {
-      const result = await axios.post(`/create/newpost`, {
-        link: linked,
-        description: desc,
-        owner: user.displayName,
-        date: date,
-      });
-      setSuccess(true);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
+  const changeSuccess = (data) => {
+    setSuccess(data);
+    console.log("made it to parent", data);
   };
 
+  // const sharePost = async (linked, desc) => {
+  //   const date = new Date();
+
+  //   if (desc.length < 1) {
+  //     console.log("DEscription here", desc);
+  //     console.log("look at desc", desc);
+  //     return;
+  //   }
+  //   console.log(date);
+  //   try {
+  //     const result = await axios.post(`/create/newpost`, {
+  //       link: linked,
+  //       description: desc,
+  //       owner: user.displayName,
+  //       date: date,
+  //     });
+  //     setSuccess(true);
+  //     console.log(result);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
-    <div className="linkOutPutBox">
+    <div className="uploadVideo">
       <h2>Create New Post</h2>
       <textarea
         className="insertDesc"
@@ -120,11 +126,32 @@ export default function UploadVideo() {
         }}
       ></textarea>
       <br></br>
-      <label>Enter Clip Link Here</label>
+      {shouldRender && (
+        <>
+          <RegularVideo
+            //   key={renderKey}
+            link={outputLink}
+            description={desc}
+            changeSuccess={changeSuccess}
+            //   startTime={finalStartTime}
+            //   endTime={finalEndTime}
+          />
+          {/* <button
+              type="submit"
+              className="submit"
+              onClick={() => {
+                sharePost(outputLink, desc);
+              }}
+            >
+              Share
+            </button> */}
+        </>
+      )}
+      <label>Enter Video Link Here</label>
       <textarea
         className="insertLink"
         value={linkInput}
-        placeholder="Enter Clip Link Here"
+        placeholder="Enter Video Link Here"
         onChange={(event) => {
           handleChange(event.target.value);
         }}
@@ -139,25 +166,7 @@ export default function UploadVideo() {
       ></input>
       <div className="output">
         {outputLink == "error" && <p>Wrong Link</p>}
-        {shouldRender && (
-          <>
-            <RegularVideo
-              //   key={renderKey}
-              link={outputLink}
-              //   startTime={finalStartTime}
-              //   endTime={finalEndTime}
-            />
-            <button
-              type="submit"
-              className="submit"
-              onClick={() => {
-                sharePost(outputLink, desc);
-              }}
-            >
-              Share
-            </button>
-          </>
-        )}
+
         {outputLink == "support" && (
           <p>Double Check the Link or contact support.</p>
         )}

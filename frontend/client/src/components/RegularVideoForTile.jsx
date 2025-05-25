@@ -1,15 +1,72 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import TileOwner from "./TileOwner";
+import BottomTile from "./BottomTile";
+import useGetVideo from "../hooks/useGetVideo";
+import context from "../contexts/auth/context";
+import axios from "axios";
 
-export default function RegularVideo(link) {
+export default function RegularVideoForTile() {
+  const [fullData, setFullData] = useState([]);
+  const { user } = useContext(context);
   //   const startingTime = link.startTime
   //   const endingTime = useState(link.endTime);
-  console.log("LINK", link);
-  let IDforVideo = "U8F5G5wR1mk";
+  console.log(user);
 
-  if (link) {
-    IDforVideo = link.link;
+  const { err, loading, get } = useGetVideo({
+    api: "get/",
+    params: user ? { offset: 0, user: user.displayName } : { offset: 0 },
+    // deps: [offset],
+    cb: (res) => {
+      //part of this might have been built to deal with StrictMode
+      if (fullData.length > 1) {
+        //console.log("fulldata", fullData);
+        let newArr = fullData.slice(-2);
+        if (newArr[0].tile_id == res.data.rows[0].tile_id) {
+          return;
+        } else {
+          setFullData((prev) => [...prev, ...res.data.rows]);
+        }
+      } else {
+        //console.log("fulldata", res.data.rows);
+        setFullData((prev) => [...prev, ...res.data.rows]);
+      }
+    },
+  });
+
+  useEffect(() => {
+    get();
+  }, []);
+  // const getVideoData = async () => {
+  //   try {
+  //     const result = await axios.get("/get/homevideo", {
+  //       params: {
+  //         user: user.displayName,
+  //         offset: 0,
+  //       },
+  //     });
+
+  //     console.log("result", result);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // getVideoData();
+
+  console.log("fulldata", fullData);
+  // console.log("LINK", link);
+
+  let IDforVideo = "zLalOBFg498";
+  let startTime = 59;
+  let endTime = 83;
+
+  if (fullData.length > 0) {
+    IDforVideo = fullData[0].tile_link;
+    startTime = fullData[0].starttime;
+    endTime = fullData[0].endtime;
   }
 
+  console.log(IDforVideo, startTime, endTime);
   const playerRef = useRef(null);
   const playerInstance = useRef(null);
 
@@ -29,14 +86,14 @@ export default function RegularVideo(link) {
         playerVars: {
           autoplay: 1,
           controls: 1,
-          start: link.startingTime,
-          end: link.endTime,
+          start: startTime,
+          end: endTime,
         },
         events: {
           onReady: (event) => event.target.playVideo(),
           onStateChange: (event) => {
             if (event.data === window.YT.PlayerState.ENDED) {
-              playerInstance.current.seekTo(link.startingTime);
+              playerInstance.current.seekTo(startTime);
             }
           },
         },
@@ -52,6 +109,19 @@ export default function RegularVideo(link) {
       }
     };
   }, []);
+  // if (err) {
+  //   return (
+  //     <h3 className="text-danger">
+  //       {err.data?.response?.message || err.message}
+  //     </h3>
+  //   );
+  // }
 
-  return <div ref={playerRef} />;
+  return (
+    <div className="regularVideoForTile">
+      {fullData.length > 0 && <TileOwner data={fullData[0]} />}
+      <div className="youtubeVideo" ref={playerRef}></div>;
+      {fullData.length > 0 && <BottomTile data={fullData[0]} />}
+    </div>
+  );
 }
