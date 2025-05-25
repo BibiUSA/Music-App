@@ -18,6 +18,26 @@ export const createPost = async (req, res) => {
   }
 };
 
+export const newVideo = async (req, res) => {
+  console.log("here", req.body);
+  try {
+    const addData = `INSERT INTO tile_info (tile_owner, tile_link, tile_likes, tile_desc, created_date, view_count, replays, starttime, endtime)
+    VALUES ($1, $2, 0, $3, $4, 0, 0, $5, $6);`;
+    const values = [
+      req.body.owner,
+      req.body.link,
+      req.body.description,
+      req.body.date,
+      req.body.startTime,
+      req.body.endTime,
+    ];
+    const response = await client.query(addData, values);
+    res.send({ data: response });
+  } catch (error) {
+    console.log("newVideo err", error);
+  }
+};
+
 export const likePost = async (req, res) => {
   console.log(req.body);
   try {

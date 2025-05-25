@@ -9,7 +9,8 @@ FROM
 (SELECT t.*, u.img_url
 FROM tile_info t
 JOIN user_info u
-ON t.tile_owner = u.username) as first
+ON t.tile_owner = u.username
+WHERE t.starttime IS NULL) as first
 LEFT JOIN (SELECT *
 FROM likes
 WHERE username = '${req.query.user}') as likes 
@@ -58,6 +59,7 @@ LIMIT 2
 FROM tile_info t
 JOIN user_info u
 ON t.tile_owner = u.username
+WHERE t.starttime IS NULL
     ORDER BY created_date DESC
     LIMIT 2
     OFFSET ${req.query.offset}`;
@@ -90,5 +92,33 @@ ORDER BY created_date DESC
     res.send(response);
   } catch (error) {
     console.log("getFeed err", error);
+  }
+};
+
+export const homeVideo = async (req, res) => {
+  console.log(req.query);
+  console.log("ran");
+  try {
+    if (req.query.user) {
+      const getData = `SELECT first.*, likes.username
+FROM
+(SELECT t.*, u.img_url
+FROM tile_info t
+JOIN user_info u
+ON t.tile_owner = u.username
+ WHERE t.starttime IS NOT NULL) as first
+LEFT JOIN (SELECT *
+FROM likes
+WHERE username = '${req.query.user}') as likes 
+ON first.tile_id = likes.tile_id
+ORDER BY created_date DESC
+LIMIT 2
+OFFSET ${req.query.offset}`;
+      const response = await client.query(getData);
+      console.log("here", response);
+      res.send(response);
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
