@@ -7,51 +7,48 @@ import axios from "axios";
 
 export default function RegularVideoForTile() {
   const [fullData, setFullData] = useState([]);
+  const [videoNum, setVideoNum] = useState(0);
+  const [currentVideo, setCurrentVideo] = useState({
+    id: "zLalOBFg498",
+    startTime: 59,
+    endTime: 83,
+  });
+  const [offset, setOffset] = useState(0);
   const { user } = useContext(context);
   //   const startingTime = link.startTime
   //   const endingTime = useState(link.endTime);
   console.log(user);
 
-  const { err, loading, get } = useGetVideo({
-    api: "get/",
-    params: user ? { offset: 0, user: user.displayName } : { offset: 0 },
-    // deps: [offset],
-    cb: (res) => {
-      //part of this might have been built to deal with StrictMode
-      if (fullData.length > 1) {
-        //console.log("fulldata", fullData);
-        let newArr = fullData.slice(-2);
-        if (newArr[0].tile_id == res.data.rows[0].tile_id) {
-          return;
-        } else {
-          setFullData((prev) => [...prev, ...res.data.rows]);
-        }
-      } else {
-        //console.log("fulldata", res.data.rows);
-        setFullData((prev) => [...prev, ...res.data.rows]);
-      }
-    },
-  });
+  const getVideos = async () => {
+    try {
+      const result = await axios.get("/get/homevideo", {
+        params: {
+          user: user.displayName,
+          offset: offset,
+        },
+      });
+      console.log(result.data.rows);
+      setFullData((prev) => [...prev, ...result.data.rows]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    get();
-  }, []);
-  // const getVideoData = async () => {
-  //   try {
-  //     const result = await axios.get("/get/homevideo", {
-  //       params: {
-  //         user: user.displayName,
-  //         offset: 0,
-  //       },
-  //     });
+    getVideos();
+  }, [offset]);
 
-  //     console.log("result", result);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // getVideoData();
+  useEffect(() => {
+    if (fullData.length == 0) {
+      return;
+    }
+    setCurrentVideo((prevState) => ({
+      ...prevState,
+      id: fullData[videoNum].tile_link,
+      startTime: fullData[videoNum].startTime,
+      endTime: fullData[videoNum].endTime,
+    }));
+  }, [fullData.length == 2]);
 
   console.log("fulldata", fullData);
   // console.log("LINK", link);
@@ -60,11 +57,11 @@ export default function RegularVideoForTile() {
   let startTime = 59;
   let endTime = 83;
 
-  if (fullData.length > 0) {
-    IDforVideo = fullData[0].tile_link;
-    startTime = fullData[0].starttime;
-    endTime = fullData[0].endtime;
-  }
+  // if (fullData.length > 0) {
+  //   IDforVideo = fullData[videoNum].tile_link;
+  //   startTime = fullData[videoNum].starttime;
+  //   endTime = fullData[videoNum].endtime;
+  // }
 
   console.log(IDforVideo, startTime, endTime);
   const playerRef = useRef(null);
@@ -82,18 +79,18 @@ export default function RegularVideoForTile() {
       playerInstance.current = new window.YT.Player(playerRef.current, {
         height: "390",
         width: "640",
-        videoId: IDforVideo,
+        videoId: currentVideo.id,
         playerVars: {
           autoplay: 1,
           controls: 1,
-          start: startTime,
-          end: endTime,
+          start: currentVideo.startTime,
+          end: currentVideo.endTime,
         },
         events: {
           onReady: (event) => event.target.playVideo(),
           onStateChange: (event) => {
             if (event.data === window.YT.PlayerState.ENDED) {
-              playerInstance.current.seekTo(startTime);
+              playerInstance.current.seekTo(currentVideo.startTime);
             }
           },
         },
@@ -108,7 +105,7 @@ export default function RegularVideoForTile() {
         playerInstance.current.destroy();
       }
     };
-  }, []);
+  }, [currentVideo.id]);
   // if (err) {
   //   return (
   //     <h3 className="text-danger">
@@ -119,9 +116,9 @@ export default function RegularVideoForTile() {
 
   return (
     <div className="regularVideoForTile">
-      {fullData.length > 0 && <TileOwner data={fullData[0]} />}
+      {fullData.length > 0 && <TileOwner data={fullData[videoNum]} />}
       <div className="youtubeVideo" ref={playerRef}></div>;
-      {fullData.length > 0 && <BottomTile data={fullData[0]} />}
+      {fullData.length > 0 && <BottomTile data={fullData[videoNum]} />}
     </div>
   );
 }
