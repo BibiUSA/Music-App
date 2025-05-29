@@ -15,7 +15,7 @@ import Message from "./pages/Messages/Messages";
 import { useLocation } from "react-router-dom";
 
 import UploadVideo from "./pages/UploadVideo/UploadVideo";
-import RegularVideoForTile from "./components/RegularVideoForTile";
+import RegularFeed from "./pages/RegularFeed/RegularFeed";
 
 function App() {
   const fullData = Data.data;
@@ -41,7 +41,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/friend/:friend" element={<FriendPage />} />
-          <Route path="/regular" element={<RegularVideoForTile />} />
+          <Route path="/regular" element={<RegularFeed />} />
           <Route path="/upload" element={<UploadVideo />} />
         </Routes>
       </Provider>

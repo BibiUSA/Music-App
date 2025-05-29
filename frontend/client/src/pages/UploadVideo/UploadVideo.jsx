@@ -18,17 +18,8 @@ export default function UploadVideo() {
   const [shouldRender, setShouldRender] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
 
-  //   console.log("LINKOUTPUT", linkInput);
-  //   console.log("LINKDESC", desc);
-  //   console.log("OUTPUT", outputLink);
-  //   console.log("startTime", startTime);
   console.log("shouldREnder", shouldRender);
   console.log("renderKey", renderKey);
-
-  //   let finalStartTime = startTime.minute * 60 + startTime.seconds;
-  //   let tempEndTime = endTime.minute * 60 + endTime.seconds;
-  //   let finalEndTime =
-  //     finalStartTime < tempEndTime ? tempEndTime : finalStartTime + 10;
 
   //holds entry into textarea
   function handleChange(event) {
@@ -91,29 +82,6 @@ export default function UploadVideo() {
     console.log("made it to parent", data);
   };
 
-  // const sharePost = async (linked, desc) => {
-  //   const date = new Date();
-
-  //   if (desc.length < 1) {
-  //     console.log("DEscription here", desc);
-  //     console.log("look at desc", desc);
-  //     return;
-  //   }
-  //   console.log(date);
-  //   try {
-  //     const result = await axios.post(`/create/newpost`, {
-  //       link: linked,
-  //       description: desc,
-  //       owner: user.displayName,
-  //       date: date,
-  //     });
-  //     setSuccess(true);
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   return (
     <div className="uploadVideo">
       <h2>Create New Post</h2>
@@ -129,22 +97,10 @@ export default function UploadVideo() {
       {shouldRender && (
         <>
           <RegularVideo
-            //   key={renderKey}
             link={outputLink}
             description={desc}
             changeSuccess={changeSuccess}
-            //   startTime={finalStartTime}
-            //   endTime={finalEndTime}
           />
-          {/* <button
-              type="submit"
-              className="submit"
-              onClick={() => {
-                sharePost(outputLink, desc);
-              }}
-            >
-              Share
-            </button> */}
         </>
       )}
       <label>Enter Video Link Here</label>
@@ -173,12 +129,8 @@ export default function UploadVideo() {
         {outputLink == "Outputs Link Here." && <p>Outputs Link Here.</p>}
       </div>
       {success && <Success />}
-      {/* <label>Private</label> */}
-      {/* <input type="checkbox" value="private" name="private"></input> */}
+
       <br></br>
-      {/* <button type="submit" className="submit">
-        Share
-      </button> */}
     </div>
   );
 }

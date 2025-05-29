@@ -65,7 +65,7 @@ export default function SignIn() {
       role="tabpanel"
       aria-labelledby="tab-login"
     >
-      <div className="text-center mb-3">
+      {/* <div className="text-center mb-3">
         <p>Sign in with:</p>
         <button
           type="button"
@@ -75,7 +75,7 @@ export default function SignIn() {
         >
           <i className="fab fa-facebook-f"></i>
         </button>
-      </div>
+      </div> */}
 
       {/* Google and facebook login */}
       {/* <iframe
@@ -84,7 +84,7 @@ export default function SignIn() {
         className="googleSignIn"
         src="https://developers.google.com/frame/identity/sign-in/web/demos/signin_contextual_custom.jshtml"
       ></iframe> */}
-      <GoogleOAuthProvider clientId="250922353884-a3kof0anl97as569a7oll8669hnhkrs7.apps.googleusercontent.com">
+      {/* <GoogleOAuthProvider clientId="250922353884-a3kof0anl97as569a7oll8669hnhkrs7.apps.googleusercontent.com">
         <GoogleLogin
           onSuccess={(credentialResponse) => {
             let credentialResponseDecoded = jwtDecode(
@@ -96,7 +96,7 @@ export default function SignIn() {
             console.log("Login Failed");
           }}
         />
-      </GoogleOAuthProvider>
+      </GoogleOAuthProvider> */}
 
       {/* <button onClick={signInFacebook}>Facebook</button> */}
 
