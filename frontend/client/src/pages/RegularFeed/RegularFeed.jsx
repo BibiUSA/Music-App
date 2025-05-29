@@ -32,13 +32,13 @@ export default function RegularFeed() {
   console.log("currentvideo", currentVideo);
   console.log("API call count", counter);
 
-  const getVideos = async () => {
+  const getVideos = async (passedOffset) => {
     setCounter((prev) => prev + 1);
     try {
       const result = await axios.get("/get/homevideo", {
         params: {
           user: user.displayName,
-          offset: offset,
+          offset: passedOffset,
         },
       });
       if (fullData.length > 1) {
@@ -60,7 +60,7 @@ export default function RegularFeed() {
   };
 
   useEffect(() => {
-    getVideos();
+    getVideos(0);
   }, []);
 
   useEffect(() => {
@@ -98,9 +98,14 @@ export default function RegularFeed() {
   console.log("CURRENT VIDEO", currentVideo);
   // console.log("LINK", link);
 
-  const nextUp = (nextVideo) => {
+  const nextUp = () => {
     // setCurrentVideo(nextVideo);
+    if (fullData.length - videoNum < 3) {
+      getVideos(offset + 5);
+      setOffset((prev) => prev + 5);
+    }
     setVideoNum((prev) => prev + 1);
+
     // setNextVideo((prevState) => ({
     //   ...prevState,
     //   id: fullData[videoNum + 1].tile_link,
@@ -134,16 +139,16 @@ export default function RegularFeed() {
       {fullData.length > 0 && (
         <div>
           <button onClick={() => previousVideo()}>PREV</button>
-          <button onClick={() => nextUp(nextVideo)}>NEXT</button>
+          <button onClick={() => nextUp()}>NEXT</button>
         </div>
       )}
       {shouldRender && (
         <>
           <RegularTile
             key={renderKey}
-            id={currentVideo.id}
-            startTime={currentVideo.startTime}
-            endTime={currentVideo.endTime}
+            id={fullData[videoNum].tile_link}
+            startTime={fullData[videoNum].starttime}
+            endTime={fullData[videoNum].endtime}
           />
         </>
       )}
