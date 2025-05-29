@@ -112,7 +112,7 @@ FROM likes
 WHERE username = '${req.query.user}') as likes 
 ON first.tile_id = likes.tile_id
 ORDER BY created_date DESC
-LIMIT 2
+LIMIT 5
 OFFSET ${req.query.offset}`;
       const response = await client.query(getData);
       console.log("here", response);
