@@ -99,8 +99,26 @@ export const homeVideo = async (req, res) => {
   console.log(req.query);
   console.log("ran");
   try {
-    if (req.query.user) {
-      const getData = `SELECT first.*, likes.username
+    if (req.query.sort == "recent") {
+      const response = await homeVideoRecent(req);
+      res.send(response);
+    }
+    if (req.query.sort == "oldest") {
+      const response = await homeVideoOldest(req);
+      res.send(response);
+    }
+    if (req.query.sort == "most-liked") {
+      const response = await homeVideoMostLiked(req);
+      res.send(response);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const homeVideoRecent = async (req) => {
+  try {
+    const getData = `SELECT first.*, likes.username
 FROM
 (SELECT t.*, u.img_url
 FROM tile_info t
@@ -114,10 +132,54 @@ ON first.tile_id = likes.tile_id
 ORDER BY created_date DESC
 LIMIT 5
 OFFSET ${req.query.offset}`;
-      const response = await client.query(getData);
-      console.log("here", response);
-      res.send(response);
-    }
+    const response = await client.query(getData);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const homeVideoOldest = async (req) => {
+  try {
+    const getData = `SELECT first.*, likes.username
+FROM
+(SELECT t.*, u.img_url
+FROM tile_info t
+JOIN user_info u
+ON t.tile_owner = u.username
+ WHERE t.starttime IS NOT NULL) as first
+LEFT JOIN (SELECT *
+FROM likes
+WHERE username = '${req.query.user}') as likes 
+ON first.tile_id = likes.tile_id
+ORDER BY created_date 
+LIMIT 5
+OFFSET ${req.query.offset}`;
+    const response = await client.query(getData);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const homeVideoMostLiked = async (req) => {
+  try {
+    const getData = `SELECT first.*, likes.username
+FROM
+(SELECT t.*, u.img_url
+FROM tile_info t
+JOIN user_info u
+ON t.tile_owner = u.username
+ WHERE t.starttime IS NOT NULL) as first
+LEFT JOIN (SELECT *
+FROM likes
+WHERE username = '${req.query.user}') as likes 
+ON first.tile_id = likes.tile_id
+ORDER BY tile_likes DESC
+LIMIT 5
+OFFSET ${req.query.offset}`;
+    const response = await client.query(getData);
+    return response;
   } catch (error) {
     console.log(error);
   }
