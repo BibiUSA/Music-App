@@ -26,6 +26,8 @@ export default function useShare() {
     const message = item[1];
     const tile_id = item[2];
     const tile_link = item[3];
+    const tile_starttime = item[4];
+    const tile_endtime = item[5];
     const combinedId =
       friend.uid > user.uid ? friend.uid + user.uid : user.uid + friend.uid;
     console.log("FRIEND", friend.img_url, "SENDER", user);
@@ -42,10 +44,19 @@ export default function useShare() {
         //stores the conversation under the logged in user
       }
       console.log("Message", message);
-      sendAMessage(combinedId, message, user.uid, {
-        id: tile_id,
-        link: tile_link,
-      });
+      if (tile_starttime) {
+        sendAMessage(combinedId, message, user.uid, {
+          id: tile_id,
+          link: tile_link,
+          starttime: tile_starttime,
+          endtime: tile_endtime,
+        });
+      } else {
+        sendAMessage(combinedId, message, user.uid, {
+          id: tile_id,
+          link: tile_link,
+        });
+      }
 
       setSeenLastMssgTime(
         "userChats",

@@ -3,18 +3,16 @@ import "./RegularVideo.css";
 import axios from "axios";
 import context from "../contexts/auth/context";
 
-export default function RegularTile(link) {
+export default function MessageVideoTile(link) {
   const [startTime, setStartTime] = useState(link.startTime);
   const [endTime, setEndTime] = useState(link.endTime);
 
   console.log("LINk", link);
 
-  let IDforVideo = "U8F5G5wR1mk";
   let finalStartTime;
   let finalEndTime;
 
   if (link) {
-    IDforVideo = link.link;
     finalStartTime = startTime;
     finalEndTime = endTime;
   }
@@ -35,13 +33,13 @@ export default function RegularTile(link) {
       width: "640",
       videoId: link.id,
       playerVars: {
-        autoplay: 1,
+        autoplay: 0,
         controls: 1,
         start: link.startTime,
         end: link.endTime,
       },
       events: {
-        onReady: (event) => event.target.playVideo(),
+        // onReady: (event) => event.target.playVideo(),
         onStateChange: (event) => {
           if (event.data === window.YT.PlayerState.ENDED) {
             playerInstance.current.seekTo(startTime);
@@ -74,21 +72,21 @@ export default function RegularTile(link) {
   }, []); // Only load once
 
   // Reload player when times change
-  useEffect(() => {
-    if (window.YT && playerInstance.current?.loadVideoById) {
-      playerInstance.current.loadVideoById({
-        videoId: link.id,
-        startSeconds: startTime,
-        endSeconds: endTime,
-      });
-      setTimeout(() => {
-        if (playerInstance.current) {
-          playerInstance.current.seekTo(startTime);
-          playerInstance.current.playVideo();
-        }
-      }, 300);
-    }
-  }, [link.link, finalStartTime, finalEndTime]);
+  //   useEffect(() => {
+  //     if (window.YT && playerInstance.current?.loadVideoById) {
+  //       playerInstance.current.loadVideoById({
+  //         videoId: link.id,
+  //         startSeconds: startTime,
+  //         endSeconds: endTime,
+  //       });
+  //       setTimeout(() => {
+  //         if (playerInstance.current) {
+  //           playerInstance.current.seekTo(startTime);
+  //           playerInstance.current.playVideo();
+  //         }
+  //       }, 300);
+  //     }
+  //   }, []);
 
   return (
     <div>

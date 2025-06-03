@@ -39,6 +39,7 @@ export default function BottomTile(data) {
   }, []);
 
   const changeHeart = async () => {
+    console.log("like status");
     if (!user) {
       console.log("LOG IN PLEASE");
       setTimeout(function () {
@@ -47,6 +48,7 @@ export default function BottomTile(data) {
       return;
     }
     if (liked === "notLiked") {
+      console.log("liked");
       await likePost(tileData.tile_id, user.displayName);
       const check = await axios.get(`user/uid`, {
         params: {
@@ -68,13 +70,14 @@ export default function BottomTile(data) {
   }
 
   const likePost = async (tile_id, username) => {
+    console.log("ran here");
     try {
       const result = await axios.post(
         `/create/likepost/${tile_id}&${username}`
       );
       setLiked("liked");
       setHeart(<IconHeartFilled className="heart" />);
-      console.log(result);
+      console.log("liked done", result);
     } catch (error) {
       console.log(error);
     }
@@ -226,7 +229,14 @@ export default function BottomTile(data) {
       {showDel && <DeletePost data={tileData} setShowDel={setShowDel} />}
       {show && <div className="dialog_box bottom">{options()}</div>}
       <div className="icons">
-        <div onClick={changeHeart}>{heart}</div>
+        <div onClick={changeHeart}>
+          {heart}
+          {user && user.displayName == tileData.tile_owner ? (
+            <span className="like_num">LIKES: {tileData.tile_likes}</span>
+          ) : (
+            <></>
+          )}
+        </div>
 
         <IconMessageUser
           stroke={2}
@@ -238,17 +248,7 @@ export default function BottomTile(data) {
       {shareState && <Share tileData={tileData} close={closeShare} />}
 
       {/* shows how many likes a post have if the tile_owner is the signed in user */}
-      {user ? (
-        <div>
-          {user.displayName == tileData.tile_owner ? (
-            <p className="like_num">LIKES: {tileData.tile_likes}</p>
-          ) : (
-            <></>
-          )}
-        </div>
-      ) : (
-        <></>
-      )}
+
       {/* For messaging in the future */}
       <input
         className="messageOwner"

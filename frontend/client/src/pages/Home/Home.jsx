@@ -123,7 +123,7 @@ export default function Home() {
       {spreadTile}
       {loading && (
         <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
+          <span className="sr-only">Get Your Headphones...</span>
         </div>
       )}
       {/* <div className="listOfTiles">

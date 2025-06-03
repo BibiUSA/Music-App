@@ -10,7 +10,7 @@ export default function TileOwner(data) {
   const { user } = useContext(context);
 
   const description = tileOwnerData.tile_desc;
-  //console.log("tileOwnerDate", tileOwnerData);
+  console.log("tileOwnerDate", tileOwnerData.created_date);
   //console.log("USER", user);
 
   const postTimeTwo = () => {

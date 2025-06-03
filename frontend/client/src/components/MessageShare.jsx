@@ -12,14 +12,34 @@ export default function MessageShare(props) {
     if (props.friends.length < 1) {
       return;
     }
-    for (let i = 0; i < props.friends.length; i++) {
-      openChat([
-        props.friends[i],
-        shareMssg,
-        props.tileData.tile_id,
-        props.tileData.tile_link,
-      ]);
+    if (props.tileData.starttime) {
+      for (let i = 0; i < props.friends.length; i++) {
+        console.log(
+          "with both",
+          props.tileData.starttime,
+          props.tileData.endtime
+        );
+        openChat([
+          props.friends[i],
+          shareMssg,
+          props.tileData.tile_id,
+          props.tileData.tile_link,
+          props.tileData.starttime,
+          props.tileData.endtime,
+        ]);
+      }
+    } else {
+      for (let i = 0; i < props.friends.length; i++) {
+        console.log("neither");
+        openChat([
+          props.friends[i],
+          shareMssg,
+          props.tileData.tile_id,
+          props.tileData.tile_link,
+        ]);
+      }
     }
+
     props.close();
   };
 

@@ -21,7 +21,7 @@ const Provider = (props) => {
   //need this examined
 
   if (user === "loading") {
-    return <div>Loading...</div>;
+    return <div>Get Your Headphones...</div>;
   }
 
   // eslint-disable-next-line react/prop-types
