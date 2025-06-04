@@ -20,7 +20,7 @@ export default function RegularFeed() {
   const [renderKey, setRenderKey] = useState(0);
 
   const [counter, setCounter] = useState(0);
-  const [mobileNav, setMobileNav] = useState("navigate");
+  // const [mobileNav, setMobileNav] = useState("navigate");
 
   console.log("FULLDATA", fullData);
   console.log("counter", counter);
@@ -94,17 +94,17 @@ export default function RegularFeed() {
   };
 
   //intented for mobile
-  const mobileNavigationFun = (mobileNav, button) => {
-    if (mobileNav == "navigate" && button == "prev") {
-      previousVideo();
-      setMobileNav("play");
-    } else if (mobileNav == "navigate" && button == "next") {
-      nextUp();
-      setMobileNav("play");
-    } else if (mobileNav == "play") {
-      setMobileNav("navigate");
-    }
-  };
+  // const mobileNavigationFun = (mobileNav, button) => {
+  //   if (mobileNav == "navigate" && button == "prev") {
+  //     previousVideo();
+  //     setMobileNav("play");
+  //   } else if (mobileNav == "navigate" && button == "next") {
+  //     nextUp();
+  //     setMobileNav("play");
+  //   } else if (mobileNav == "play") {
+  //     setMobileNav("navigate");
+  //   }
+  // };
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -180,7 +180,12 @@ export default function RegularFeed() {
           />
         </>
       )}
-
+      {isMobile() && (
+        <div className="tile-navigation-mobile">
+          <button onClick={() => previousVideo()}>PREV</button>
+          <button onClick={() => nextUp()}>NEXT</button>
+        </div>
+      )}
       {shouldRender && (
         <BottomTile key={renderKey + "a"} data={fullData[videoNum]} />
       )}
@@ -188,16 +193,6 @@ export default function RegularFeed() {
         <div className="tile-navigation">
           <button onClick={() => previousVideo()}>PREV</button>
           <button onClick={() => nextUp()}>NEXT</button>
-        </div>
-      )}
-      {isMobile() && (
-        <div className="tile-navigation">
-          <button onClick={() => mobileNavigationFun(mobileNav, "prev")}>
-            {mobileNav == "navigate" ? "PREV" : "Play"}
-          </button>
-          <button onClick={() => mobileNavigationFun(mobileNav, "next")}>
-            {mobileNav == "navigate" ? "NEXT" : "Play"}
-          </button>
         </div>
       )}
     </div>

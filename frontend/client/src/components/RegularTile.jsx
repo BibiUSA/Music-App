@@ -2,10 +2,13 @@ import { useEffect, useRef, useState, useContext } from "react";
 import "./RegularVideo.css";
 import axios from "axios";
 import context from "../contexts/auth/context";
+import { isMobile } from "../utils/IsMobile";
+import "./RegularTile.css";
 
 export default function RegularTile(link) {
   const [startTime, setStartTime] = useState(link.startTime);
   const [endTime, setEndTime] = useState(link.endTime);
+  const [showButton, setShowButton] = useState(true);
 
   console.log("LINk", link);
 
@@ -90,9 +93,27 @@ export default function RegularTile(link) {
     }
   }, [link.link, finalStartTime, finalEndTime]);
 
+  const playTheVideo = () => {
+    playerInstance.current.playVideo();
+    setShowButton(false);
+  };
+
   return (
     <div>
       <div className="youtubeVideo" ref={playerRef}></div>
+
+      {isMobile() && showButton && (
+        <div className="play-button-div">
+          <button
+            className="playTheVideo"
+            onClick={() => {
+              playTheVideo();
+            }}
+          >
+            play
+          </button>
+        </div>
+      )}
     </div>
   );
 }
