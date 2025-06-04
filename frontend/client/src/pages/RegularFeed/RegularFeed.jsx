@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 export default function RegularFeed() {
   const [fullData, setFullData] = useState([]);
   const [videoNum, setVideoNum] = useState(0);
-  const [sort, setSort] = useState("recent");
+  const [sort, setSort] = useState("magic");
   const [offset, setOffset] = useState(0);
   const { user } = useContext(context);
   const [shouldRender, setShouldRender] = useState(false);
@@ -25,7 +25,7 @@ export default function RegularFeed() {
   console.log("FULLDATA", fullData);
   console.log("counter", counter);
 
-  const getVideos = async (passedOffset, sort = "recent", refresh = false) => {
+  const getVideos = async (passedOffset, sort = "magic", refresh = false) => {
     setCounter((prev) => prev + 1);
     console.log("FULLDATA INSIDE", fullData);
     try {
@@ -56,7 +56,7 @@ export default function RegularFeed() {
 
   console.log(sort);
   useEffect(() => {
-    getVideos(0);
+    getVideos(0), 1000;
   }, []);
 
   useEffect(() => {
@@ -78,6 +78,7 @@ export default function RegularFeed() {
     if (videoNum == fullData.length - 1) {
       return;
     }
+
     setVideoNum((prev) => prev + 1);
 
     setRenderKey((prev) => prev + 1);
@@ -121,13 +122,10 @@ export default function RegularFeed() {
     if (sort == value) {
       return;
     }
-    getVideos(0, value, true);
-
-    setOffset(0);
     setSort(value);
     setVideoNum(0);
-
-    setRenderKey(Math.random());
+    getVideos(0, value, true);
+    setOffset(0);
 
     // setFullData([]);
   };
@@ -135,6 +133,12 @@ export default function RegularFeed() {
   return (
     <div className="regularFeed">
       <div>
+        <button
+          className={sort == "magic" ? "blue-sort-button" : "sort-button"}
+          onClick={() => newSort("magic")}
+        >
+          Magic
+        </button>
         <button
           className={sort == "recent" ? "blue-sort-button" : "sort-button"}
           onClick={() => newSort("recent")}
@@ -153,18 +157,12 @@ export default function RegularFeed() {
         >
           Most Liked
         </button>
-        <button
-          className={sort == "random" ? "blue-sort-button" : "sort-button"}
-          onClick={() => newSort("random")}
-        >
-          Random
-        </button>
-        <button
-          className={sort == "random" ? "blue-sort-button" : "sort-button"}
+        {/* <button
+          className={sort == "friends" ? "blue-sort-button" : "sort-button"}
           onClick={() => newSort("friends")}
         >
           Friends
-        </button>
+        </button> */}
       </div>
 
       <Link to="/upload">
@@ -172,7 +170,7 @@ export default function RegularFeed() {
       </Link>
       {fullData.length > 0 && <TileOwner data={fullData[videoNum]} />}
 
-      {shouldRender && (
+      {fullData.length > 0 && shouldRender && (
         <>
           <RegularTile
             key={renderKey}

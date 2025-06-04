@@ -118,16 +118,20 @@ export default function UploadVideo() {
         type="button"
         value="Convert"
         onClick={convertLink}
-        className="convert"
+        className="btn btn-primary convert-button"
       ></input>
-      <div className="output">
-        {outputLink == "error" && <p>Wrong Link</p>}
+      {!shouldRender && (
+        <div className="output">
+          {outputLink == "error" && <p>Wrong Link</p>}
 
-        {outputLink == "support" && (
-          <p>Double Check the Link or contact support.</p>
-        )}
-        {outputLink == "Outputs Link Here." && <p>Outputs Link Here.</p>}
-      </div>
+          {outputLink == "support" && (
+            <p>Double Check the Link or contact support.</p>
+          )}
+          {outputLink == "Outputs Link Here." && (
+            <p className="output-link-here">Outputs Link Here.</p>
+          )}
+        </div>
+      )}
       {success && <Success />}
 
       <br></br>

@@ -34,14 +34,15 @@ function App() {
           </div>
         )}
         <Routes>
-          <Route index path="/" element={<Home />} />
+          <Route path="/" element={<RegularFeed />} />
+          <Route index path="/regular" element={<Home />} />
           <Route path="/messages" element={<Message />} />
           <Route path="/account" element={<Account />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/friend/:friend" element={<FriendPage />} />
-          <Route path="/regular" element={<RegularFeed />} />
+
           <Route path="/upload" element={<UploadVideo />} />
         </Routes>
       </Provider>
