@@ -21,6 +21,7 @@ export default function RegularTile(link) {
     finalStartTime = startTime;
     finalEndTime = endTime;
   }
+  console.log("child link ", link.link);
 
   const playerRef = useRef(null);
   const playerInstance = useRef(null);

@@ -25,13 +25,23 @@
     position: relative;
     margin-left: auto;
     margin-right: 20px;
-    border: 1px solid black;
+
     width:max-content;
-    background-color: rgb(37, 110, 183);
+   
 }
 
 .friendVideo{
     margin-left: 20px;
     width:max-content;
-    background-color: white;
+  
+}
+
+#show-mssg-button{
+    border: 2px solid white;
+}
+
+#show-mssg-button:hover{
+   color: black;
+   background-color: white;
+   border: 2px solid black;
 }

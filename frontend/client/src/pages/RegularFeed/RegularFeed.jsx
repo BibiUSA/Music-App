@@ -23,7 +23,10 @@ export default function RegularFeed() {
   // const [mobileNav, setMobileNav] = useState("navigate");
 
   console.log("FULLDATA", fullData);
-  console.log("counter", counter);
+  console.log("videoNum", videoNum);
+  if (fullData.length > 0) {
+    console.log("video link in parent", fullData[videoNum].tile_desc);
+  }
 
   const getVideos = async (passedOffset, sort = "magic", refresh = false) => {
     setCounter((prev) => prev + 1);
@@ -82,7 +85,6 @@ export default function RegularFeed() {
     setVideoNum((prev) => prev + 1);
 
     setRenderKey((prev) => prev + 1);
-    console.log("videoNum", videoNum);
   };
 
   //get the previous video in queue
@@ -90,21 +92,7 @@ export default function RegularFeed() {
     setVideoNum((prev) => prev - 1);
 
     setRenderKey((prev) => prev - 1);
-    console.log("videoNum", videoNum);
   };
-
-  //intented for mobile
-  // const mobileNavigationFun = (mobileNav, button) => {
-  //   if (mobileNav == "navigate" && button == "prev") {
-  //     previousVideo();
-  //     setMobileNav("play");
-  //   } else if (mobileNav == "navigate" && button == "next") {
-  //     nextUp();
-  //     setMobileNav("play");
-  //   } else if (mobileNav == "play") {
-  //     setMobileNav("navigate");
-  //   }
-  // };
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -132,7 +120,65 @@ export default function RegularFeed() {
 
   return (
     <div className="regularFeed">
-      <div>
+      <Link to="/upload">
+        <button className="btn btn-primary upload-video"> Upload</button>
+      </Link>
+
+      {fullData.length > 0 && <TileOwner data={fullData[videoNum]} />}
+
+      {fullData.length > 0 && shouldRender && (
+        <>
+          <RegularTile
+            key={renderKey}
+            id={fullData[videoNum].tile_link}
+            startTime={fullData[videoNum].starttime}
+            endTime={fullData[videoNum].endtime}
+          />
+        </>
+      )}
+      {isMobile() && (
+        <div className="tile-navigation-mobile">
+          {fullData[0].tile_id != fullData[videoNum].tile_id ? (
+            <button className="tile-nav-button" onClick={() => previousVideo()}>
+              PREV
+            </button>
+          ) : (
+            <button className="prev-non-active">PREV</button>
+          )}
+          {fullData[fullData.length - 1].tile_id !=
+          fullData[videoNum].tile_id ? (
+            <button className="tile-nav-button" onClick={() => nextUp()}>
+              NEXT
+            </button>
+          ) : (
+            <button className="next-non-active">THE END</button>
+          )}
+        </div>
+      )}
+      {shouldRender && (
+        <BottomTile key={renderKey + "a"} data={fullData[videoNum]} />
+      )}
+      {!isMobile() && fullData.length > 0 && (
+        <div className="tile-navigation">
+          {fullData[0].tile_id != fullData[videoNum].tile_id ? (
+            <button className="tile-nav-button" onClick={() => previousVideo()}>
+              PREV
+            </button>
+          ) : (
+            <button className="prev-non-active">PREV</button>
+          )}
+          {fullData[fullData.length - 1].tile_id !=
+          fullData[videoNum].tile_id ? (
+            <button className="tile-nav-button" onClick={() => nextUp()}>
+              NEXT
+            </button>
+          ) : (
+            <button className="next-non-active">NEXT</button>
+          )}
+        </div>
+      )}
+
+      <div id="sort-options">
         <button
           className={sort == "magic" ? "blue-sort-button" : "sort-button"}
           onClick={() => newSort("magic")}
@@ -157,44 +203,13 @@ export default function RegularFeed() {
         >
           Most Liked
         </button>
-        {/* <button
+        <button
           className={sort == "friends" ? "blue-sort-button" : "sort-button"}
           onClick={() => newSort("friends")}
         >
           Friends
-        </button> */}
+        </button>
       </div>
-
-      <Link to="/upload">
-        <button className="btn btn-primary"> Upload</button>
-      </Link>
-      {fullData.length > 0 && <TileOwner data={fullData[videoNum]} />}
-
-      {fullData.length > 0 && shouldRender && (
-        <>
-          <RegularTile
-            key={renderKey}
-            id={fullData[videoNum].tile_link}
-            startTime={fullData[videoNum].starttime}
-            endTime={fullData[videoNum].endtime}
-          />
-        </>
-      )}
-      {isMobile() && (
-        <div className="tile-navigation-mobile">
-          <button onClick={() => previousVideo()}>PREV</button>
-          <button onClick={() => nextUp()}>NEXT</button>
-        </div>
-      )}
-      {shouldRender && (
-        <BottomTile key={renderKey + "a"} data={fullData[videoNum]} />
-      )}
-      {!isMobile() && fullData.length > 0 && (
-        <div className="tile-navigation">
-          <button onClick={() => previousVideo()}>PREV</button>
-          <button onClick={() => nextUp()}>NEXT</button>
-        </div>
-      )}
     </div>
   );
 }

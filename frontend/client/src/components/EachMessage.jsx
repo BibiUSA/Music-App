@@ -1,10 +1,11 @@
 import "./EachMessage.css";
 import context from "../contexts/auth/context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import MessageVideoTile from "./MessageVideoTile";
 
 export default function EachMessage(props) {
   const { user } = useContext(context);
+  const [show, setShow] = useState(false);
 
   console.log("mESSAGE", props.info);
 
@@ -30,12 +31,21 @@ export default function EachMessage(props) {
               allowFullScreen
             ></iframe>
           ) : (
-            <MessageVideoTile
-              key={Math.random()}
-              id={props.info.tile.link}
-              startTime={props.info.tile.starttime}
-              endTime={props.info.tile.endtime}
-            />
+            <div>
+              {!show && (
+                <button id="show-mssg-button" onClick={() => setShow(true)}>
+                  show Video
+                </button>
+              )}
+              {show && (
+                <MessageVideoTile
+                  key={Math.random()}
+                  id={props.info.tile.link}
+                  startTime={props.info.tile.starttime}
+                  endTime={props.info.tile.endtime}
+                />
+              )}
+            </div>
           )}
         </div>
       )}
