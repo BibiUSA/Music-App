@@ -138,15 +138,17 @@ export default function RegularFeed() {
       )}
       {isMobile() && (
         <div className="tile-navigation-mobile">
-          {fullData[0].tile_id != fullData[videoNum].tile_id ? (
+          {fullData.length > 0 &&
+          fullData[0].tile_id != fullData[videoNum].tile_id ? (
             <button className="tile-nav-button" onClick={() => previousVideo()}>
               PREV
             </button>
           ) : (
             <button className="prev-non-active">PREV</button>
           )}
-          {fullData[fullData.length - 1].tile_id !=
-          fullData[videoNum].tile_id ? (
+          {fullData.length &&
+          fullData[fullData.length - 1].tile_id !=
+            fullData[videoNum].tile_id ? (
             <button className="tile-nav-button" onClick={() => nextUp()}>
               NEXT
             </button>
