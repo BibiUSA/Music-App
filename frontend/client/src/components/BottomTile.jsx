@@ -41,10 +41,13 @@ export default function BottomTile(data) {
   const changeHeart = async () => {
     console.log("like status");
     if (!user) {
-      console.log("LOG IN PLEASE");
-      setTimeout(function () {
-        alert("Log in to like posts.");
-      }, 1);
+      if (liked == "notLiked") {
+        setLiked("liked");
+        setHeart(<IconHeartFilled className="heart" />);
+      } else {
+        setLiked("notLiked");
+        setHeart(<IconHeart stroke={2} className="icon" />);
+      }
       return;
     }
     if (liked === "notLiked") {
@@ -100,10 +103,16 @@ export default function BottomTile(data) {
   //creates the box to write reason for report
   const writeReport = () => {
     setShow((prev) => !prev);
+    if (!user) {
+      return;
+    }
     setReport(true);
   };
 
   const reportPost = async () => {
+    if (!user) {
+      return;
+    }
     try {
       const result = await axios.post(`/create/report`, {
         tile_id: tileData.tile_id,
@@ -131,7 +140,7 @@ export default function BottomTile(data) {
 
   //options to report or edit/delete posts
   const options = () => {
-    if (user.displayName == tileData.tile_owner) {
+    if (user?.displayName == tileData.tile_owner) {
       return (
         <div>
           <button className="user-buttons" id="edit-user-button" onClick={edit}>
@@ -149,24 +158,23 @@ export default function BottomTile(data) {
     } else {
       return (
         <button className="user-buttons" onClick={writeReport}>
-          Report Post
+          {user ? `Report Post` : `Log In to Report Post`}
         </button>
       );
     }
   };
 
   const handleOptions = () => {
-    if (user) {
-      setShow((prev) => !prev);
-      setShowDel(false);
-      setShowEdit(false);
-    } else {
-      window.alert("log in for these features.");
-    }
+    setShow((prev) => !prev);
+    setShowDel(false);
+    setShowEdit(false);
   };
 
   //check to see if tile_owner and user are friends. if so, send message
   const sendMessage = async (message) => {
+    if (!user) {
+      return;
+    }
     try {
       const response = await axios.get(`user/checkfriendship`, {
         params: {
@@ -253,7 +261,7 @@ export default function BottomTile(data) {
       <input
         className="messageOwner"
         type="textarea"
-        placeholder="Send Message"
+        placeholder={user ? "Send Message" : "Log In to Send Message"}
         value={message}
         onChange={(event) => {
           handleChange(event);
@@ -280,7 +288,7 @@ export default function BottomTile(data) {
               Cancel
             </button>
             <button className="sendReport" onClick={reportPost}>
-              Report
+              {user ? `Report` : `Log In To Report`}
             </button>
           </div>
         </div>

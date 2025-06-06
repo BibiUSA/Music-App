@@ -37,14 +37,6 @@ export default function UploadVideo() {
     setOutputLink(tempString);
   }
 
-  function clipEmbedConvert(link) {
-    const sliceStart = link.indexOf("https");
-    const tempString = link.slice(sliceStart);
-    const sliceEnd = tempString.indexOf(`"`);
-    let finalLink = tempString.slice(0, sliceEnd);
-    setOutputLink(finalLink);
-  }
-
   function youtubeShareUrlConvert(link) {
     const sliceStart = link.indexOf("youtu.be/");
     const tempString = link.slice(sliceStart + 9);
@@ -60,11 +52,6 @@ export default function UploadVideo() {
       linkInput.includes("/watch?")
     ) {
       mainUrlConvert(linkInput);
-    } else if (
-      linkInput.includes("www.youtube.com") &&
-      linkInput.includes("clipt=")
-    ) {
-      clipEmbedConvert(linkInput);
     } else if (linkInput.includes("youtu.be") && linkInput.includes("?")) {
       youtubeShareUrlConvert(linkInput);
     } else {

@@ -60,7 +60,7 @@ export default function Notification(props) {
         <Link
           onClick={() => props.closeNotificationWindow(true)}
           className="your-profile"
-          to="/profile"
+          to={user ? "/profile" : "/login"}
         >
           <img
             src={

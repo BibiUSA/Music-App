@@ -5,7 +5,7 @@ import context from "../contexts/auth/context";
 
 export default function RegularVideo(link) {
   const [startTime, setStartTime] = useState({ minute: 0, seconds: 0 });
-  const [endTime, setEndTime] = useState({ minute: 0, seconds: 10 });
+  const [endTime, setEndTime] = useState({ minute: 1, seconds: 0 });
   const { user } = useContext(context);
   console.log("LINK", link);
 

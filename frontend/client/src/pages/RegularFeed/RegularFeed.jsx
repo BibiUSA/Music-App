@@ -34,7 +34,7 @@ export default function RegularFeed() {
     try {
       const result = await axios.get("/get/homevideo", {
         params: {
-          user: user.displayName,
+          user: user ? user.displayName : 0,
           offset: passedOffset,
           sort: sort,
         },
@@ -120,8 +120,10 @@ export default function RegularFeed() {
 
   return (
     <div className="regularFeed">
-      <Link to="/upload">
-        <button className="btn btn-primary upload-video"> Upload</button>
+      <Link to={user ? "/upload" : "/login"}>
+        <button className="btn btn-primary upload-video">
+          {user ? `Upload` : `Log In To Share That Song You Like`}
+        </button>
       </Link>
 
       {fullData.length > 0 && <TileOwner data={fullData[videoNum]} />}
@@ -205,12 +207,14 @@ export default function RegularFeed() {
         >
           Most Liked
         </button>
-        <button
-          className={sort == "friends" ? "blue-sort-button" : "sort-button"}
-          onClick={() => newSort("friends")}
-        >
-          Friends
-        </button>
+        {user && (
+          <button
+            className={sort == "friends" ? "blue-sort-button" : "sort-button"}
+            onClick={() => newSort("friends")}
+          >
+            Friends
+          </button>
+        )}
       </div>
     </div>
   );

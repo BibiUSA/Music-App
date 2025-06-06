@@ -66,22 +66,41 @@ export default function TileOwner(data) {
   //   }
   // };
 
+  const addFriend = () => {
+    if (!user) {
+      return;
+    }
+  };
+
   return (
     <div className="tileOwner">
-      <Link
-        to={user.displayName != ownerName ? `/friend/${ownerName}` : "/profile"}
-      >
-        <div className="tileOwnerInfo">
-          <img
-            className="ownerImg"
-            src={tileOwnerData.img_url || user.photoURL}
-          ></img>
-          <div className="ownerText">
-            <p className="ownerName">{ownerName}</p>
-            <p className="duration">{postTimeTwo()}</p>
+      <div className="tile-top">
+        <Link
+          to={
+            !user
+              ? "/login"
+              : user?.displayName != ownerName
+              ? `/friend/${ownerName}`
+              : "/profile"
+          }
+        >
+          <div className="tileOwnerInfo">
+            <img
+              className="ownerImg"
+              src={tileOwnerData.img_url || user.photoURL}
+            ></img>
+            <div className="ownerText">
+              <p className="ownerName">{ownerName}</p>
+              <p className="duration">{postTimeTwo()}</p>
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+        {tileOwnerData?.tile_owner != user?.displayName && (
+          <button className="follow-button" onClick={() => addFriend()}>
+            add friend
+          </button>
+        )}
+      </div>
       <div className="description">
         <p>{description}</p>
       </div>

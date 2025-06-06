@@ -48,6 +48,9 @@ export default function SearchFriend(props) {
 
   const searchFriendPlus = async (event) => {
     setSearch(event.target.value);
+    if (!user) {
+      return;
+    }
     //might need a way to wait till setSearch is done
     searchFriend(search, user.displayName);
   };

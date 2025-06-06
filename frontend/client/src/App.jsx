@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Data from "./Data";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/Home/Home";
+import Home from "./pages/NotHome/Home";
 import Navbar from "./components/Navbar";
 import Account from "./pages/Account/Account";
 import Profile from "./pages/Profile/Profile";
@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom";
 
 import UploadVideo from "./pages/UploadVideo/UploadVideo";
 import RegularFeed from "./pages/RegularFeed/RegularFeed";
+import YourPostsOld from "./components/YourPostsOld";
 
 function App() {
   const fullData = Data.data;
@@ -35,13 +36,14 @@ function App() {
         )}
         <Routes>
           <Route path="/" element={<RegularFeed />} />
-          <Route index path="/regular" element={<Home />} />
+          {/* <Route index path="/regular" element={<Home />} /> */}
           <Route path="/messages" element={<Message />} />
           <Route path="/account" element={<Account />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/friend/:friend" element={<FriendPage />} />
+          <Route path="/oldposts" element={<YourPostsOld />} />
 
           <Route path="/upload" element={<UploadVideo />} />
         </Routes>

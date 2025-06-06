@@ -30,6 +30,9 @@ export default function Navbar() {
   const { user } = useContext(context);
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     const getChats = () => {
       const unsub = onSnapshot(
         doc(firebaseDb, "unseenMessages", user.uid),
@@ -43,9 +46,12 @@ export default function Navbar() {
       };
     };
     user.uid && getChats();
-  }, [user.uid]);
+  }, [user?.uid]);
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     const getNotifications = () => {
       const unSub = onSnapshot(
         doc(firebaseDb, "notifications", user.uid),
@@ -60,10 +66,13 @@ export default function Navbar() {
     };
 
     user.uid && getNotifications();
-  }, [user.uid]);
+  }, [user?.uid]);
 
   const search = async (event) => {
     setSearchWord(event.target.value);
+    if (!user) {
+      return;
+    }
     try {
       const response = await axios.get(`/user/search`, {
         params: { search: searchWord.trim() },
@@ -107,7 +116,7 @@ export default function Navbar() {
           <input
             className={mobileSearch ? "mobileSearch" : "search"}
             type="text"
-            placeholder="Search Users"
+            placeholder={user ? "Search Users" : "Login To Search "}
             value={searchWord}
             onChange={(event) => search(event)}
           ></input>
@@ -135,7 +144,7 @@ export default function Navbar() {
             <IconHome stroke={2} />
           </div>
         </Link>
-        <Link to="/messages">
+        <Link to={user ? "/messages" : "/login"}>
           <div
             className={newMessage["unseenMessage"] > 0 ? "red-icon" : "icons"}
           >

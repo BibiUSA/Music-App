@@ -1,15 +1,17 @@
 //for sending messages to those who you are sharing the video clips
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "./MessageShare.css";
 import useShare from "../hooks/useShare";
+import context from "../contexts/auth/context";
 
 export default function MessageShare(props) {
   const [shareMssg, setShareMssg] = useState("");
   const { openChat } = useShare();
   console.log("CHILDREN", props);
+  const { user } = useContext(context);
 
   const share = () => {
-    if (props.friends.length < 1) {
+    if (props.friends.length < 1 || !user) {
       return;
     }
     if (props.tileData.starttime) {
@@ -49,6 +51,7 @@ export default function MessageShare(props) {
       <input
         className="shareMessage"
         type="textarea"
+        placeholder="Enter the Message to Share"
         onChange={(event) => {
           setShareMssg(event.target.value);
         }}
@@ -58,7 +61,7 @@ export default function MessageShare(props) {
         className={props.friends.length > 0 ? "shareButton" : "preshareButton"}
         onClick={() => share()}
       >
-        Share
+        {user ? `Share` : `Log In To Share`}
       </button>
     </div>
   );

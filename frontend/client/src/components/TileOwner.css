@@ -31,3 +31,21 @@
     object-fit:cover;
     border-radius: 50%;
 }
+
+.tile-top{
+    display: flex;
+    justify-content: space-between;
+}
+.follow-button{
+    background-color: white;
+    color: black;
+    padding: 0 1rem;
+    border: 1px solid black;
+    height:2rem;
+    box-shadow: 2px 2px 2px gainsboro;
+}
+
+.follow-button:hover{
+    box-shadow: none;
+    border: 1px solid black;
+}

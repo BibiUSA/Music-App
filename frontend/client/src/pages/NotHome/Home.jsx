@@ -25,7 +25,7 @@ export default function Home() {
     api: "get/",
     params: user
       ? { offset: 0, user: user.displayName, feedChoice: feedChoice }
-      : { offset: 0 },
+      : { offset: 0, user: 0, feedChoice: feedChoice },
     // deps: [offset],
     cb: (res) => {
       //part of this might have been built to deal with StrictMode
@@ -75,7 +75,7 @@ export default function Home() {
   //created to avoid duplicates from strictmode
   const uniqueId = [];
 
-  //used to get data for the tile and map it
+  // used to get data for the tile and map it
   const spreadTile = fullData.map((tileData) => {
     //console.log(tileData);
     //console.log("ID", uniqueId);
