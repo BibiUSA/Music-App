@@ -72,6 +72,124 @@ WHERE t.starttime IS NULL
 };
 
 export const getYourPosts = async (req, res) => {
+  console.log(req.query);
+  console.log("ran");
+  try {
+    if (req.query.sort == "recent") {
+      const response = await getYourPostsRecent(req);
+      res.send(response);
+    } else if (req.query.sort == "oldest") {
+      const response = await getYourPostsOldest(req);
+      res.send(response);
+    } else if (req.query.sort == "most-liked") {
+      const response = await getYourPostsLiked(req);
+      res.send(response);
+    } else if (req.query.sort == "magic") {
+      const response = await getYourPostsRandom(req);
+      res.send(response);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getYourPostsRecent = async (req, res) => {
+  console.log("yourpost", req.query);
+  try {
+    const getData = `SELECT t.*, l.username, u.img_url
+FROM (SELECT *
+FROM likes
+WHERE likes.username = '${req.query.user}') as l
+RIGHT JOIN 
+(SELECT *
+FROM tile_info
+WHERE tile_owner = '${req.query.feedPerson}' AND starttime IS NOT NULL) as t
+ON l.tile_id = t.tile_id
+LEFT JOIN user_info u
+ON u.username = t.tile_owner
+ORDER BY created_date DESC
+    LIMIT 5
+    OFFSET ${req.query.offset}`;
+    const response = await client.query(getData);
+    return response;
+  } catch (error) {
+    console.log("getFeed err", error);
+  }
+};
+
+export const getYourPostsOldest = async (req, res) => {
+  console.log("yourpost", req.query);
+  try {
+    const getData = `SELECT t.*, l.username, u.img_url
+FROM (SELECT *
+FROM likes
+WHERE likes.username = '${req.query.user}') as l
+RIGHT JOIN 
+(SELECT *
+FROM tile_info
+WHERE tile_owner = '${req.query.feedPerson}' AND starttime IS NOT NULL) as t
+ON l.tile_id = t.tile_id
+LEFT JOIN user_info u
+ON u.username = t.tile_owner
+ORDER BY created_date 
+    LIMIT 5
+    OFFSET ${req.query.offset}`;
+    const response = await client.query(getData);
+    return response;
+  } catch (error) {
+    console.log("getFeed err", error);
+  }
+};
+
+export const getYourPostsLiked = async (req, res) => {
+  console.log("yourpost", req.query);
+  try {
+    const getData = `SELECT t.*, l.username, u.img_url
+FROM (SELECT *
+FROM likes
+WHERE likes.username = '${req.query.user}') as l
+RIGHT JOIN 
+(SELECT *
+FROM tile_info
+WHERE tile_owner = '${req.query.feedPerson}' AND starttime IS NOT NULL) as t
+ON l.tile_id = t.tile_id
+LEFT JOIN user_info u
+ON u.username = t.tile_owner
+ORDER BY tile_likes DESC
+    LIMIT 5
+    OFFSET ${req.query.offset}`;
+    const response = await client.query(getData);
+    return response;
+  } catch (error) {
+    console.log("getFeed err", error);
+  }
+};
+
+export const getYourPostsRandom = async (req, res) => {
+  console.log("yourpost", req.query);
+  try {
+    const getData = `SELECT t.*, l.username, u.img_url
+FROM (SELECT *
+FROM likes
+WHERE likes.username = '${req.query.user}') as l
+RIGHT JOIN 
+(SELECT *
+FROM tile_info
+WHERE tile_owner = '${req.query.feedPerson}' AND starttime IS NOT NULL) as t
+ON l.tile_id = t.tile_id
+LEFT JOIN user_info u
+ON u.username = t.tile_owner
+ORDER BY gen_random_uuid()
+    LIMIT 5
+    OFFSET ${req.query.offset}`;
+    const response = await client.query(getData);
+    return response;
+  } catch (error) {
+    console.log("getFeed err", error);
+  }
+};
+
+export const getYourPostsOld = async (req, res) => {
   console.log("yourpost", req.query);
   try {
     const getData = `SELECT t.*, l.username, u.img_url
@@ -89,7 +207,7 @@ ORDER BY created_date DESC
     LIMIT 2
     OFFSET ${req.query.offset}`;
     const response = await client.query(getData);
-    res.send(response);
+    return response;
   } catch (error) {
     console.log("getFeed err", error);
   }
