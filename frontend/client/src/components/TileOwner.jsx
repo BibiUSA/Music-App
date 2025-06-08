@@ -66,11 +66,11 @@ export default function TileOwner(data) {
   //   }
   // };
 
-  const addFriend = () => {
-    if (!user) {
-      return;
-    }
-  };
+  // const addFriend = () => {
+  //   if (!user) {
+  //     return;
+  //   }
+  // };
 
   return (
     <div className="tileOwner">
@@ -95,11 +95,11 @@ export default function TileOwner(data) {
             </div>
           </div>
         </Link>
-        {tileOwnerData?.tile_owner != user?.displayName && (
+        {/* {tileOwnerData?.tile_owner != user?.displayName && (
           <button className="follow-button" onClick={() => addFriend()}>
             add friend
           </button>
-        )}
+        )} */}
       </div>
       <div className="description">
         <p>{description}</p>

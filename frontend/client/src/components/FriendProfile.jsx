@@ -7,32 +7,23 @@ import { useContext, useEffect, useState } from "react";
 import context from "../contexts/auth/context";
 import axios from "../config/axios";
 import { updateFriendRequest } from "../Services/firebaseCalls";
+import { getFriendInfo } from "../hooks/useGetFriendInfo";
 
 export default function FriendProfile() {
   const { user } = useContext(context);
   const friendName = useParams().friend;
   const [friendInfo, setFriendInfo] = useState("");
   const [friendButton, setFriendButton] = useState("Send Friend Request");
+  console.log("FRIENDINFO", friendInfo);
 
-  const getFriendInfo = async () => {
-    console.log("FRIEND", friendName);
-    try {
-      const response = await axios.get(`/user/friend`, {
-        params: { friend: friendName, user: user.displayName },
-      });
-      setFriendInfo(response.data.rows[0]);
-      console.log("FRIEND INFO", response);
-    } catch (error) {
-      console.log(error);
-    }
+  const getFriendData = async () => {
+    const friendData = await getFriendInfo(friendName, user);
+    setFriendInfo(friendData);
   };
 
   //this is so when you're on a friend page and loads another friend page, the content updates
   useEffect(() => {
-    // if (friendInfo == "") {
-    //   getFriendInfo();
-    // }
-    getFriendInfo();
+    getFriendData();
   }, [friendName]);
 
   useEffect(() => {
