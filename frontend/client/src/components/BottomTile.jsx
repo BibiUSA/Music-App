@@ -29,7 +29,7 @@ export default function BottomTile(data) {
   const tileData = data.data;
 
   //console.log("USER", user);
-  console.log(tileData);
+  // console.log(tileData);
 
   useEffect(() => {
     if (tileData.username) {

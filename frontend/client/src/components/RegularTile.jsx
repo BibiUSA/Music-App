@@ -26,8 +26,8 @@ export default function RegularTile(link) {
   const playerRef = useRef(null);
   const playerInstance = useRef(null);
 
-  console.log("ENDTIME", finalEndTime);
-  console.log("STARTTIME", finalStartTime);
+  // console.log("ENDTIME", finalEndTime);
+  // console.log("STARTTIME", finalStartTime);
 
   const loadPlayer = () => {
     if (playerInstance.current) {
@@ -75,7 +75,7 @@ export default function RegularTile(link) {
         playerInstance.current.destroy();
       }
     };
-  }, []); // Only load once
+  }, [link.id]); // Only load once
 
   // Reload player when times change
   useEffect(() => {

@@ -16,10 +16,10 @@ export default function RegularFeed() {
   const [sort, setSort] = useState("magic");
   const [offset, setOffset] = useState(0);
   const { user } = useContext(context);
-  const [shouldRender, setShouldRender] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
 
   const [counter, setCounter] = useState(0);
+  const [loading, setLoading] = useState(true);
   // const [mobileNav, setMobileNav] = useState("navigate");
 
   console.log("FULLDATA", fullData);
@@ -30,6 +30,7 @@ export default function RegularFeed() {
 
   const getVideos = async (passedOffset, sort = "magic", refresh = false) => {
     setCounter((prev) => prev + 1);
+    setLoading(true);
     console.log("FULLDATA INSIDE", fullData);
     try {
       const result = await axios.get("/get/homevideo", {
@@ -39,6 +40,8 @@ export default function RegularFeed() {
           sort: sort,
         },
       });
+      console.log(result, "Vidoes Results");
+      setLoading(false);
       if (refresh == true || fullData.length == 0) {
         setFullData(() => [...result.data.rows]);
       } else if (fullData.length > 1) {
@@ -57,25 +60,16 @@ export default function RegularFeed() {
     }
   };
 
-  console.log(sort);
   useEffect(() => {
     getVideos(0), 1000;
   }, []);
-
-  useEffect(() => {
-    if (fullData.length == 0) {
-      return;
-    }
-
-    setTimeout(setShouldRender(true), 1000);
-  }, [fullData.length >= 2]);
-
   //to get the next video in queue
-  const nextUp = () => {
+  const nextUp = async () => {
     // setCurrentVideo(nextVideo);
-
-    if (fullData.length - videoNum < 3) {
-      getVideos(offset + 5, sort);
+    const next = videoNum + 1;
+    if (!fullData[next]) return;
+    if (fullData.length - videoNum < 4) {
+      await getVideos(offset + 5, sort);
       setOffset((prev) => prev + 5);
     }
     if (videoNum == fullData.length - 1) {
@@ -89,6 +83,7 @@ export default function RegularFeed() {
 
   //get the previous video in queue
   const previousVideo = () => {
+    if (videoNum < 1) return;
     setVideoNum((prev) => prev - 1);
 
     setRenderKey((prev) => prev - 1);
@@ -103,16 +98,17 @@ export default function RegularFeed() {
       }
     }
     window.addEventListener("keydown", handleKeyDown);
-  }, []);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [videoNum, sort]);
 
   //NEED TO PROBABLY FIX THIS SO VIDEO RENDERS CORRECTLY
-  const newSort = (value) => {
+  const newSort = async (value) => {
     if (sort == value) {
       return;
     }
     setSort(value);
+    await getVideos(0, value, true);
     setVideoNum(0);
-    getVideos(0, value, true);
     setOffset(0);
 
     // setFullData([]);
@@ -128,7 +124,7 @@ export default function RegularFeed() {
 
       {fullData.length > 0 && <TileOwner data={fullData[videoNum]} />}
 
-      {fullData.length > 0 && shouldRender && (
+      {fullData.length > 0 && (
         <>
           <RegularTile
             key={renderKey}
@@ -159,13 +155,17 @@ export default function RegularFeed() {
           )}
         </div>
       )}
-      {shouldRender && (
+      {fullData.length > 0 && (
         <BottomTile key={renderKey + "a"} data={fullData[videoNum]} />
       )}
       {!isMobile() && fullData.length > 0 && (
         <div className="tile-navigation">
           {fullData[0].tile_id != fullData[videoNum].tile_id ? (
-            <button className="tile-nav-button" onClick={() => previousVideo()}>
+            <button
+              className="tile-nav-button"
+              onClick={() => previousVideo()}
+              disabled={loading || videoNum < 1}
+            >
               PREV
             </button>
           ) : (
@@ -173,7 +173,11 @@ export default function RegularFeed() {
           )}
           {fullData[fullData.length - 1].tile_id !=
           fullData[videoNum].tile_id ? (
-            <button className="tile-nav-button" onClick={() => nextUp()}>
+            <button
+              className="tile-nav-button"
+              disabled={loading}
+              onClick={() => nextUp()}
+            >
               NEXT
             </button>
           ) : (

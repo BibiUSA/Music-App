@@ -48,7 +48,7 @@ export default function ProfileInfo() {
         )}
 
         {user ? (
-          <Link to="/account">
+          <Link to="/upload">
             <button type="button" className="btn btn-primary">
               Create a Post
             </button>

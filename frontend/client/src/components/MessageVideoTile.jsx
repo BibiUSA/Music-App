@@ -20,8 +20,8 @@ export default function MessageVideoTile(link) {
   const playerRef = useRef(null);
   const playerInstance = useRef(null);
 
-  console.log("ENDTIME", finalEndTime);
-  console.log("STARTTIME", finalStartTime);
+  // console.log("ENDTIME", finalEndTime);
+  // console.log("STARTTIME", finalStartTime);
 
   const loadPlayer = () => {
     if (playerInstance.current) {
