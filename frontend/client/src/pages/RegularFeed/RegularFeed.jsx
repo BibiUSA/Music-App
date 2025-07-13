@@ -65,9 +65,8 @@ export default function RegularFeed() {
   }, []);
   //to get the next video in queue
   const nextUp = async () => {
-    // setCurrentVideo(nextVideo);
-    const next = videoNum + 1;
-    if (!fullData[next]) return;
+    if(loading) return;
+
     if (fullData.length - videoNum < 4) {
       await getVideos(offset + 5, sort);
       setOffset((prev) => prev + 5);
@@ -83,14 +82,14 @@ export default function RegularFeed() {
 
   //get the previous video in queue
   const previousVideo = () => {
-    if (videoNum < 1) return;
+    if(loading) return;
     setVideoNum((prev) => prev - 1);
-
     setRenderKey((prev) => prev - 1);
   };
 
   useEffect(() => {
     function handleKeyDown(event) {
+      event.preventDefault();
       if (event.code == "ArrowLeft") {
         previousVideo();
       } else if (event.code == "ArrowRight") {
@@ -99,7 +98,7 @@ export default function RegularFeed() {
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [videoNum, sort]);
+  }, [videoNum, loading]);
 
   //NEED TO PROBABLY FIX THIS SO VIDEO RENDERS CORRECTLY
   const newSort = async (value) => {
@@ -137,7 +136,7 @@ export default function RegularFeed() {
       {isMobile() && (
         <div className="tile-navigation-mobile">
           {fullData.length > 0 &&
-          fullData[0].tile_id != fullData[videoNum].tile_id ? (
+            fullData[0].tile_id != fullData[videoNum].tile_id ? (
             <button className="tile-nav-button" onClick={() => previousVideo()}>
               PREV
             </button>
@@ -145,7 +144,7 @@ export default function RegularFeed() {
             <button className="prev-non-active">PREV</button>
           )}
           {fullData.length &&
-          fullData[fullData.length - 1].tile_id !=
+            fullData[fullData.length - 1].tile_id !=
             fullData[videoNum].tile_id ? (
             <button className="tile-nav-button" onClick={() => nextUp()}>
               NEXT
@@ -172,7 +171,7 @@ export default function RegularFeed() {
             <button className="prev-non-active">PREV</button>
           )}
           {fullData[fullData.length - 1].tile_id !=
-          fullData[videoNum].tile_id ? (
+            fullData[videoNum].tile_id ? (
             <button
               className="tile-nav-button"
               disabled={loading}

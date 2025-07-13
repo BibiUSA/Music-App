@@ -7,7 +7,7 @@ console.log(" Testing Axios Base URL:", axios.defaults.baseURL);
 //   ? "http://localhost:8080"
 //   : "https://music-app-api-oq6b.onrender.com";
 
-axios.defaults.baseURL = environment.development
+axios.defaults.baseURL = !environment.development
   ? "http://localhost:8080"
   : "https://music-app-api-oq6b.onrender.com";
 
