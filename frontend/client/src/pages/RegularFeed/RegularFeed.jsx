@@ -83,6 +83,7 @@ export default function RegularFeed() {
   //get the previous video in queue
   const previousVideo = () => {
     if(loading) return;
+    if(videoNum === 0) return
     setVideoNum((prev) => prev - 1);
     setRenderKey((prev) => prev - 1);
   };
@@ -98,7 +99,7 @@ export default function RegularFeed() {
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [videoNum, loading]);
+  }, [videoNum, loading, sort]);
 
   //NEED TO PROBABLY FIX THIS SO VIDEO RENDERS CORRECTLY
   const newSort = async (value) => {
